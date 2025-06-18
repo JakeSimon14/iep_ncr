@@ -1,5 +1,10 @@
+# Angular
 ncr_ui/node_modules/
 ncr_ui/dist/
+
+# Node.js
 ncr_backend/node_modules/
+
+# Logs and environment
 *.log
 .env

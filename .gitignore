@@ -1,0 +1,5 @@
+ncr_ui/node_modules/
+ncr_ui/dist/
+ncr_backend/node_modules/
+*.log
+.env

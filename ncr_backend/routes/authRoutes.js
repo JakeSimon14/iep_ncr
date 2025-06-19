@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { login } = require('../controllers/authController');
+const authController = require('../controllers/authController');
 
 /**
  * @swagger
@@ -14,7 +14,7 @@ const { login } = require('../controllers/authController');
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               ssoid:
  *                 type: string
  *               password:
  *                 type: string
@@ -24,6 +24,6 @@ const { login } = require('../controllers/authController');
  *       401:
  *         description: Invalid credentials
  */
-router.post('/login', login);
+router.post('/login', authController.login);
 
 module.exports = router;

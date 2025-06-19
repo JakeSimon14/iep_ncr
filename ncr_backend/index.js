@@ -7,6 +7,7 @@ const swaggerSpec = require('./swagger/swaggerConfig'); // Import your swagger c
 require('dotenv').config();
 
 const categories = require('./data/categories.json');
+const authRoutes = require('./routes/authRoutes.js');
 
 // Middleware
 app.use(cors());
@@ -27,8 +28,11 @@ app.get('/categories', (req, res) => {
 })
 
 
+app.use('/api/auth', authRoutes);
+
+
 // Server
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-    console.log(`Server (categories) is running on port: ${port}`);
+    console.log(`Server running on http://localhost: ${port}`);
 })

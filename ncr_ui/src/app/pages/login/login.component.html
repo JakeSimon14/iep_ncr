@@ -1,0 +1,50 @@
+<div class="login-container">
+  <div class="logo">
+    <img src="assets/images/Logo.png" alt="Logo" />
+  </div>
+
+  <h2>Sign in</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+ 
+<div class="form-field">
+      <label for="ssoid">SSO ID <span class="required">*</span></label>
+      <kendo-textbox
+        id="ssoid"
+        formControlName="ssoid"
+        placeholder="Enter ssoid"
+        [style.width.px]="300"
+      ></kendo-textbox>
+     <div class="error" *ngIf="submitted && loginForm.get('ssoid')?.hasError('required')">
+  SSOID is required
+</div>
+    </div>
+    <br />
+
+    <div class="form-field">
+      <label for="password">Password <span class="required">*</span></label>
+      <kendo-textbox
+        id="password"
+        formControlName="password"
+        placeholder="Enter password"
+        [style.width.px]="300"
+      ></kendo-textbox>
+     <div class="error" *ngIf="submitted && loginForm.get('password')?.hasError('required')">
+  Password is required
+</div>
+    </div>
+    <br />
+  <div class="form-field remember-me">
+      <input type="checkbox" id="rememberMe" formControlName="rememberMe" />
+      <label for="rememberMe">Remember Me</label>
+    </div>
+
+    <!-- API Error Message -->
+    <div class="error" *ngIf="error">
+      <small>{{ error }}</small>
+    </div>
+
+     <button kendoButton type="submit">
+      Login
+    </button>
+  </form>
+</div>

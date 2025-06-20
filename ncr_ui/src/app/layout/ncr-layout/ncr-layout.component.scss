@@ -1,0 +1,28 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 96vh;
+
+  .main-columns {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+
+    .left-side-menu {
+      display: flex;
+    }
+
+    .filter-contracts {
+        width: 250px;
+    }
+
+    .dashboard-main-content {
+  flex: 1; // takes remaining space
+  padding: 1rem;
+  background-color: #ffffff;
+  overflow: auto;
+}
+
+}
+}

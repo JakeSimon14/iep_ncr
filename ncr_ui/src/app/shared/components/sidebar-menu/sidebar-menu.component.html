@@ -1,0 +1,14 @@
+<div class="sidebar">
+<ul class="sidebar-menu">
+    <li class="filter-icon">
+        <span class="material-symbols-outlined">network_node</span>
+    </li>
+  <li
+    *ngFor="let item of menuItems"
+    [class.active]="item.id === selectedId"
+    (click)="select(item)"
+  >
+    <span class="material-symbols-outlined">{{ item.icon}}</span>
+  </li>
+</ul>
+</div>

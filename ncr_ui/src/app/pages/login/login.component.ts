@@ -44,6 +44,8 @@ debugger;
         debugger;
         localStorage.setItem('token', res.token);
         this.router.navigate(['/dashboard']);
+
+        
       },
       error: (err) => {
         this.error = err.error?.error || 'Invalid ssoid or password';

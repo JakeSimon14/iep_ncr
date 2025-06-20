@@ -1,0 +1,226 @@
+$header-height: 50px;
+$header-bg-color: #0b3520;
+$header-border-color: #ddd;
+$toolbar-padding-x: 16px;
+
+$text-color-white: #ffffff;
+$text-color-light: #f0f0f0;
+$text-color-dark: #333;
+$accent-color: #0F766E;
+$badge-color: red;
+
+$icon-size: 24px;
+$profile-size: 40px;
+$badge-font-size: 12px;
+$border-radius-full: 50%;
+$border-radius-md: 4px;
+$spacing-sm: 4px;
+$spacing-md: 8px;
+$spacing-lg: 16px;
+$z-index-dropdown: 1000;
+
+
+
+.app-header {
+  height: $header-height;
+  background-color: $header-bg-color;
+  border-bottom: 1px solid $header-border-color;
+  display: flex;
+  align-items: center;
+  padding: 0 $toolbar-padding-x;
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+
+      .my-request,
+      .support-ticket {
+        color: $text-color-white;
+        cursor: pointer;
+      }
+    }
+
+    .logo-image {
+      height: 32px;
+      width: auto;
+    }
+
+    .icon-button {
+      background: none;
+      border: none;
+      color: $text-color-white;
+      font-size: $icon-size;
+      cursor: pointer;
+      padding: $spacing-sm;
+      line-height: 1;
+
+      .material-symbols-outlined {
+        font-size: $icon-size;
+        vertical-align: middle;
+        color: $text-color-white;
+      }
+    }
+
+    .material-symbols-outlined {
+      color: $text-color-white;
+      border-radius: $border-radius-full;
+      font-size: $icon-size;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .profile-wrapper {
+      position: relative;
+
+      .profile-image {
+        height: 32px;
+        width: 32px;
+        border-radius: $border-radius-full;
+        object-fit: cover;
+        border: 2px solid $text-color-white;
+      }
+
+      .profile-badge {
+        position: absolute;
+        top: -4px;
+        right: -6px;
+        background-color: $accent-color;
+        color: $text-color-white;
+        font-size: $badge-font-size;
+        padding: 2px 6px;
+        border-radius: 12px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .profile-wrapper {
+    position: relative;
+    cursor: pointer;
+
+    .profile-image {
+      width: $profile-size;
+      height: $profile-size;
+      border-radius: $border-radius-full;
+      object-fit: cover;
+    }
+
+    .profile-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: $badge-color;
+      color: $text-color-white;
+      font-size: $badge-font-size;
+      border-radius: $border-radius-full;
+      padding: 2px 6px;
+    }
+
+    .profile-menu {
+  position: absolute;
+  right: 0;
+  top: 29px;
+  background: #fff;
+  list-style: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+  z-index: 999;
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  margin: 0 12px;
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 12px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .user-info {
+    text-align: center;
+
+    .name {
+      font-weight: 600;
+      font-size: 14px;
+      color: #222;
+    }
+
+    .email {
+      font-size: 12px;
+      color: #888;
+    }
+  }
+}
+
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin: 0px 10px 0px 10px;
+    border-top: 1px solid #eee;
+     border-bottom: 1px solid #eee;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+
+    .material-symbols-outlined {
+      font-size: 20px;
+      margin-right: 12px;
+      color: #333;
+    }
+
+    .chevron {
+      margin-left: auto;
+      color: #aaa;
+    }
+
+    .menu-text {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .subtitle {
+        font-size: 12px;
+        color: #888;
+      }
+    }
+  }
+}
+
+  }
+}

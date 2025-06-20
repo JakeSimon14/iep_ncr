@@ -1,0 +1,61 @@
+<div class="app-header">
+<div class="toolbar">
+
+    <div class="toolbar-left">
+      <button class="icon-button" aria-label="Menu">
+        <span class="material-symbols-outlined">
+menu
+</span>
+      </button>
+      <img src="assets/images/Logo-Dashboard.png" alt="App Logo" class="logo-image" />
+    </div>
+
+    <div class="toolbar-right">
+      <span class="my-request">My Request</span>
+      <span class="support-ticket">Support ticket</span>
+      <span class="material-symbols-outlined">
+chat_bubble
+</span>
+<span class="material-symbols-outlined">
+help
+</span>
+        <span class="material-symbols-outlined">notifications</span>
+
+      <div class="profile-wrapper"  (click)="toggleProfileMenu()">
+       <img src="assets/images/profile-img.png" alt="Default Profile"  class="profile-image" />
+        <span class="profile-badge">+1</span>
+        <ul class="profile-menu" *ngIf="showProfileMenu">
+
+  <li class="profile-header">
+    <div class="avatar">
+    <img src="assets/images/profile-img.png" alt="User Avatar"/>
+    </div>
+    <div class="user-info">
+      <div class="name">Mohamed Ashar</div>
+      <div class="email">mohamed.ashar</div>
+    </div>
+  </li>
+
+
+  <li class="menu-item">
+    <span class="material-symbols-outlined">group</span>
+    <div class="menu-text">
+      <div class="title">Change Dashboard</div>
+      <div class="subtitle">Abinav, Evgeni, Francesco</div>
+    </div>
+    <span class="material-symbols-outlined chevron">chevron_right</span>
+  </li>
+
+
+  <li class="menu-item" (click)="logout($event)">
+    <span class="material-symbols-outlined">power_settings_new</span>
+    <span class="menu-text title">Log out</span>
+  </li>
+</ul>
+
+
+        
+      </div>
+    </div>
+  </div>
+</div>

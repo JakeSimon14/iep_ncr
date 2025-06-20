@@ -1,0 +1,38 @@
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+  li {
+    display: flex;
+    align-items: center;
+    padding: 10px 5px;
+    color: grey;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-left: 4px solid transparent;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+
+    &.active {
+
+      background-color: #E6F4F1;           
+  color: #147D64;                     
+  font-weight: bold;
+  border-radius: 999px;          
+    padding: 5px;
+    margin: 2px;
+    }
+
+    .label {
+      margin-left: 10px;
+    }
+  }
+
+  .filter-icon{
+    border-bottom: 1px solid grey;
+  }
+}

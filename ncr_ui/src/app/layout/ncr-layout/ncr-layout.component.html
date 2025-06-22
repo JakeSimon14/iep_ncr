@@ -1,15 +1,130 @@
 <div class="page-container">
-      <app-header></app-header>
+
+  <app-header></app-header>
 
 <div class="main-columns">
  <div class="left-side-menu">
-  <app-sidebar-menu (selectionChange)="onMenuChange($event)"></app-sidebar-menu>
+  <app-sidebar-menu 
+  (selectionChange)="onMenuChange($event)" 
+  (expandFilterEvent)="handleExpandEvent($event)">
+  </app-sidebar-menu>
   </div>
-  <div class="filter-contracts">
 
+ <div class="filter-contracts" *ngIf="showFilterContracts && isFilterContractsExpanded">
+    <div class="filter-header">
+    <h3 >Filter Contracts</h3>
+    <span
+  class="material-symbols-outlined toggle-icon"
+  (click)="toggleFilterContractsExpand()"
+>
+   arrow_back
+</span>
   </div>
-  <div class="dashboard-main-content">
-    
+  
+  <div class="tab-main-container">
+    <div class="tab-container">
+  <div class="tab-buttons">
+        @for (tab of tabs;track tab; let i = $index) {
+        <button
+          class="tab"
+          [class.active]="i === activeTabIndex"
+          (click)="selectTab(i)"
+        >
+          {{ tab }}
+        </button>
+      }
   </div>
+</div>
+ <div class="search-container">
+      <input type="text" kendoTextBox placeholder="Search job number or contract name..." [formControl]="searchControl" />
+      <!-- <span class="material-symbols-outlined search-icon">search</span> -->
+    </div>
+
+ 
+<button kendoButton class="advanced-search-btn">
+  <span class="material-symbols-outlined">chevron_right</span>
+  <span class="label">Advanced Search</span>
+</button>
+
+
+    <div class="results-count">
+      Result: {{ filterItems.length }} Contracts
+    </div>
+
+
+   <div class="tab-content">
+  <div class="filter select-all-toggle">
+    <label class="current-projects">
+      <input
+        #checkbox
+        type="checkbox"
+        [checked]="isAllSelected()"
+        (change)="selectAll(checkbox.checked)"
+      />
+      Current Projects
+    </label>
+  </div>
+
+<kendo-treeview
+  [nodes]="filterItems"
+  kendoTreeViewExpandable
+  kendoTreeViewHierarchyBinding
+  childrenField="children"
+  textField="contractname"
+  kendoTreeViewCheckable
+>
+  <ng-template kendoTreeViewNodeTemplate let-dataItem>
+    <div class="tree-item">
+      <div class="tree-text">
+        {{ dataItem.contractname }}
+        <ng-container *ngIf="dataItem.jobnumber">
+          ({{ dataItem.jobnumber }})
+        </ng-container>
+      </div>
+      <span
+    *ngIf="!hasParent(dataItem)"
+    class="material-symbols-outlined star-icon"
+    [class.filled]="dataItem.isFavourite"
+    (click)="toggleFavourite(dataItem)"
+  >
+    star
+  </span>
+    </div>
+  </ng-template>
+</kendo-treeview>
+
+</div>
+
+    <!--<kendo-textbox placeholder="Search..."></kendo-textbox>
+    <kendo-dropdownlist
+      [data]="['Option 1', 'Option 2']"
+      [defaultItem]="'Select option'"
+    ></kendo-dropdownlist> -->
+  </div>
+
+
+</div>
+<div class="dashboard-main-content">
+     <router-outlet></router-outlet>
+  <!-- <main class="content">
+    <h3 *ngIf="selectedItems.length === 0">No item selected</h3>
+
+    <table *ngIf="selectedItems.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Contract</th>
+          <th>Job Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of selectedItems">
+          <td>{{ item.id }}</td>
+          <td>{{ item.contractname }}</td>
+          <td>{{ item.jobnumber }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </main> -->
 </div>
 </div>

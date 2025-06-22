@@ -1,3 +1,24 @@
+$white: #ffffff;
+$gray-light: #f0f0f0;
+$gray-border: #ccc;
+$text-muted: #898181;
+$text-dark: #333;
+$green-primary: #147D64;
+$green-hover: #106c56;
+$gray-hover: #e0e0e0;
+
+$font-size-sm: 14px;
+$font-size-md: 1.2rem;
+
+$border-radius-sm: 4px;
+$border-radius-md: 6px;
+$border-radius-lg: 8px;
+
+$padding-sm: 5px;
+$padding-md: 10px;
+$padding-lg: 16px;
+
+
 .page-container {
   display: flex;
   flex-direction: column;
@@ -6,23 +27,247 @@
   .main-columns {
     display: flex;
     flex: 1;
-    flex-direction: column;
     min-height: 0;
 
     .left-side-menu {
       display: flex;
+      flex-direction: column;
     }
 
     .filter-contracts {
-        width: 250px;
+      background: $white;
+      border-right: 1px solid $gray-border;
+      border-left: 1px solid $gray-border;
+      
+      padding: $padding-sm;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      width: 250px;
+      transition: width 0.3s ease;
+
+      &.collapsed {
+        width: 40px;
+        padding: 1rem 0.5rem;
+        align-items: center;
+
+        .filter-header h3,
+        .tab-buttons,
+        .search-bar,
+        .results-count,
+        kendo-treeview,
+        .tab-main-container {
+          display: none !important;
+        }
+
+        .toggle-icon {
+          transform: rotate(180deg);
+        }
+      }
+
+      .filter-header{
+        border-bottom: 1px solid $gray-border;
+      }
+
+      .advanced-search-btn {
+        background-color: $green-primary;
+        color: $white;
+        font-weight: 600;
+        font-size: $font-size-sm;
+        border: none;
+        border-radius: $border-radius-md;
+        padding: 8px $padding-lg;
+        margin-top: $padding-md;
+        width: 100%;
+        max-width: 260px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        .material-symbols-outlined {
+          font-size: 20px;
+          line-height: 1;
+          display: flex;
+          align-items: center;
+        }
+
+        .label {
+          display: flex;
+          align-items: center;
+        }
+
+        &:hover {
+          background-color: $green-hover;
+        }
+      }
+
+      .results-count {
+        padding-top: $padding-md;
+        color: $text-muted;
+      }
+
+      .filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        font-size: $font-size-md;
+
+        .toggle-icon {
+          cursor: pointer;
+          font-size: 24px;
+        }
+      }
+
+      .tab-main-container {
+        border-radius: $border-radius-lg;
+        max-width: 600px;
+        margin: $padding-sm;
+
+        .tab-container {
+          background-color: $gray-light;
+          border-radius: $border-radius-lg;
+        }
+
+        .tab-buttons {
+          display: flex;
+          margin-bottom: $padding-lg;
+
+          .tab {
+            padding: 10px 13px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            font-size: xx-small;
+            border-radius: $border-radius-sm;
+            transition: background-color 0.2s;
+
+            &:hover {
+              background-color: $gray-hover;
+            }
+
+            &.active {
+              background-color: $white;
+              font-weight: bold;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              pointer-events: none;
+              margin: $padding-sm;
+            }
+          }
+        }
+
+        .search-container {
+          margin-top: 1rem;
+
+          input {
+            padding: $padding-sm 0;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid $gray-border;
+            border-radius: 40px;
+          }
+        }
+
+        .tab-content {
+          margin-top: 14px;
+          background-color: $white;
+          border-radius: $border-radius-sm;
+
+          .filter {
+            font-family: Arial, sans-serif;
+
+            label {
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              font-size: $font-size-sm;
+            }
+
+            input[type='checkbox'] {
+              transform: scale(1.1);
+              accent-color: $green-primary;
+            }
+          }
+
+          .tree-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding-right: 8px;
+            gap: 8px;
+          }
+
+          .tree-text {
+            flex: 1;
+            font-size: $font-size-sm;
+            color: $text-dark;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .star-icon {
+            font-size: 20px;
+            color: $gray-border;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: color 0.3s;
+
+            &.filled {
+              color: $green-primary;
+            }
+          }
+        }
+      }
     }
 
-    .dashboard-main-content {
-  flex: 1; // takes remaining space
-  padding: 1rem;
-  background-color: #ffffff;
-  overflow: auto;
+    .content {
+      flex: 1 1 auto;
+      padding: 20px;
+      background-color: $white;
+      overflow: auto;
+    }
+  }
+
+  .dashboard-main-content {
+    flex: 1;
+    overflow-y: auto;
+    background-color: $white;
+  }
+
+  ::ng-deep .k-treeview .k-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  ::ng-deep .k-checkbox input[type='checkbox'] + .k-checkbox-label::before {
+    border-color: $green-primary !important;
+    background-color: $white !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: $border-radius-sm !important;
+  }
+
+  ::ng-deep .k-checkbox input[type='checkbox']:checked + .k-checkbox-label::before {
+    background-color: $green-primary !important;
+    border-color: $green-primary !important;
+  }
+
+  ::ng-deep .k-checkbox input[type='checkbox']:checked + .k-checkbox-label::after {
+    color: $white !important;
+    font-size: 12px !important;
+    left: 3px;
+    top: 1px;
+  }
 }
 
-}
+:host ::ng-deep .k-checkbox:checked,
+:host ::ng-deep .k-checkbox.k-checked {
+  border-color: $green-primary;
+  background-color: $green-primary;
 }

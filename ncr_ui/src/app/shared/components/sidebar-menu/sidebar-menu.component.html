@@ -1,9 +1,9 @@
 <div class="sidebar">
 <ul class="sidebar-menu">
-    <li class="filter-icon">
+    <li class="filter-icon" (click)="toggleFilterContractsExpand()">
         <span class="material-symbols-outlined">network_node</span>
     </li>
-  <li
+  <li class="general-icon"
     *ngFor="let item of menuItems"
     [class.active]="item.id === selectedId"
     (click)="select(item)"

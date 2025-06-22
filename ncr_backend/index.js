@@ -8,6 +8,7 @@ require('dotenv').config();
 
 const categories = require('./data/categories.json');
 const authRoutes = require('./routes/authRoutes.js');
+const contractsRoute = require('./routes/contractsRoutes');
 
 // Middleware
 app.use(cors());
@@ -29,6 +30,7 @@ app.get('/categories', (req, res) => {
 
 
 app.use('/api/auth', authRoutes);
+app.use('/api/contracts', contractsRoute);
 
 
 // Server

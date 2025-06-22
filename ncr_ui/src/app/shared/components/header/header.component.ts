@@ -17,7 +17,7 @@ constructor(private router: Router) {}
 logout(event: MouseEvent): void {
     event.stopPropagation(); // Prevent profile menu toggle
     this.showProfileMenu = false;
-    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
 

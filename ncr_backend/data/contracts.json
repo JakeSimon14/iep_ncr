@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "1",
         "contractname": "Train 1",
         "jobnumber": "Job T001",
         "isSelected": false,
@@ -9,7 +9,7 @@
         "assignedToUser": true,
         "children": [
           {
-            "id": 2,
+            "id": "2",
             "contractname": "Train Child 1",
             "jobnumber": "Job TC001",
             "isSelected": false,
@@ -21,7 +21,7 @@
         ]
       },
       {
-        "id": 3,
+        "id": "3",
         "contractname": "Train 2",
         "jobnumber": "Job T002",
         "isSelected": false,
@@ -30,7 +30,7 @@
         "assignedToUser": false
       },
       {
-        "id": 4,
+        "id": "4",
         "contractname": "Train 3",
         "jobnumber": "Job T003",
         "isSelected": false,
@@ -39,7 +39,7 @@
         "assignedToUser": false,
         "children": [
           {
-            "id": 5,
+            "id": "5",
             "contractname": "Train Child 3001",
             "jobnumber": "Job TC3001",
             "isSelected": false,
@@ -48,7 +48,7 @@
             "assignedToUser": false,
             "children": [
               {
-              "id": 7,
+              "id": "7",
             "contractname": "Train Child 3002",
             "jobnumber": "Job TC3002",
             "isSelected": false,
@@ -60,7 +60,7 @@
             ]
           },
           {
-            "id": 6,
+            "id": "6",
             "contractname": "Train Child 3003",
             "jobnumber": "Job TC3002",
             "isSelected": false,

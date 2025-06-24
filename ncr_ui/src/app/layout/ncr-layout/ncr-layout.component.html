@@ -41,37 +41,93 @@
     </div>
 
  
-<button kendoButton class="advanced-search-btn">
-  <span class="material-symbols-outlined">chevron_right</span>
+<button kendoButton class="advanced-search-btn" (click)="toggleAdvancedSearch()">
+  <span class="material-symbols-outlined">
+    {{ showAdvancedSearch ? 'expand_less' : 'chevron_right' }}
+  </span>
   <span class="label">Advanced Search</span>
 </button>
+<!-- Advanced Search Panel -->
+<div class="advanced-search-panel" *ngIf="showAdvancedSearch" [formGroup]="advancedSearchForm">
+  <div class="advanced-search-header">
+    <a class="clear-filter" (click)="clearAdvancedFilters()">Clear Filter</a>
+  </div>
+
+  <div class="filter-group">
+    <label class="filter-label">Delivery Year</label>
+    <kendo-dropdownlist
+      formControlName="deliveryYear"
+      [data]="deliveryYears"
+      [defaultItem]="'Select Year'"
+    ></kendo-dropdownlist>
+  </div>
+
+  <div class="filter-group">
+    <label class="filter-label">RAC Year</label>
+    <kendo-dropdownlist
+      formControlName="racYear"
+      [data]="racYears"
+      [defaultItem]="'Select Year'"
+    ></kendo-dropdownlist>
+  </div>
+
+  <div class="filter-group">
+    <label class="filter-label">Project Status</label>
+    <kendo-dropdownlist
+      formControlName="projectStatus"
+      [data]="projectStatuses"
+      [defaultItem]="'Select Status'"
+    ></kendo-dropdownlist>
+  </div>
+
+  <div class="filter-group">
+    <label class="filter-label">Driver</label>
+    <kendo-dropdownlist
+      formControlName="driver"
+      [data]="drivers"
+      [defaultItem]="'Select Driver'"
+    ></kendo-dropdownlist>
+  </div>
+
+  <!-- Add more fields as needed -->
+</div>
 
 
     <div class="results-count">
-      Result: {{ filterItems.length }} Contracts
+       Results: {{ filteredProjects.length }} contract{{ filteredProjects.length !== 1 ? 's' : '' }}
     </div>
 
 
    <div class="tab-content">
   <div class="filter select-all-toggle">
-    <label class="current-projects">
+    <label class="current-projects" for="selectAll">
       <input
         #checkbox
         type="checkbox"
-        [checked]="isAllSelected()"
-        (change)="selectAll(checkbox.checked)"
+        [checked]="isCurrentProjectsSelected"
+        (change)="toggleSelectAll($event)"
       />
       Current Projects
     </label>
   </div>
 
+   <div *ngIf="filteredProjects.length === 0" class="no-data-message">
+        No data found!
+      </div>
+
 <kendo-treeview
-  [nodes]="filterItems"
-  kendoTreeViewExpandable
-  kendoTreeViewHierarchyBinding
-  childrenField="children"
-  textField="contractname"
-  kendoTreeViewCheckable
+  [nodes]="filteredProjects"
+    [kendoTreeViewCheckable]="{ mode: 'multiple', checkChildren: true }"
+    textField="text"
+    [children]="children"
+    [(checkedKeys)]="selectedJobIds"
+    (checkedKeysChange)="onCheckedKeysChange($event)"
+    kendoTreeViewExpandable
+    [hasChildren]="hasChildren"
+    [checkBy]="'id'"
+    [expandBy]="'id'"
+    [loadOnDemand]="false"
+>
 >
   <ng-template kendoTreeViewNodeTemplate let-dataItem>
     <div class="tree-item">

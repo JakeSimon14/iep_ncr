@@ -67,6 +67,7 @@ $padding-lg: 16px;
 
       .filter-header{
         border-bottom: 1px solid $gray-border;
+        height: 65px;
       }
 
       .advanced-search-btn {
@@ -85,6 +86,47 @@ $padding-lg: 16px;
         align-items: center;
         justify-content: center;
         gap: 8px;
+
+        .advanced-search-panel {
+  padding: 1rem;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 1rem;
+
+  .advanced-search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .label {
+      font-weight: bold;
+    }
+
+    .clear-filter {
+      cursor: pointer;
+      color: #007bff;
+      text-decoration: underline;
+      font-size: 0.875rem;
+    }
+  }
+
+  .filter-group {
+    margin-bottom: 1rem;
+
+    .filter-label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    kendo-dropdownlist {
+      width: 100%;
+    }
+  }
+}
+
 
         .material-symbols-outlined {
           font-size: 20px;

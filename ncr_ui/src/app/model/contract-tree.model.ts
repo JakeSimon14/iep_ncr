@@ -1,5 +1,5 @@
-export interface FilterItem {
-  id: number;
+export interface ContractTree {
+  id: string;
   contractname: string;
   jobnumber: string;
   myContract?: boolean;  
@@ -7,5 +7,5 @@ export interface FilterItem {
   isSelected: boolean;
   isCollapsed: boolean; 
   assignedToUser?: boolean; 
-  children?: FilterItem[]; 
+  children: ContractTree[]; 
 }

@@ -1,18 +1,19 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { HeaderComponent } from "../../shared/components/header/header.component";
 import { SidebarMenuComponent } from "../../shared/components/sidebar-menu/sidebar-menu.component";
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FilterItem } from '../../model/contract-tree.model';
+import { ContractTree } from '../../model/contract-tree.model';
 import { Observable, of } from 'rxjs';
 import { ContractTreeService } from '../../service/contract-tree.service';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 @Component({
   selector: 'app-ncr-layout',
   standalone: true,
-  imports: [CommonModule,HeaderComponent, SidebarMenuComponent,CommonModule,RouterModule,TreeViewModule,ReactiveFormsModule],
+  imports: [CommonModule,HeaderComponent, SidebarMenuComponent,CommonModule,RouterModule,TreeViewModule,ReactiveFormsModule,DropDownsModule],
   templateUrl: './ncr-layout.component.html',
   styleUrl: './ncr-layout.component.scss'
 })
@@ -23,46 +24,74 @@ export class NcrLayoutComponent {
   isFilterContractsExpanded = true;
   activeTabIndex = 0;
   tabs = ['My Contracts', 'All Contracts', 'Favourites'];
+   deliveryYears = ['2023', '2024', '2025'];
+  racYears = ['2023', '2024', '2025'];
+  projectStatuses = ['Active', 'Completed', 'On Hold'];
+  drivers = ['Driver A', 'Driver B', 'Driver C'];
   isCurrentProjectsSelected = false;
-
+  showAdvancedSearch = false;
+  noDataFound = false;
+  isAllSelected = false;
  
   searchControl = new FormControl('');
   filterForm: FormGroup;
+  advancedSearchForm: FormGroup;
 
-  filterItems: FilterItem[] = [];
-  originalItems: FilterItem[] = [];
+  allProjects: ContractTree[] = [];
+  filteredProjects: ContractTree[] = [];
+  originalProjects: ContractTree[] = [];
+
   checkedKeys: string[] = [];
   public expandedKeys: any[] = ["0", "1"];
-
+selectedJobIds: string[] = [];
+selectedJobs = new Set<string>();
 
   constructor(
     
     private contractService: ContractTreeService ,
     private fb: FormBuilder,
-    private router : Router
+    private router : Router,
     //private selectionService: BreadcrumbSelectionService,
-    //private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
     //private filterSelectionService: FilterSelectionService
-  ) {
+  ) 
+  {
     this.filterForm = this.fb.group({
       selectAll: [true]
     });
+
+    this.advancedSearchForm = this.fb.group({
+    deliveryYear: [null],
+    racYear: [null],
+    projectStatus: [null],
+    driver: [null]
+  });
   }
 
   ngOnInit(): void {
     //this.searchControl.valueChanges.subscribe(() => this.applyFilters());
     this.contractService.getContractTree().subscribe({
       next: (data) => {
-        this.filterItems = data;
+        this.allProjects = data;
+        this.filteredProjects = [...this.allProjects];
+        this.originalProjects = [...this.filteredProjects];
+        this.applyTabFilter();
       },
       error: (err) => {
         console.error('Failed to fetch contract tree', err);
       }
     });
+
+    //this.searchControl.valueChanges.subscribe(() => this.applyFilters());
+
+     this.searchControl.valueChanges.subscribe(value => {
+         this.applySearch(value || '');
+     });
+    
   }
 
   ngAfterViewInit(): void {
-    this.fetchFilterItems();
+    //this.fetchFilterItems();
   }
 
 
@@ -83,10 +112,10 @@ if(!this.isFilterContractsExpanded)
 
   selectTab(index: number): void {
     this.activeTabIndex = index;
-    this.applyFilters();
+    this.applyTabFilter();
   }
 
-  toggleFavourite(item: FilterItem): void {
+  toggleFavourite(item: ContractTree): void {
     item.isFavourite = !item.isFavourite;
   }
 
@@ -94,173 +123,163 @@ if(!this.isFilterContractsExpanded)
     this.router.navigate([route]);
   }
 
- 
+ toggleAdvancedSearch(): void {
+  this.showAdvancedSearch = !this.showAdvancedSearch;
+}
 
-  selectAll(checked: boolean): void {
-    const allKeys = this.getAllKeys(this.filterItems);
-    this.checkedKeys = checked ? allKeys : [];
-    this.filterForm.get('selectAll')?.setValue(checked, { emitEvent: false });
+clearAdvancedFilters(): void {
+    this.advancedSearchForm.reset();
   }
 
-  isAllSelected(): boolean {
-    const allKeys = this.getAllKeys(this.filterItems);
-    return allKeys.length > 0 && this.checkedKeys.length === allKeys.length;
+applyTabFilter(): void {
+  debugger;
+  switch (this.activeTabIndex) {
+    case 0:
+      this.filteredProjects = this.allProjects.filter(
+        p => p.assignedToUser
+      );
+      break;
+    case 2:
+      this.filteredProjects = this.allProjects.filter(
+        p => p.isFavourite
+      );
+      break;
+    default:
+      this.filteredProjects = [...this.allProjects];
   }
 
-  onCheckedKeysChange(checked: string[]): void {
-    this.checkedKeys = checked;
-    const allKeys = this.getAllKeys(this.filterItems);
-    const isAll = allKeys.length > 0 && checked.length === allKeys.length;
-    this.filterForm.get('selectAll')?.setValue(isAll, { emitEvent: false });
+  this.originalProjects = [...this.filteredProjects];
+  this.applySearch(this.searchControl.value || '');
+}
+
+applySearch(searchTerm: string): void {
+  const value = searchTerm.toLowerCase().trim();
+
+  if (!value) {
+    this.filteredProjects = [...this.originalProjects];
+    this.noDataFound = false;
+    return;
   }
 
-  onCheckedChange(checkedKeys: string[]): void {
-    this.checkedKeys = checkedKeys;
+  this.filteredProjects = this.originalProjects
+    .map(project => {
+      const projectMatch = project.contractname.toLowerCase().includes(value);
 
-    const selectedLabels = this.getSelectedLabels(this.filterItems, new Set(checkedKeys));
-    //this.selectionService.updateSelection('breadcrumb', selectedLabels, checkedKeys);
-    //this.filterSelectionService.setSelectedJobNumbers(checkedKeys);
-  }
+      const filteredTrains = (project.children || [])
+        .map(train => {
+          const trainMatch = train.contractname.toLowerCase().includes(value);
 
-  onCurrentProjectsClick(): void {
-    const assignedKeys = this.collectAssignedKeys(this.filterItems);
-    const assignedKeySet = new Set(assignedKeys);
+          const matchingJobs = (train.children || []).filter(job =>
+            job.contractname.toLowerCase().includes(value)
+          );
 
-    if (this.isCurrentProjectsSelected) {
-      // uncheck
-      this.checkedKeys = this.checkedKeys.filter(key => !assignedKeySet.has(key));
-      this.isCurrentProjectsSelected = false;
-    } else {
-      // check
-      this.checkedKeys = Array.from(new Set([...this.checkedKeys, ...assignedKeys]));
-      this.isCurrentProjectsSelected = true;
-    }
-
-    const updatedLabels = this.getSelectedLabels(this.filterItems, new Set(this.checkedKeys));
-    //this.selectionService.updateSelection('breadcrumb', updatedLabels, this.checkedKeys);
-  }
-
-  applyDefaultSelection(): void {
-    const assignedKeys = this.collectAssignedKeys(this.filterItems);
-
-    if (assignedKeys.length) {
-      this.checkedKeys = [...assignedKeys];
-      this.onCheckedChange(this.checkedKeys);
-      //this.cdr.detectChanges();
-    }
-  }
-
- 
-
-  fetchFilterItems(): void {
-    // this.contractService.getContracts().subscribe(data => {
-    //   this.originalItems = data;
-    //   this.applyFilters();
-
-    //   setTimeout(() => this.applyDefaultSelection(), 0);
-    // });
-  }
-
-  applyFilters(): void {
-    const search = this.searchControl.value?.toLowerCase() || '';
-
-    const matchesTabCondition = (item: FilterItem): boolean => {
-      switch (this.activeTabIndex) {
-        case 0: return !!item.assignedToUser;
-        case 1: return true;
-        case 2: return !!item.isFavourite;
-        default: return true;
-      }
-    };
-
-    const matchesSearch = (item: FilterItem): boolean => {
-      return item.contractname.toLowerCase().includes(search) ||
-             item.jobnumber.toLowerCase().includes(search);
-    };
-
-    const filterRecursive = (items: FilterItem[]): FilterItem[] => {
-      return items
-        .map(item => {
-          const children = filterRecursive(item.children || []);
-          const include = matchesTabCondition(item);
-          const match = include && matchesSearch(item);
-
-          if (match || children.length || item.assignedToUser) {
-            return { ...item, children };
+          if (trainMatch || matchingJobs.length > 0) {
+            return {
+              ...train,
+              children: matchingJobs.length > 0 ? matchingJobs : []
+            };
           }
+
           return null;
         })
-        .filter(item => item !== null) as FilterItem[];
-    };
+        .filter((t): t is ContractTree => !!t);
 
-    this.filterItems = filterRecursive(this.originalItems);
+      if (projectMatch || filteredTrains.length > 0) {
+        return {
+          ...project,
+          children: projectMatch ? (project.children || []) : filteredTrains
+        };
+      }
 
-    const allKeys = this.getAllKeys(this.filterItems);
-    this.checkedKeys = this.checkedKeys.filter(k => allKeys.includes(k));
-    this.filterForm.get('selectAll')?.setValue(this.isAllSelected(), { emitEvent: false });
-  }
+      return null;
+    })
+    .filter((p): p is ContractTree => !!p);
 
+  this.noDataFound = this.filteredProjects.length === 0;
+}
 
 
   fetchChildren = (item: object): Observable<object[]> =>
-    of((item as FilterItem).children || []);
+    of((item as ContractTree).children || []);
 
   hasChildren = (item: object): boolean =>
-    !!(item as FilterItem).children?.length;
+    !!(item as ContractTree).children?.length;
 
-  hasParent(item: FilterItem): boolean {
-    return this.originalItems.some(parent => parent.children?.includes(item));
+  hasParent(item: ContractTree): boolean {
+    return this.originalProjects.some(parent => parent.children?.includes(item));
   }
 
+  children = (dataItem: any) => of(dataItem.children);
 
 
-  private getAllKeys(items: FilterItem[]): string[] {
-    const keys: string[] = [];
+toggleSelectAll(event: Event): void {
+  const checked = (event.target as HTMLInputElement).checked;
 
-    const collect = (list: FilterItem[]) => {
-      for (const item of list) {
-        if (item.jobnumber) keys.push(item.jobnumber);
-        if (item.children?.length) collect(item.children);
+  if (checked) {
+    const allIds = this.collectAllJobIds(this.filteredProjects);
+    this.selectedJobIds = allIds;
+    this.selectedJobs = new Set(allIds);
+    this.isAllSelected = true;
+  } else {
+    this.selectedJobIds = [];
+    this.selectedJobs.clear();
+    this.isAllSelected = false;
+  }
+
+  this.emitSelectedContracts();
+  this.cdr.detectChanges();
+}
+
+
+
+private collectAllJobIds(projects: ContractTree[]): string[] {
+  const ids: string[] = [];
+
+  const recurse = (items: ContractTree[]) => {
+    for (const item of items) {
+      ids.push(item.id.toString());
+      if (item.children?.length) {
+        recurse(item.children);
       }
-    };
+    }
+  };
 
-    collect(items);
-    return keys;
-  }
+  recurse(projects);
+  return ids;
+}
 
-  private getSelectedLabels(items: FilterItem[], checkedSet: Set<string>): string[] {
-    const labels: string[] = [];
 
-    const traverse = (nodes: FilterItem[]) => {
-      for (const node of nodes) {
-        if (checkedSet.has(node.jobnumber)) {
-          labels.push(node.contractname);
+
+emitSelectedContracts(): void {
+  const selectedContracts = this.allProjects
+    .filter(project => {
+      const hasSelectedJob = (node: ContractTree): boolean => {
+        if (!node.children || node.children.length === 0) {
+          return this.selectedJobs.has(node.id);
         }
-        if (node.children) {
-          traverse(node.children);
-        }
-      }
-    };
+        return node.children.some(child => hasSelectedJob(child));
+      };
+      return hasSelectedJob(project);
+    })
+    .map(project => project.contractname);
+  console.log("Emitted contracts:", selectedContracts);
+}
 
-    traverse(items);
-    return labels;
-  }
+onCheckedKeysChange(checkedKeys: string[]): void {
+  this.selectedJobIds = checkedKeys;
+  this.selectedJobs = new Set(checkedKeys);
 
-  private collectAssignedKeys(items: FilterItem[]): string[] {
-    const result: string[] = [];
+  const allIds = this.collectAllJobIds(this.filteredProjects);
+  this.isAllSelected = checkedKeys.length > 0 && checkedKeys.length === allIds.length;
 
-    const traverse = (nodes: FilterItem[]) => {
-      for (const node of nodes) {
-        if (node.assignedToUser) {
-          result.push(node.jobnumber);
-        }
-        if (node.children?.length) {
-          traverse(node.children);
-        }
-      }
-    };
+    this.isCurrentProjectsSelected = this.isAllSelected;
 
-    traverse(items);
-    return result;
-  }
+  //this.emitSelectedContracts();
+  //this.cdr.detectChanges(); // to sync checkbox visual
+}
+
+
+
+ 
+  
 }

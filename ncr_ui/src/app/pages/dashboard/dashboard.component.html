@@ -1,1 +1,149 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+
+  <div class="header-row">
+    <div class="operation-title">
+      <h1>Quality</h1>
+    </div>
+    <div class="upload-actions">
+      <div class="upload-info">
+        <span class="upload-label">
+          Last uploaded: <strong class="upload-date">04 Feb 2025</strong>
+        </span>
+        <div class="ytd-content">
+              | YTD
+        </div>
+         <div class="percentage-circle">
+          <div class="circle" [style.--percentage]="percentage">
+            <span class="value">{{ percentage }}%</span>
+          </div>
+        </div>
+      </div>
+      <button kendoButton look="outline" class="do-vs-buy-btn">Do vs Buy</button>
+    </div>
+  </div>
+<kendo-tabstrip>
+  <kendo-tabstrip-tab *ngFor="let tab of tabButtons; let i = index" [title]="tab.label" [selected]="tab.value === activeTabValue">
+    <ng-template kendoTabContent>
+      <div class="tab-details">
+
+        <ng-container *ngIf="tab.value === 'NCR'">
+
+          <!-- <app-breadcrumb
+            *ngIf="!isExpandedView && selectedBreadcrumb.length"
+            [breadcrumbs]="selectedBreadcrumb">
+          </app-breadcrumb> -->
+
+          <div class="reassign-alert" *ngIf="hasReassignRequests && !isExpandedView">
+            <div class="alert-text">
+              <span class="material-symbols-outlined">notification_important</span>
+              You have received <strong>3 primary resource re-assignment requests</strong>
+              <a href="#">View requests</a>
+            </div>
+            <button class="close-btn" (click)="hasReassignRequests = false">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <div class="filter-activities-section" *ngIf="!isExpandedView">
+            <!-- Filter Header -->
+            <div class="filter-activities-header">
+              <div class="filter-activities-title">Filter Activities</div>
+              <div class="filter-activities-actions">
+                <button kendoButton fillMode="flat" themeColor="primary" class="clear-button" (click)="clearFilters()">Clear Filter</button>
+                <button class="expand-button" (click)="toggleFilterActivityExpandView()">
+                  <span class="material-symbols-outlined">
+                    {{ isFilterActivityExpandedView ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter Form -->
+            <!-- <form [formGroup]="filterActivityForm" class="filter-controls-row" *ngIf="!isFilterActivityExpandedView">
+              <div class="filter-control" *ngFor="let control of filterControls">
+                <label>{{ control.label }}</label>
+                <ng-container [ngSwitch]="control.type">
+                  <kendo-dropdownlist *ngSwitchCase="'dropdown'" [formControlName]="control.name" [data]="control.data" [defaultItem]="control.placeholder"></kendo-dropdownlist>
+                  <kendo-multiselect *ngSwitchCase="'multiselect'" [formControlName]="control.name" [data]="control.data" [placeholder]="control.placeholder"></kendo-multiselect>
+                </ng-container>
+              </div>
+            </form> -->
+
+  
+          </div>
+
+          <!-- Activities Grid -->
+          <div class="activities-grid-section">
+            <div class="activities-header">
+              <div class="title-section">
+                <h4>Activities</h4>
+                <span class="result-count">Result: 10 Activities</span>
+              </div>
+              <div class="toolbar-section">
+                <!-- <form [formGroup]="searchForm" class="search-form">
+                  <kendo-textbox formControlName="search" placeholder="Search in all column" icon="search"></kendo-textbox>
+                </form> -->
+                <button type="button" (click)="toggleExpandView()" [title]="isExpandedView ? 'Normal View' : 'Expand View'">
+                  <span class="material-symbols-outlined">
+                    {{ isExpandedView ? 'close_fullscreen' : 'open_in_full' }}
+                  </span>
+                </button>
+                <span class="material-symbols-outlined">settings</span>
+              </div>
+            </div>
+
+            <!-- <div [ngClass]="{ 'activity-table': true, 'expanded-view': isExpandedView }">
+              <kendo-grid
+                [data]="gridData"
+                [pageSize]="10"
+                [pageable]="true"
+                [sortable]="true"
+                scrollable="scrollable"
+              >
+                <kendo-grid-column field="jobnumber" title="Job #" [width]="100"></kendo-grid-column>
+                <kendo-grid-column field="contractname" title="Contract Name"></kendo-grid-column>
+                <kendo-grid-column field="status" title="Status"></kendo-grid-column>
+                <kendo-grid-column field="startDate" title="Start Date" format="{0:MM/dd/yyyy}"></kendo-grid-column>
+              </kendo-grid>
+            </div> -->
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="tab.value === 'NCM'">
+          <h3>NCM Content ...</h3>
+        </ng-container>
+
+        <ng-container *ngIf="tab.value === 'ECN'">
+          <h3>ECN Content ...</h3>
+        </ng-container>
+        <ng-container *ngIf="tab.value === 'ECR'">
+          <h3>ECR Content ...</h3>
+        </ng-container>
+        <ng-container *ngIf="tab.value === 'COQ'">
+          <h3>COQ Content ...</h3>
+        </ng-container>
+        <ng-container *ngIf="tab.value === 'CCM'">
+          <h3>CCM Content ...</h3>
+        </ng-container>
+        <ng-container *ngIf="tab.value === 'OTRDR'">
+          <h3>OTRDR Content ...</h3>
+        </ng-container>
+        <ng-container *ngIf="tab.value === 'FMEA'">
+          <h3>FMEA Content ...</h3>
+        </ng-container>
+        <ng-container *ngIf="tab.value === 'RCA-NCA-CAPA'">
+          <h3>RCA-NCA-CAPA Content ...</h3>
+        </ng-container>
+        <ng-container *ngIf="tab.value === 'Product Quality'">
+          <h3>Product Quality Content ...</h3>
+        </ng-container>
+        <ng-container *ngIf="tab.value === 'Product Safety'">
+          <h3>Product Safety Content ...</h3>
+        </ng-container>
+      </div>
+    </ng-template>
+  </kendo-tabstrip-tab>
+</kendo-tabstrip>
+
+
+</div>

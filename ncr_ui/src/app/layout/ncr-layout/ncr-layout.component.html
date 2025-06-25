@@ -53,44 +53,47 @@
     <a class="clear-filter" (click)="clearAdvancedFilters()">Clear Filter</a>
   </div>
 
-  <div class="filter-group">
-    <label class="filter-label">Delivery Year</label>
-    <kendo-dropdownlist
-      formControlName="deliveryYear"
-      [data]="deliveryYears"
-      [defaultItem]="'Select Year'"
-    ></kendo-dropdownlist>
-  </div>
+  <div class="filter-fields">
+    <div class="filter-group">
+      <label class="filter-label">Delivery Year</label>
+      <kendo-dropdownlist
+        formControlName="deliveryYear"
+        [data]="deliveryYears"
+        [defaultItem]="'Select Year'"
+      ></kendo-dropdownlist>
+    </div>
 
-  <div class="filter-group">
-    <label class="filter-label">RAC Year</label>
-    <kendo-dropdownlist
-      formControlName="racYear"
-      [data]="racYears"
-      [defaultItem]="'Select Year'"
-    ></kendo-dropdownlist>
-  </div>
+    <div class="filter-group">
+      <label class="filter-label">RAC Year</label>
+      <kendo-dropdownlist
+        formControlName="racYear"
+        [data]="racYears"
+        [defaultItem]="'Select Year'"
+      ></kendo-dropdownlist>
+    </div>
 
-  <div class="filter-group">
-    <label class="filter-label">Project Status</label>
-    <kendo-dropdownlist
-      formControlName="projectStatus"
-      [data]="projectStatuses"
-      [defaultItem]="'Select Status'"
-    ></kendo-dropdownlist>
-  </div>
+    <div class="filter-group">
+      <label class="filter-label">Project Status</label>
+      <kendo-multiselect
+        formControlName="projectStatus"
+        [data]="projectStatuses"
+        [placeholder]="'Select Status'"
+      ></kendo-multiselect>
+    </div>
 
-  <div class="filter-group">
-    <label class="filter-label">Driver</label>
-    <kendo-dropdownlist
-      formControlName="driver"
-      [data]="drivers"
-      [defaultItem]="'Select Driver'"
-    ></kendo-dropdownlist>
-  </div>
+    <div class="filter-group">
+      <label class="filter-label">Driver</label>
+      <kendo-multiselect
+        formControlName="driver"
+        [data]="drivers"
+        [placeholder]="'Select Driver'"
+      ></kendo-multiselect>
+    </div>
 
-  <!-- Add more fields as needed -->
+    <!-- Additional filters if needed -->
+  </div>
 </div>
+
 
 
     <div class="results-count">

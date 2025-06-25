@@ -7,5 +7,11 @@ export interface ContractTree {
   isSelected: boolean;
   isCollapsed: boolean; 
   assignedToUser?: boolean; 
+
+  deliveryYear?: string;
+  racYear?: string;
+  projectStatus?: string;
+  driver?: string;
+
   children: ContractTree[]; 
 }

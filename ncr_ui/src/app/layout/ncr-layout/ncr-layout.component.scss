@@ -69,81 +69,122 @@ $padding-lg: 16px;
         border-bottom: 1px solid $gray-border;
         height: 65px;
       }
+      
+.advanced-search-btn {
+  background-color: $green-primary;
+  color: $white;
+  font-weight: 600;
+  font-size: $font-size-sm;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: 8px $padding-lg;
+  margin-top: $padding-md;
+  width: 100%;
+  max-width: 260px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 
-      .advanced-search-btn {
-        background-color: $green-primary;
-        color: $white;
-        font-weight: 600;
-        font-size: $font-size-sm;
-        border: none;
-        border-radius: $border-radius-md;
-        padding: 8px $padding-lg;
-        margin-top: $padding-md;
-        width: 100%;
-        max-width: 260px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
+  .material-symbols-outlined {
+    font-size: 20px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+  }
 
-        .advanced-search-panel {
+  .label {
+    display: flex;
+    align-items: center;
+  }
+
+  &:hover {
+    background-color: $green-hover;
+  }
+}
+
+// Styles the Advanced Search Panel
+.advanced-search-panel {
   padding: 1rem;
   background: #f9f9f9;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
   margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 
   .advanced-search-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    margin-bottom: 1rem;
-
-    .label {
-      font-weight: bold;
-    }
 
     .clear-filter {
       cursor: pointer;
-      color: #007bff;
+      color: #14765b; // or use $green-primary if defined
       text-decoration: underline;
       font-size: 0.875rem;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 
   .filter-group {
-    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 
     .filter-label {
-      display: block;
-      margin-bottom: 0.25rem;
       font-weight: 600;
+      font-size: 0.875rem;
+      color: #333;
     }
 
-    kendo-dropdownlist {
+    // Applies to both DropdownList and MultiSelect
+    kendo-dropdownlist,
+    kendo-multiselect {
       width: 100%;
+
+      ::ng-deep .k-input,
+      ::ng-deep .k-dropdown-wrap,
+      ::ng-deep .k-multiselect-wrap {
+        border: none !important;
+        border-bottom: 1px solid #c4c4c4 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        padding: 0.25rem 0;
+        box-shadow: none !important;
+        font-size: 14px;
+        color: #1a1a1a;
+      }
+
+      ::ng-deep .k-dropdown-arrow,
+      ::ng-deep .k-multiselect-wrap .k-clear-value {
+        display: none !important; // Remove default dropdown icon
+      }
+
+      ::ng-deep .k-input::after {
+        content: ' -'; // adds hyphen after selected value
+        color: #666;
+        font-weight: bold;
+        padding-left: 0.25rem;
+      }
+
+      // Adjust placeholder and text color
+      ::ng-deep .k-input,
+      ::ng-deep .k-input-inner {
+        color: #1a1a1a !important;
+        font-weight: 500;
+      }
     }
   }
 }
 
 
-        .material-symbols-outlined {
-          font-size: 20px;
-          line-height: 1;
-          display: flex;
-          align-items: center;
-        }
-
-        .label {
-          display: flex;
-          align-items: center;
-        }
-
-        &:hover {
-          background-color: $green-hover;
-        }
-      }
 
       .results-count {
         padding-top: $padding-md;

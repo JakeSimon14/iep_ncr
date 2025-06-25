@@ -63,8 +63,8 @@ selectedJobs = new Set<string>();
     this.advancedSearchForm = this.fb.group({
     deliveryYear: [null],
     racYear: [null],
-    projectStatus: [null],
-    driver: [null]
+    projectStatus: [[]],  // Changed to array
+    driver: [[]] 
   });
   }
 
@@ -87,6 +87,10 @@ selectedJobs = new Set<string>();
      this.searchControl.valueChanges.subscribe(value => {
          this.applySearch(value || '');
      });
+
+this.advancedSearchForm.valueChanges.subscribe(() => {
+  this.applySearch(this.searchControl.value || '');
+});
     
   }
 
@@ -132,6 +136,8 @@ clearAdvancedFilters(): void {
   }
 
 applyTabFilter(): void {
+
+  this.advancedSearchForm.reset(); 
   debugger;
   switch (this.activeTabIndex) {
     case 0:
@@ -155,48 +161,63 @@ applyTabFilter(): void {
 applySearch(searchTerm: string): void {
   const value = searchTerm.toLowerCase().trim();
 
-  if (!value) {
-    this.filteredProjects = [...this.originalProjects];
-    this.noDataFound = false;
-    return;
-  }
+  //extract filters
+  const {
+    deliveryYear,
+    racYear,
+    projectStatus,
+    driver
+  } = this.advancedSearchForm?.value || {};
 
-  this.filteredProjects = this.originalProjects
-    .map(project => {
-      const projectMatch = project.contractname.toLowerCase().includes(value);
+  const filterContractTree = (contracts: ContractTree[]): ContractTree[] => {
+    return contracts.reduce((acc: ContractTree[], contract) => {
+      let filteredChildren: ContractTree[] = [];
 
-      const filteredTrains = (project.children || [])
-        .map(train => {
-          const trainMatch = train.contractname.toLowerCase().includes(value);
-
-          const matchingJobs = (train.children || []).filter(job =>
-            job.contractname.toLowerCase().includes(value)
-          );
-
-          if (trainMatch || matchingJobs.length > 0) {
-            return {
-              ...train,
-              children: matchingJobs.length > 0 ? matchingJobs : []
-            };
-          }
-
-          return null;
-        })
-        .filter((t): t is ContractTree => !!t);
-
-      if (projectMatch || filteredTrains.length > 0) {
-        return {
-          ...project,
-          children: projectMatch ? (project.children || []) : filteredTrains
-        };
+      if (contract.children && contract.children.length > 0) {
+        filteredChildren = filterContractTree(contract.children);
       }
 
-      return null;
-    })
-    .filter((p): p is ContractTree => !!p);
+      //search matchh
+      const matchesSearch =
+        !value ||
+        contract.contractname?.toLowerCase().includes(value) ||
+        contract.jobnumber?.toLowerCase().includes(value);
 
+      //filter matches checking
+      const matchesDeliveryYear = !deliveryYear || contract.deliveryYear === deliveryYear;
+      const matchesRacYear = !racYear || contract.racYear === racYear;
+      const matchesStatus = !projectStatus?.length || projectStatus.includes(contract.projectStatus);
+      const matchesDriver = !driver?.length || driver.includes(contract.driver);
+
+      //Include logic is below
+      const matchesAllFilters =
+        matchesSearch &&
+        matchesDeliveryYear &&
+        matchesRacYear &&
+        matchesStatus &&
+        matchesDriver;
+
+      const includeNode = matchesAllFilters || filteredChildren.length > 0;
+
+      if (includeNode) {
+        acc.push({
+          ...contract,
+          children: filteredChildren
+        });
+      }
+
+      return acc;
+    }, []);
+  };
+
+  this.filteredProjects = filterContractTree(this.originalProjects);
   this.noDataFound = this.filteredProjects.length === 0;
 }
+
+
+
+
+
 
 
   fetchChildren = (item: object): Observable<object[]> =>

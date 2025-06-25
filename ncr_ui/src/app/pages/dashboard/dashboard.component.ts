@@ -1,12 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TabStripModule  } from '@progress/kendo-angular-layout';
+import { SelectedContractService } from '../../service/selected-contract.service';
+import { ContractTree } from '../../model/contract-tree.model';
+import { QualityActivityService } from '../../service/quality-activity.service';
+import { GridModule} from '@progress/kendo-angular-grid';
+import { InputsModule } from "@progress/kendo-angular-inputs";
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,TabStripModule ],
+  imports: [CommonModule,TabStripModule,GridModule,InputsModule,ReactiveFormsModule,DropDownsModule ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -18,6 +24,11 @@ export class DashboardComponent {
   isExpandedView = false;
   hasReassignRequests = true;
   selectedBreadcrumb: string[] = [];
+  selectedContracts: ContractTree[] = [];
+  selectedIds: string[] = [];
+  gridData: any[] = [];   
+  originalGridData: any[] = []; 
+  filteredBaseData: any[] = []; 
 
   tabButtons = [
     { label: 'NCR', value: 'NCR',selectedTab:true },
@@ -35,10 +46,25 @@ export class DashboardComponent {
 
   activeTabValue = this.tabButtons.find(t => t.selectedTab)?.value ?? this.tabButtons[0].value;
 
-  viewAsOptions = ['Tabular', 'Chart'];
-  typeOptions = ['Individual', 'Project', 'Office'];
+  //viewAsOptions = ['Tabular', 'Chart'];
+  //typeOptions = ['Individual', 'Project', 'Office'];
 
-
+  filterControls = [
+    {
+      name: 'viewAs',
+      label: 'View As',
+      type: 'dropdown',
+      placeholder: 'Select View',
+      data: ['Tabular', 'Chart']
+    },
+    {
+      name: 'contentType',
+      label: 'Type',
+      type: 'dropdown',
+      placeholder: 'Select Type',
+      data: ['Individual', 'Project', 'Office']
+    }
+  ];
 
   //gridData: GridDataItem[] = [];
   //originalGridData: GridDataItem[] = [];
@@ -50,7 +76,8 @@ export class DashboardComponent {
 
   constructor(
     private fb: FormBuilder,
-    //private selectionService: BreadcrumbSelectionService,
+    private selectedContractService: SelectedContractService,
+    private qualityService: QualityActivityService
     //private gridMockService: MockDashboardService
   ) {
     this.searchForm = this.fb.group({
@@ -68,21 +95,48 @@ export class DashboardComponent {
       console.log('Search changed:', search.search);
     });
 
-    this.filterActivityForm.valueChanges.subscribe(filters => {
-      console.log('Filter values changed:', filters);
-    });
+    const group: any = {};
+  this.filterControls.forEach(control => {
+    if (control.name === 'viewAs') {
+      group[control.name] = ['Tabular'];
+    } else if (control.name === 'contentType') {
+      group[control.name] = ['Individual'];
+    } else {
+   
+    group[control.name] = ['']; // default to empty string
+    }
+  });
+
+  this.filterActivityForm = this.fb.group(group);
+
+this.filterActivityForm.valueChanges.subscribe(values => {
+  if (this.selectedIds.length > 0) {
+    this.filterGridByTypeAndContracts();
+  }
+});
 
     this.searchForm.get('search')!.valueChanges.subscribe((term: string) => {
       this.applySearch(term);
     });
 
-    // this.subBreadcrumb.add(
-    //   this.selectionService.getSelection$('breadcrumb').subscribe(selection => {
-    //     debugger;
-    //     this.selectedBreadcrumb = selection.labels;
-    //     this.fetchGridData(selection.jobnumbers);
-    //   })
-    // );
+    this.qualityService.getActivityData().subscribe({
+      next: (data) => {
+        this.originalGridData = data;
+        //this.gridData = [...this.originalGridData];
+      },
+      error: (err) => {
+        console.error('Failed to fetch activity data', err);
+      }
+    });
+
+ this.selectedContractService.selectedContracts$.subscribe(data => {
+  this.selectedContracts = data.parents;
+  this.selectedIds = data.ids;
+  //this.filterGridBySelectedIds();
+
+  this.filterGridByTypeAndContracts();
+});
+
   }
 
   toggleExpandView(): void {
@@ -95,8 +149,8 @@ export class DashboardComponent {
 
   clearFilters(): void {
     this.filterActivityForm.reset({
-      viewAs: '',
-      contentType: ''
+      viewAs: 'Tabular',
+      contentType: 'Individual'
     });
   }
 
@@ -108,15 +162,55 @@ export class DashboardComponent {
     // });
   }
 
-  applySearch(term: string): void {
-    const lowerTerm = term.toLowerCase();
+applySearch(searchTerm: string): void {
+  const value = searchTerm.trim().toLowerCase();
 
-    // this.gridData = this.originalGridData.filter(item =>
-    //   Object.values(item).some(value =>
-    //     String(value).toLowerCase().includes(lowerTerm)
-    //   )
-    // );
+
+  
+   if (!value) {
+    this.gridData = [...this.filteredBaseData];
+    return;
   }
+  
+  this.gridData = this.gridData.filter(item =>
+    Object.values(item).some(val =>
+      String(val).toLowerCase().includes(value)
+    )
+  );
+}
+
+
+
+  filterGridBySelectedIds(): void {
+  if (this.selectedIds.length === 0) {
+    this.gridData = [];
+  } else {
+    this.gridData = this.originalGridData.filter(item => this.selectedIds.includes(item.contractId));
+      this.filteredBaseData=this.gridData; //can be moved if any clear filter issue comes
+  }
+}
+
+
+filterGridByTypeAndContracts(): void {
+  const selectedType = this.filterActivityForm.get('contentType')?.value;
+
+  this.gridData = this.originalGridData.filter(item =>
+    this.selectedIds.includes(item.contractId) &&
+    item.type === selectedType
+  );
+}
+
+
+  getSelectedContractsInline(): string {
+  return this.selectedContracts
+    .map(c => `${c.contractname} (${c.jobnumber})`)
+    .join(', ');
+}
+
+getSelectedContractsTooltip(): string {
+  return this.getSelectedContractsInline();
+}
+
 
   ngOnDestroy(): void {
     //this.subBreadcrumb.unsubscribe();

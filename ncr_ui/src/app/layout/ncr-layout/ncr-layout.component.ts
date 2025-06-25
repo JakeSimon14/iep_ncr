@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import {  Component, EventEmitter, Output } from '@angular/core';
 import { HeaderComponent } from "../../shared/components/header/header.component";
 import { SidebarMenuComponent } from "../../shared/components/sidebar-menu/sidebar-menu.component";
 import { Router, RouterModule } from '@angular/router';
@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { ContractTreeService } from '../../service/contract-tree.service';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { SelectedContractService } from '../../service/selected-contract.service';
 
 @Component({
   selector: 'app-ncr-layout',
@@ -52,7 +53,7 @@ selectedJobs = new Set<string>();
     private fb: FormBuilder,
     private router : Router,
     //private selectionService: BreadcrumbSelectionService,
-    private cdr: ChangeDetectorRef
+    private selectedContractService: SelectedContractService,
     //private filterSelectionService: FilterSelectionService
   ) 
   {
@@ -69,7 +70,7 @@ selectedJobs = new Set<string>();
   }
 
   ngOnInit(): void {
-    //this.searchControl.valueChanges.subscribe(() => this.applyFilters());
+    
     this.contractService.getContractTree().subscribe({
       next: (data) => {
         this.allProjects = data;
@@ -248,7 +249,7 @@ toggleSelectAll(event: Event): void {
   }
 
   this.emitSelectedContracts();
-  this.cdr.detectChanges();
+  //this.cdr.detectChanges();
 }
 
 
@@ -271,20 +272,58 @@ private collectAllJobIds(projects: ContractTree[]): string[] {
 
 
 
+// emitSelectedContracts(): void {
+//   const selectedContracts: ContractTree[] = [];
+
+//   const collectSelected = (nodes: ContractTree[]) => {
+//     for (const node of nodes) {
+//       if (this.selectedJobs.has(node.id)) {
+//         selectedContracts.push(node);
+//       }
+//       if (node.children?.length) {
+//         collectSelected(node.children);
+//       }
+//     }
+//   };
+
+//   collectSelected(this.allProjects);
+
+//   this.selectedContractService.setSelectedContracts(selectedContracts);
+// }
+
 emitSelectedContracts(): void {
-  const selectedContracts = this.allProjects
-    .filter(project => {
-      const hasSelectedJob = (node: ContractTree): boolean => {
-        if (!node.children || node.children.length === 0) {
-          return this.selectedJobs.has(node.id);
-        }
-        return node.children.some(child => hasSelectedJob(child));
-      };
-      return hasSelectedJob(project);
-    })
-    .map(project => project.contractname);
-  console.log("Emitted contracts:", selectedContracts);
+  const selectedParents = this.getSelectedParentContracts();
+  const selectedIds = this.getAllSelectedIds();
+
+  this.selectedContractService.setSelectedContracts({
+    parents: selectedParents,
+    ids: selectedIds
+  });
 }
+
+
+getAllSelectedIds(): string[] {
+  return Array.from(this.selectedJobs);
+}
+
+getSelectedParentContracts(): ContractTree[] {
+  const selectedParents: ContractTree[] = [];
+
+  const isNodeSelected = (node: ContractTree): boolean => {
+    if (this.selectedJobs.has(node.id)) return true;
+    return node.children?.some(child => isNodeSelected(child)) ?? false;
+  };
+
+  for (const parent of this.allProjects) {
+    if (isNodeSelected(parent)) {
+      selectedParents.push(parent);
+    }
+  }
+
+  return selectedParents;
+}
+
+
 
 onCheckedKeysChange(checkedKeys: string[]): void {
   this.selectedJobIds = checkedKeys;
@@ -295,8 +334,7 @@ onCheckedKeysChange(checkedKeys: string[]): void {
 
     this.isCurrentProjectsSelected = this.isAllSelected;
 
-  //this.emitSelectedContracts();
-  //this.cdr.detectChanges(); // to sync checkbox visual
+  this.emitSelectedContracts();
 }
 
 

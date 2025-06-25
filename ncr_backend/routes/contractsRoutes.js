@@ -17,29 +17,10 @@ const contractsController = require('../controllers/contractController');
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                     example: 1
- *                   name:
- *                     type: string
- *                     example: Contract A
- *                   children:
- *                     type: array
- *                     items:
- *                       type: object
- *                       properties:
- *                         id:
- *                           type: integer
- *                           example: 2
- *                         name:
- *                           type: string
- *                           example: Subcontract A1
+ *              
  *       500:
  *         description: Server error while retrieving contract tree
  */
-router.get('/', contractsController.getContractTree);
+router.get('/contracts', contractsController.getContractTree);
 
 module.exports = router;

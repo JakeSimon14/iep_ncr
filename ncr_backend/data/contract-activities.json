@@ -1,0 +1,86 @@
+[
+  {
+    "contractId": "1",
+    "contractname": "Train 1",
+    "jobnumber": "Job T001",
+    "ncrNumber": "NCR1001",
+    "partId": "Bearing T1",
+    "productDescription": "Main Shaft Bearing",
+    "partNo": "TB-T1",
+    "ncrArea": "Mechanical",
+    "imputationCode": "101",
+    "type": "Individual"
+  },
+  {
+    "contractId": "2",
+    "contractname": "Train Child 1",
+    "jobnumber": "Job TC001",
+    "ncrNumber": "NCR1002",
+    "partId": "Rotor Blade T1",
+    "productDescription": "Blade assembly",
+    "partNo": "RB-T1",
+    "ncrArea": "Production",
+    "imputationCode": "102",
+    "type": "Project"
+  },
+  {
+    "contractId": "3",
+    "contractname": "Train 2",
+    "jobnumber": "Job T002",
+    "ncrNumber": "E190005",
+    "partId": "Bearing T2",
+    "productDescription": "Turbine Bearing",
+    "partNo": "TB-T2",
+    "ncrArea": "Mechanical",
+    "imputationCode": "105",
+    "type": "Project"
+  },
+  {
+    "contractId": "4",
+    "contractname": "Train 3",
+    "jobnumber": "Job T003",
+    "ncrNumber": "NCR1003",
+    "partId": "Coupler T3",
+    "productDescription": "Mechanical Coupler",
+    "partNo": "CP-T3",
+    "ncrArea": "Assembly",
+    "imputationCode": "103",
+    "type": "Office"
+  },
+  {
+    "contractId": "5",
+    "contractname": "Train Child 3001",
+    "jobnumber": "Job TC3001",
+    "ncrNumber": "NCR1004",
+    "partId": "Shaft TC1",
+    "productDescription": "Intermediate Shaft",
+    "partNo": "SH-TC1",
+    "ncrArea": "Quality",
+    "imputationCode": "104",
+    "type": "Individual"
+  },
+  {
+    "contractId": "6",
+    "contractname": "Train Child 3003",
+    "jobnumber": "Job TC3002",
+    "ncrNumber": "NCR1005",
+    "partId": "Panel T3",
+    "productDescription": "Control Panel",
+    "partNo": "PN-T3",
+    "ncrArea": "Electrical",
+    "imputationCode": "106",
+    "type": "Office"
+  },
+  {
+    "contractId": "7",
+    "contractname": "Train Child 3002",
+    "jobnumber": "Job TC3002",
+    "ncrNumber": "NCR1006",
+    "partId": "Sensor TC2",
+    "productDescription": "Proximity Sensor",
+    "partNo": "PS-TC2",
+    "ncrArea": "Electronics",
+    "imputationCode": "107",
+    "type": "Project"
+  }
+]

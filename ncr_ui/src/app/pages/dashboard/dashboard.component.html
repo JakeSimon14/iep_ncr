@@ -33,6 +33,14 @@
             [breadcrumbs]="selectedBreadcrumb">
           </app-breadcrumb> -->
 
+      <div *ngIf="selectedContracts.length > 0" class="selected-summary" [title]="getSelectedContractsTooltip()">
+  <span class="selected-line">
+    {{ getSelectedContractsInline() }}...
+  </span>
+</div>
+
+
+
           <div class="reassign-alert" *ngIf="hasReassignRequests && !isExpandedView">
             <div class="alert-text">
               <span class="material-symbols-outlined">notification_important</span>
@@ -59,15 +67,25 @@
             </div>
 
             <!-- Filter Form -->
-            <!-- <form [formGroup]="filterActivityForm" class="filter-controls-row" *ngIf="!isFilterActivityExpandedView">
-              <div class="filter-control" *ngFor="let control of filterControls">
-                <label>{{ control.label }}</label>
-                <ng-container [ngSwitch]="control.type">
-                  <kendo-dropdownlist *ngSwitchCase="'dropdown'" [formControlName]="control.name" [data]="control.data" [defaultItem]="control.placeholder"></kendo-dropdownlist>
-                  <kendo-multiselect *ngSwitchCase="'multiselect'" [formControlName]="control.name" [data]="control.data" [placeholder]="control.placeholder"></kendo-multiselect>
-                </ng-container>
-              </div>
-            </form> -->
+          <form [formGroup]="filterActivityForm" class="filter-controls-row" *ngIf="!isFilterActivityExpandedView">
+  <div class="filter-control" *ngFor="let control of filterControls">
+    <label>{{ control.label }}</label>
+    <ng-container [ngSwitch]="control.type">
+      <kendo-dropdownlist
+        *ngSwitchCase="'dropdown'"
+        [formControlName]="control.name"
+        [data]="control.data">
+      </kendo-dropdownlist>
+
+      <kendo-multiselect
+        *ngSwitchCase="'multiselect'"
+        [formControlName]="control.name"
+        [data]="control.data">
+      </kendo-multiselect>
+    </ng-container>
+  </div>
+</form>
+
 
   
           </div>
@@ -77,36 +95,42 @@
             <div class="activities-header">
               <div class="title-section">
                 <h4>Activities</h4>
-                <span class="result-count">Result: 10 Activities</span>
+                <span class="result-count">Result: {{gridData.length}} Activities</span>
               </div>
               <div class="toolbar-section">
-                <!-- <form [formGroup]="searchForm" class="search-form">
+                <form [formGroup]="searchForm" class="search-form">
                   <kendo-textbox formControlName="search" placeholder="Search in all column" icon="search"></kendo-textbox>
-                </form> -->
+                </form>
                 <button type="button" (click)="toggleExpandView()" [title]="isExpandedView ? 'Normal View' : 'Expand View'">
                   <span class="material-symbols-outlined">
-                    {{ isExpandedView ? 'close_fullscreen' : 'open_in_full' }}
+                    {{ isExpandedView ? 'close_fullscreen' : 'fullscreen_exit' }}
                   </span>
                 </button>
                 <span class="material-symbols-outlined">settings</span>
               </div>
             </div>
 
-            <!-- <div [ngClass]="{ 'activity-table': true, 'expanded-view': isExpandedView }">
+            <!-- <div [ngClass]="{ 'activity-table': true, 'expanded-view': isExpandedView }"> -->
               <kendo-grid
-                [data]="gridData"
-                [pageSize]="10"
-                [pageable]="true"
-                [sortable]="true"
-                scrollable="scrollable"
-              >
-                <kendo-grid-column field="jobnumber" title="Job #" [width]="100"></kendo-grid-column>
-                <kendo-grid-column field="contractname" title="Contract Name"></kendo-grid-column>
-                <kendo-grid-column field="status" title="Status"></kendo-grid-column>
-                <kendo-grid-column field="startDate" title="Start Date" format="{0:MM/dd/yyyy}"></kendo-grid-column>
-              </kendo-grid>
-            </div> -->
-          </div>
+  [data]="gridData"
+  [sortable]="true"
+  [filterable]="true"
+  [pageSize]="10"
+  [pageable]="true"
+  [height]="400"
+>
+  <kendo-grid-column field="ncrNumber" title="NCR Number" [width]="120"></kendo-grid-column>
+  <kendo-grid-column field="partId" title="Part ID"></kendo-grid-column>
+  <kendo-grid-column field="productDescription" title="Description"></kendo-grid-column>
+  <kendo-grid-column field="partNo" title="Part No" [width]="100"></kendo-grid-column>
+  <kendo-grid-column field="ncrArea" title="NCR Area" [width]="140"></kendo-grid-column>
+  <kendo-grid-column field="imputationCode" title="Imputation Code" [width]="140"></kendo-grid-column>
+  <kendo-grid-column field="type" title="Type" [width]="100"></kendo-grid-column>
+</kendo-grid>
+
+           
+          <!-- </div> -->
+            </div>
         </ng-container>
 
         <ng-container *ngIf="tab.value === 'NCM'">

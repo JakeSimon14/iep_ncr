@@ -8,7 +8,8 @@ require('dotenv').config();
 
 const categories = require('./data/categories.json');
 const authRoutes = require('./routes/authRoutes.js');
-const contractsRoute = require('./routes/contractsRoutes');
+const contractsRoute = require('./routes/contractsRoutes.js');
+const qualityRoute = require('./routes/qualityRoute.js');
 
 // Middleware
 app.use(cors());
@@ -30,8 +31,8 @@ app.get('/categories', (req, res) => {
 
 
 app.use('/api/auth', authRoutes);
-app.use('/api/contracts', contractsRoute);
-
+app.use('/api', contractsRoute);
+app.use('/api', qualityRoute);
 
 // Server
 const port = process.env.PORT || 5000;

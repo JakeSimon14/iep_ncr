@@ -1,0 +1,146 @@
+:host {
+  display: block;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.activities-grid-section {
+  border: 1px solid #e2e5e7;
+  border-radius: 2px;
+  background-color: #fff;
+
+  .activities-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+    .title-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .result-count {
+        font-size: 0.95rem;
+        color: #666;
+        white-space: nowrap;
+      }
+    }
+
+    .toolbar-section {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .search-form {
+        width: 250px;
+
+        ::ng-deep .k-textbox {
+          width: 100%;
+        }
+      }
+
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+
+        .material-symbols-outlined {
+          font-size: 1.3rem;
+          color: #333;
+        }
+
+        &:last-child .material-symbols-outlined {
+          color: #0070d2;
+        }
+
+        &:hover .material-symbols-outlined {
+          color: #1a6d3d;
+        }
+      }
+
+      .material-symbols-outlined {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+::ng-deep kendo-grid {
+  background: #fff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+::ng-deep .k-grid {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  font-size: 13px;
+}
+
+::ng-deep .k-grid-header {
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+::ng-deep .k-grid th {
+  font-weight: 600;
+  color: #212529;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+::ng-deep .k-grid td {
+  font-size: 13px;
+  color: #333;
+}
+
+::ng-deep .k-grid-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+::ng-deep .k-pager-wrap {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+::ng-deep .k-pager-wrap .k-link {
+  border-radius: 4px;
+}
+
+::ng-deep .k-pager-wrap .k-link.k-state-selected,
+::ng-deep .k-pager-wrap .k-link.k-state-active {
+  background-color: #0f9d58 !important;
+  color: #fff !important;
+  border-color: #0f9d58 !important;
+}
+
+::ng-deep .k-pager-wrap .k-link:hover {
+  color: #0f9d58 !important;
+  border-color: #0f9d58 !important;
+}
+
+::ng-deep .k-grid-norecords {
+  font-size: 13px;
+  color: #777;
+  padding: 16px;
+}

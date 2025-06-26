@@ -1,10 +1,13 @@
 .dashboard-container {
-  padding: 5px;
-  padding-left: 15px;
+  padding: 15px;
+  //padding-left: 15px;
   font-family: "Segoe UI", sans-serif;
-  background-color: #f8f9fb;
+  //background-color: #f8f9fb;
+  border: none;
   
 }
+
+
 
 .header-row {
   display: flex;
@@ -547,7 +550,10 @@
   background-color: #0f9d58 !important;
   color: #fff !important;
   border-color: #0f9d58 !important;
+  
 }
+
+
 
 ::ng-deep .k-pager-wrap .k-link:hover {
   color: #0f9d58 !important;
@@ -593,4 +599,17 @@
       font-weight: 500;
     }
   }
+}
+
+::ng-deep .k-tabstrip-content {
+  border: none !important;
+  padding: 0 !important;   //can be commented
+  margin-top: 0 !important;
+}
+
+
+::ng-deep .k-tabstrip-items-wrapper .k-item {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  text-align: left;
 }

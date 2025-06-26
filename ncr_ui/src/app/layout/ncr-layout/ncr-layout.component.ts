@@ -83,6 +83,10 @@ selectedJobs = new Set<string>();
       }
     });
 
+    this.selectedContractService.toggleFilterPanelVisibility.subscribe((visible: boolean) => {
+    this.showFilterContracts = visible;
+    this.isFilterContractsExpanded = visible;
+  });
     //this.searchControl.valueChanges.subscribe(() => this.applyFilters());
 
      this.searchControl.valueChanges.subscribe(value => {
@@ -139,6 +143,7 @@ clearAdvancedFilters(): void {
 applyTabFilter(): void {
 
   this.advancedSearchForm.reset(); 
+  this.clearSelections();
   debugger;
   switch (this.activeTabIndex) {
     case 0:
@@ -157,6 +162,15 @@ applyTabFilter(): void {
 
   this.originalProjects = [...this.filteredProjects];
   this.applySearch(this.searchControl.value || '');
+}
+
+  clearSelections(): void {
+this.checkedKeys = [];
+    this.isCurrentProjectsSelected = false;
+ this.selectedJobIds = [];
+    this.selectedJobs.clear();
+    this.isAllSelected = false;
+    this.emitSelectedContracts();
 }
 
 applySearch(searchTerm: string): void {

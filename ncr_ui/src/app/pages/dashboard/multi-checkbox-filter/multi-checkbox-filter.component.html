@@ -1,0 +1,28 @@
+ <ul>
+      @if (showFilter) {
+      <li>
+        <input
+          class="k-textbox k-input k-rounded-md"
+          (input)="onInput($event)"
+        />
+      </li>
+      } @for (item of currentData; track item; let i = $index) {
+      <li
+        #itemElement
+        (click)="onSelectionChange(valueAccessor(item), itemElement)"
+        [ngClass]="{ 'k-selected': isItemSelected(item) }"
+      >
+        <input
+          type="checkbox"
+          #notification
+          kendoCheckBox
+          [checked]="isItemSelected(item)"
+        />
+        <kendo-label
+          class="k-checkbox-label"
+          [for]="notification"
+          [text]="textAccessor(item)"
+        ></kendo-label>
+      </li>
+      }
+    </ul>

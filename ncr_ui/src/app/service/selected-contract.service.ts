@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ContractTree } from '../model/contract-tree.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +25,7 @@ selectedContracts$ = this.selectedContractsSubject.asObservable();
   setSelectedContracts(data: { parents: ContractTree[]; ids: string[] }): void {
   this.selectedContractsSubject.next(data);
 }
+
+ toggleFilterPanelVisibility = new Subject<boolean>();
 
 }

@@ -1,0 +1,45 @@
+<div class="activities-grid-section">
+  <div class="activities-header">
+    <div class="title-section">
+      <h4>Activities</h4>
+      <span class="result-count">Result: {{ filteredData.length }} Activities</span>
+    </div>
+
+    <div class="toolbar-section">
+      <form [formGroup]="searchForm" class="search-form">
+        <kendo-textbox formControlName="search" placeholder="Search..." icon="search"></kendo-textbox>
+      </form>
+      <button type="button" (click)="exportToExcel(grid)">
+        <span class="material-symbols-outlined">arrow_circle_down</span>
+      </button>
+      <button type="button" (click)="toggleExpandView()">
+        <span class="material-symbols-outlined">
+          {{ isExpandedView ? 'close_fullscreen' : 'fullscreen_exit' }}
+        </span>
+      </button>
+      <span class="material-symbols-outlined">settings</span>
+    </div>
+  </div>
+
+  <kendo-grid
+    #grid
+    [kendoGridBinding]="filteredData"
+    [selectable]="{ mode: 'multiple', drag: true }"
+    [pageSize]="10"
+    [pageable]="true"
+    [sortable]="true"
+    [reorderable]="true"
+    [resizable]="true"
+    [height]="500"
+    [filterable]="'menu'"
+    kendoGridExcel
+  >
+    <kendo-grid-column
+      *ngFor="let col of columns"
+      [field]="col.field"
+      [title]="col.title"
+      [width]="col.width ?? 150" 
+      [filterable]="col.filterable !== false"
+    ></kendo-grid-column>
+  </kendo-grid>
+</div>

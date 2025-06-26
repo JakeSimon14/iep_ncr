@@ -21,12 +21,13 @@
       <button kendoButton look="outline" class="do-vs-buy-btn">Do vs Buy</button>
     </div>
   </div>
+  <div class="tab-details">
 <kendo-tabstrip>
-  <kendo-tabstrip-tab *ngFor="let tab of tabButtons; let i = index" [title]="tab.label" [selected]="tab.value === activeTabValue">
-    <ng-template kendoTabContent>
-      <div class="tab-details">
+  <kendo-tabstrip-tab *ngFor="let tab of tabButtons; let i = index" [title]="tab.label" [selected]="tab.value === activeTabValue" class="tab-main-content">
+    <ng-template kendoTabContent class="tab-content">
+      
 
-        <ng-container *ngIf="tab.value === 'NCR'">
+        <ng-container *ngIf="tab.value === 'NCR'" class="tab-content-details">
 
           <!-- <app-breadcrumb
             *ngIf="!isExpandedView && selectedBreadcrumb.length"
@@ -52,7 +53,7 @@
             </button>
           </div>
 
-          <div class="filter-activities-section" *ngIf="!isExpandedView">
+          <div class="filter-activities-section">
             <!-- Filter Header -->
             <div class="filter-activities-header">
               <div class="filter-activities-title">Filter Activities</div>
@@ -101,6 +102,11 @@
                 <form [formGroup]="searchForm" class="search-form">
                   <kendo-textbox formControlName="search" placeholder="Search in all column" icon="search"></kendo-textbox>
                 </form>
+                <button type="button" >
+                  <span class="material-symbols-outlined">
+arrow_circle_down
+</span>
+                </button>
                 <button type="button" (click)="toggleExpandView()" [title]="isExpandedView ? 'Normal View' : 'Expand View'">
                   <span class="material-symbols-outlined">
                     {{ isExpandedView ? 'close_fullscreen' : 'fullscreen_exit' }}
@@ -112,12 +118,16 @@
 
             <!-- <div [ngClass]="{ 'activity-table': true, 'expanded-view': isExpandedView }"> -->
               <kendo-grid
-  [data]="gridData"
-  [sortable]="true"
-  [filterable]="true"
-  [pageSize]="10"
-  [pageable]="true"
-  [height]="400"
+  [kendoGridBinding]="gridData"
+      [selectable]="{ mode: 'multiple', drag: true }"
+      [pageSize]="10"
+      [pageable]="true"
+      [sortable]="true"
+      [reorderable]="true"
+      [resizable]="true"
+      [height]="500"
+      [navigable]="['table', 'pager']"
+      [filterable]="'menu'"
 >
   <kendo-grid-column field="ncrNumber" title="NCR Number" [width]="120"></kendo-grid-column>
   <kendo-grid-column field="partId" title="Part ID"></kendo-grid-column>
@@ -125,7 +135,22 @@
   <kendo-grid-column field="partNo" title="Part No" [width]="100"></kendo-grid-column>
   <kendo-grid-column field="ncrArea" title="NCR Area" [width]="140"></kendo-grid-column>
   <kendo-grid-column field="imputationCode" title="Imputation Code" [width]="140"></kendo-grid-column>
-  <kendo-grid-column field="type" title="Type" [width]="100"></kendo-grid-column>
+  <!-- <kendo-grid-column field="type" title="Type" [width]="100"></kendo-grid-column> -->
+
+  <kendo-grid-column field="type"title="Type" [width]="100">
+  <ng-template kendoGridFilterMenuTemplate
+        let-column="column"
+        let-filter="filter"
+        let-filterService="filterService"
+        >
+        <multicheck-filter
+          [isPrimitive]="true"
+          [field]="column.field"
+          [filterService]="filterService"
+          [currentFilter]="filter"
+          [data]="distinctPrimitive(column.field)"></multicheck-filter>
+    </ng-template>
+</kendo-grid-column>
 </kendo-grid>
 
            
@@ -164,10 +189,10 @@
         <ng-container *ngIf="tab.value === 'Product Safety'">
           <h3>Product Safety Content ...</h3>
         </ng-container>
-      </div>
+     
     </ng-template>
   </kendo-tabstrip-tab>
 </kendo-tabstrip>
-
+ </div>
 
 </div>

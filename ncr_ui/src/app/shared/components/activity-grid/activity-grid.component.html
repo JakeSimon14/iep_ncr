@@ -1,4 +1,4 @@
-<div class="activities-grid-section">
+
   <div class="activities-header">
     <div class="title-section">
       <h4>Activities</h4>
@@ -34,12 +34,28 @@
     [filterable]="'menu'"
     kendoGridExcel
   >
-    <kendo-grid-column
-      *ngFor="let col of columns"
-      [field]="col.field"
-      [title]="col.title"
-      [width]="col.width ?? 150" 
-      [filterable]="col.filterable !== false"
-    ></kendo-grid-column>
+  <kendo-grid-column
+    *ngFor="let col of columns"
+    [field]="col.field"
+    [title]="col.title"
+    [width]="col.width ?? 150"
+    [filterable]="col.filterable !== false"
+  >
+    <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+      <!-- <app-multicheck-filter
+        [column]="column"
+        [filter]="filter"
+        [data]="originalGridData"
+        (valueChange)="onMultiCheckFilterChange($event)">
+      </app-multicheck-filter> -->
+
+      <multicheck-filter
+          [isPrimitive]="true"
+          [field]="column.field"
+          [filterService]="filterService"
+          [currentFilter]="filter"
+          [data]="distinctPrimitive(column.field)"></multicheck-filter>
+    </ng-template>
+  </kendo-grid-column>
   </kendo-grid>
-</div>
+

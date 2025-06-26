@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GridModule, ExcelModule, GridComponent } from '@progress/kendo-angular-grid';
 import { InputsModule } from '@progress/kendo-angular-inputs';
+import { MultiCheckboxFilterComponent } from "../../../pages/dashboard/multi-checkbox-filter/multi-checkbox-filter.component";
+import { filterBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'app-activity-grid',
@@ -12,12 +14,15 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
     GridModule,
     ExcelModule,
     InputsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './activity-grid.component.html'
+    ReactiveFormsModule,
+    MultiCheckboxFilterComponent
+],
+  templateUrl: './activity-grid.component.html',
+    styleUrls: ['./activity-grid.component.scss'],
 })
 export class ActivityGridComponent {
   @Input() data: any[] = [];
+  @Input() originalData: any[] = [];
   @Input() columns: { field: string; title: string; width?: number; filterable?: boolean }[] = [];
   @Input() fileName = 'Export.xlsx';
   @Input() searchableFields: string[] = [];
@@ -66,4 +71,14 @@ export class ActivityGridComponent {
       )
     );
   }
+
+  distinctPrimitive(field: string): any[] {
+  const uniqueValues = new Set<string>();
+  for (const item of this.originalData) {
+    if (item[field]) {
+      uniqueValues.add(item[field]);
+    }
+  }
+  return Array.from(uniqueValues);
+}
 }

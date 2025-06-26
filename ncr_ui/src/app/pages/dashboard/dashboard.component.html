@@ -92,70 +92,15 @@
           </div>
 
           <!-- Activities Grid -->
-          <div class="activities-grid-section">
-            <div class="activities-header">
-              <div class="title-section">
-                <h4>Activities</h4>
-                <span class="result-count">Result: {{gridData.length}} Activities</span>
-              </div>
-              <div class="toolbar-section">
-                <form [formGroup]="searchForm" class="search-form">
-                  <kendo-textbox formControlName="search" placeholder="Search in all column" icon="search"></kendo-textbox>
-                </form>
-                <button type="button" >
-                  <span class="material-symbols-outlined">
-arrow_circle_down
-</span>
-                </button>
-                <button type="button" (click)="toggleExpandView()" [title]="isExpandedView ? 'Normal View' : 'Expand View'">
-                  <span class="material-symbols-outlined">
-                    {{ isExpandedView ? 'close_fullscreen' : 'fullscreen_exit' }}
-                  </span>
-                </button>
-                <span class="material-symbols-outlined">settings</span>
-              </div>
-            </div>
-
-            <!-- <div [ngClass]="{ 'activity-table': true, 'expanded-view': isExpandedView }"> -->
-              <kendo-grid
-  [kendoGridBinding]="gridData"
-      [selectable]="{ mode: 'multiple', drag: true }"
-      [pageSize]="10"
-      [pageable]="true"
-      [sortable]="true"
-      [reorderable]="true"
-      [resizable]="true"
-      [height]="500"
-      [navigable]="['table', 'pager']"
-      [filterable]="'menu'"
->
-  <kendo-grid-column field="ncrNumber" title="NCR Number" [width]="120"></kendo-grid-column>
-  <kendo-grid-column field="partId" title="Part ID"></kendo-grid-column>
-  <kendo-grid-column field="productDescription" title="Description"></kendo-grid-column>
-  <kendo-grid-column field="partNo" title="Part No" [width]="100"></kendo-grid-column>
-  <kendo-grid-column field="ncrArea" title="NCR Area" [width]="140"></kendo-grid-column>
-  <kendo-grid-column field="imputationCode" title="Imputation Code" [width]="140"></kendo-grid-column>
-  <!-- <kendo-grid-column field="type" title="Type" [width]="100"></kendo-grid-column> -->
-
-  <kendo-grid-column field="type"title="Type" [width]="100">
-  <ng-template kendoGridFilterMenuTemplate
-        let-column="column"
-        let-filter="filter"
-        let-filterService="filterService"
-        >
-        <multicheck-filter
-          [isPrimitive]="true"
-          [field]="column.field"
-          [filterService]="filterService"
-          [currentFilter]="filter"
-          [data]="distinctPrimitive(column.field)"></multicheck-filter>
-    </ng-template>
-</kendo-grid-column>
-</kendo-grid>
-
-           
-          <!-- </div> -->
-            </div>
+           <div class="activities-grid-section">
+        <app-activity-grid
+  [data]="gridData"
+  [originalData]="originalGridData"
+  [columns]="gridColumns"
+  [fileName]="'NCR-Activities.xlsx'"
+  [searchableFields]="['ncrNumber', 'partId', 'productDescription', 'type']"
+></app-activity-grid>
+</div>
         </ng-container>
 
         <ng-container *ngIf="tab.value === 'NCM'">

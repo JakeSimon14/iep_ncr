@@ -6,19 +6,24 @@
     </div>
     <div class="upload-actions">
       <div class="upload-info">
+         <span class="kaizen-image" (click)="openKaizen()">
+      <img src="assets/images/Kaizen-btn.png" alt="Kaizen logo" />
+      </span>
         <span class="upload-label">
           Last uploaded: <strong class="upload-date">04 Feb 2025</strong>
         </span>
+        <div class="ytd-division-bar"></div>
         <div class="ytd-content">
-              | YTD
+              YTD
         </div>
          <div class="percentage-circle">
           <div class="circle" [style.--percentage]="percentage">
             <span class="value">{{ percentage }}%</span>
           </div>
         </div>
+        <button kendoButton look="outline" class="do-vs-buy-btn">Do vs Buy</button>
       </div>
-      <button kendoButton look="outline" class="do-vs-buy-btn">Do vs Buy</button>
+      
     </div>
   </div>
   <div class="tab-details">

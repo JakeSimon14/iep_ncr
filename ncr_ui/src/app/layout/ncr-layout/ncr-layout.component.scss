@@ -355,3 +355,45 @@ $padding-lg: 16px;
   border-color: $green-primary;
   background-color: $green-primary;
 }
+
+.tab-content ::ng-deep .k-rounded-md {
+  border-radius: 0px !important;
+  border: 2px solid gray;
+}
+
+.current-projects {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  position: relative;
+  font-weight: bold;
+  color: #626262;
+
+  input[type="checkbox"] {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 2px solid gray;
+    margin-right: 8px;
+    position: relative;
+    background-color: #fff;
+    cursor: pointer;
+
+    &:checked {
+      background-color: #147D64;;
+    }
+
+    &:checked::after {
+      content: '';
+      position: absolute;
+     top: 0px;      
+    left: 3px;       
+    width: 3px;
+      height: 8px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+}

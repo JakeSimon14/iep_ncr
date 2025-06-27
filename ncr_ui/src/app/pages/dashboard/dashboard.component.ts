@@ -317,5 +317,8 @@ exportToExcel(): void {
     //this.subBreadcrumb.unsubscribe();
   }
 
- 
+ openKaizen(): void {
+  window.open('https://www.google.com/', '_blank');
+}
+
 }

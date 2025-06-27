@@ -53,13 +53,27 @@ $z-index-dropdown: 1000;
       width: auto;
     }
 
+ .menu-division-bar {
+  width: 2px;
+  height: 20px; 
+  background-color:  #ffffff;
+}
+
+  .menu-selected {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
     .icon-button {
       background: none;
       border: none;
       color: $text-color-white;
       font-size: $icon-size;
       cursor: pointer;
-      padding: $spacing-sm;
+      padding: 0px;
       line-height: 1;
 
       .material-symbols-outlined {

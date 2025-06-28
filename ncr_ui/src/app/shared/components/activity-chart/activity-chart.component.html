@@ -1,4 +1,4 @@
-<kendo-chart>
+<kendo-chart (seriesClick)="onSeriesClick($event)">
   <kendo-chart-title text="NCR Activities"></kendo-chart-title>
 
   <kendo-chart-category-axis>
@@ -12,7 +12,7 @@
   </kendo-chart-value-axis>
 
   <kendo-chart-series>
-    <kendo-chart-series-item type="column" [data]="values" name="NCR Count">
+    <kendo-chart-series-item type="column" [data]="values" [color]="'#0074e6'" name="NCR Count">
     </kendo-chart-series-item>
   </kendo-chart-series>
 </kendo-chart>

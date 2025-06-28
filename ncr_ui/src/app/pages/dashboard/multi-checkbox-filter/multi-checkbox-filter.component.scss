@@ -19,3 +19,27 @@
       .k-checkbox-label {
         pointer-events: none;
       }
+
+      ::ng-deep .k-button-solid-primary {
+    border-color: #147D64;
+    color: white;
+    background-color: #147D64;
+    
+}
+
+::ng-deep .k-button-solid-primary:hover, .k-button-solid-primary.k-hover {
+    border-color: #106c56;
+    background-color: #106c56;
+
+}
+
+::ng-deep .k-checkbox:checked, .k-checkbox.k-checked {
+    border-color: #147D64;
+    color: white;
+    background-color: #147D64;
+}
+
+::ng-deep  .k-grid-header .k-grid-header-menu.k-active {
+    color: var(--kendo-color-on-primary, #ffffff);
+    background-color: #147D64 !important;
+}

@@ -23,7 +23,7 @@
       }
 
       .result-count {
-        font-size: 0.95rem;
+        font-size: small;
         color: #666;
         white-space: nowrap;
       }
@@ -39,6 +39,13 @@
 
         ::ng-deep .k-textbox {
           width: 100%;
+          border-radius: 20px;
+
+          input::placeholder {
+  color: #999; 
+  font-size: small;
+
+}
         }
       }
 
@@ -58,3 +65,15 @@
       }
     }
   }
+
+  ::ng-deep .custom-filter-icon {
+  font-family: 'Material Symbols Outlined';
+  font-size: 18px;
+  color: #444;
+  cursor: pointer;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+

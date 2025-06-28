@@ -18,6 +18,10 @@ logout(event: MouseEvent): void {
     event.stopPropagation(); // Prevent profile menu toggle
     this.showProfileMenu = false;
     localStorage.removeItem('token');
+
+    localStorage.removeItem('GridFiltersData');
+    localStorage.removeItem('GridFilters');
+
     this.router.navigate(['/login']);
   }
 

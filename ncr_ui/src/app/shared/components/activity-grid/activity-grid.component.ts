@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { GridModule, ExcelModule, GridComponent } from '@progress/kendo-angular-grid';
+import { GridModule,ExcelModule, GridComponent } from '@progress/kendo-angular-grid';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { MultiCheckboxFilterComponent } from "../../../pages/dashboard/multi-checkbox-filter/multi-checkbox-filter.component";
-import { filterBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
+import { ExcelExportComponent } from '@progress/kendo-angular-excel-export';
+
 
 @Component({
   selector: 'app-activity-grid',
@@ -12,7 +13,8 @@ import { filterBy, CompositeFilterDescriptor } from '@progress/kendo-data-query'
   imports: [
     CommonModule,
     GridModule,
-    ExcelModule,
+    ExcelModule, 
+    ExcelExportComponent,
     InputsModule,
     ReactiveFormsModule,
     MultiCheckboxFilterComponent
@@ -24,8 +26,10 @@ export class ActivityGridComponent {
   @Input() data: any[] = [];
   @Input() originalData: any[] = [];
   @Input() columns: { field: string; title: string; width?: number; filterable?: boolean }[] = [];
-  @Input() fileName = 'Export.xlsx';
+  @Input() fileName = 'NCRTabularData.xlsx';
   @Input() searchableFields: string[] = [];
+
+  @ViewChild('excelExport', { static: false }) excelExport!: ExcelExportComponent;
 
   searchForm: FormGroup;
   filteredData: any[] = [];

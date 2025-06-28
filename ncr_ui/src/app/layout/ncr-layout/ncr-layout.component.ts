@@ -104,9 +104,10 @@ this.advancedSearchForm.valueChanges.subscribe(() => {
   this.applySearch(this.searchControl.value || '');
 });
     
- const saved = localStorage.getItem('ContractTreeFilters');
-  this.savedContractTreeFilters = saved ? JSON.parse(saved) : [];
-
+ //const saved = localStorage.getItem('ContractTreeFilters');
+  //this.savedContractTreeFilters = saved ? JSON.parse(saved) : [];
+const saved = JSON.parse(localStorage.getItem('ContractTreeFilters') || '[]');
+this.savedContractTreeFilters = saved.map((f: any) => f.name);
   }
 
   ngAfterViewInit(): void {
@@ -381,6 +382,17 @@ debugger;
 showSettingsPopup = false;
 submenuOpen = false;
 hovering = false;
+lastUploadOpen = false;
+
+lastUploadedItems = [
+  { name: 'ITO - Train configuration & Opportunity Driver-Driven', date: '01-Jan-2025' },
+  { name: 'ITO Information', date: '01-Jan-2025' },
+  { name: 'Serial Number', date: '01-Jan-2025' },
+  { name: 'Industrial segment file', date: '01-Jan-2025' },
+  { name: 'P6-project creation file', date: '01-Jan-2025' },
+  { name: 'Unifier project creation file', date: '01-Jan-2025' }
+];
+
 
 savedContractTreeFilters: string[] = [];
 
@@ -398,14 +410,50 @@ onSaveFilter(): void {
   console.log('Save Filter clicked');
   this.showSettingsPopup = false;
 
-  const newFilter = `Saved Filter ${this.savedContractTreeFilters.length + 1}`;
-  this.savedContractTreeFilters.push(newFilter);
-  localStorage.setItem('ContractTreeFilters', JSON.stringify(this.savedContractTreeFilters));
+  // const newFilter = `Saved Filter ${this.savedContractTreeFilters.length + 1}`;
+  // this.savedContractTreeFilters.push(newFilter);
+  // localStorage.setItem('ContractTreeFilters', JSON.stringify(this.savedContractTreeFilters));
+
+  const savedFilter = {
+    name: `Saved Filter ${this.savedContractTreeFilters.length + 1}`,
+    //tabIndex: this.activeTabIndex,
+    search: this.searchControl.value,
+    form: this.advancedSearchForm.value,
+    //selectedJobIds: [...this.selectedJobIds]
+  };
+
+  const existingFilters = JSON.parse(localStorage.getItem('ContractTreeFilters') || '[]');
+  existingFilters.push(savedFilter);
+  localStorage.setItem('ContractTreeFilters', JSON.stringify(existingFilters));
+
+  this.savedContractTreeFilters.push(savedFilter.name);
 }
 
 onLoadFilter(name: string): void {
   console.log('Load Filter:', name);
   this.showSettingsPopup = false;
+
+   const savedFilters = JSON.parse(localStorage.getItem('ContractTreeFilters') || '[]');
+  const selected = savedFilters.find((f: any) => f.name === name);
+
+  debugger;
+  if (!selected) return;
+
+  //this.activeTabIndex = selected.tabIndex;
+  this.searchControl.setValue(selected.search || '');
+  // this.advancedSearchForm.patchValue(selected.form || {});
+setTimeout(() => {
+  this.advancedSearchForm.patchValue({
+      deliveryYear: selected.form?.deliveryYear || null,
+      racYear: selected.form?.racYear || null,
+      projectStatus: selected.form?.projectStatus || [],
+      driver: selected.form?.driver || []
+    });
+  });
+  //this.selectedJobIds = selected.selectedJobIds || [];
+  //this.selectedJobs = new Set(this.selectedJobIds);
+
+  this.applyTabFilter(); 
 }
 
 onInstructions(): void {

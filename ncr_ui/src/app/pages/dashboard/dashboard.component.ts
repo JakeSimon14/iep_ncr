@@ -35,6 +35,7 @@ export class DashboardComponent {
   originalGridData: any[] = []; 
   filteredBaseData: any[] = []; 
   chartData: any[] = [];
+  chartFilteredGridData: any[] = [];
 
     @ViewChild('grid') grid!: GridComponent;
 
@@ -204,6 +205,8 @@ export class DashboardComponent {
   }
 
   clearFilters(): void {
+
+    this.chartFilteredGridData =[];
     this.filterActivityForm.reset({
       viewAs: 'Tabular',
       contentType: 'Individual'
@@ -242,10 +245,11 @@ applySearch(searchTerm: string): void {
 }
 
 applyCombinedFilters(): void {
+
+  debugger;
   const searchTerm = this.searchForm.get('search')?.value?.trim().toLowerCase() || '';
   const selectedType = this.filterActivityForm.get('contentType')?.value;
 
-  // 🚫 Exit early if no contract is selected
   if (!this.selectedIds || this.selectedIds.length === 0) {
     this.gridData = [];
     this.chartData = [];
@@ -255,15 +259,15 @@ applyCombinedFilters(): void {
 
   let filtered = [...this.originalGridData];
 
-  // Step 1: Contract filter
+  // Contract filter
   filtered = filtered.filter(item => this.selectedIds.includes(item.contractId));
 
-  // Step 2: Dropdown 'Type' filter
+  // Dropdown type filter
   if (selectedType) {
     filtered = filtered.filter(item => item.type === selectedType);
   }
 
-  // Step 3: Search filter (across all visible fields)
+  // Search filter 
   if (searchTerm) {
     filtered = filtered.filter(item =>
       Object.values(item).some(val =>
@@ -358,13 +362,46 @@ onSaveFilter(): void {
   console.log('Save Filter clicked');
   this.showSettingsPopup = false;
 
-  const newFilter = `Saved Filter ${this.savedGridFilters.length + 1}`;
-  this.savedGridFilters.push(newFilter);
+  //const newFilter = `Saved Filter ${this.savedGridFilters.length + 1}`;
+  //this.savedGridFilters.push(newFilter);
+
+  const newFilterName = `Saved Filter ${this.savedGridFilters.length + 1}`;
+  this.savedGridFilters.push(newFilterName);
+
+  // Prepare complete filter object
+  const savedFilterData = {
+    name: newFilterName,
+    formValues: this.filterActivityForm.value,
+    //searchTerm: this.searchForm.get('search')?.value || '',
+    //contractIds: this.selectedIds
+  };
+
+  // Get existing saved filter data
+  const existingFilter = JSON.parse(localStorage.getItem('GridFilterData') || '[]');
+  existingFilter.push(savedFilterData);
+  localStorage.setItem('GridFiltersData', JSON.stringify(existingFilter));
+
   localStorage.setItem('GridFilters', JSON.stringify(this.savedGridFilters));
 }
 
 onLoadFilter(name: string): void {
   console.log('Load Filter:', name);
+
+  const savedFilters = JSON.parse(localStorage.getItem('GridFiltersData') || '[]');
+  const match = savedFilters.find((f: any) => f.name === name);
+debugger;
+  if (match) {
+    this.filterActivityForm.patchValue(match.formValues || {});
+    //this.searchForm.patchValue({ search: match.searchTerm || '' });
+
+    // if (Array.isArray(match.contractIds)) {
+    //   this.selectedIds = match.contractIds;
+    //   this.applyCombinedFilters();
+    // }
+
+    this.applyCombinedFilters();
+  }
+
   this.showSettingsPopup = false;
 }
 
@@ -377,5 +414,12 @@ onInstructions(): void {
 
 
 //---------------------------------
+
+onChartBarClick(filtered: any[]): void {
+  console.log('Chart bar clicked - dashboard handler triggered:', filtered);
+
+  this.chartFilteredGridData = filtered;
+  this.filterActivityForm.get('viewAs')?.setValue('Tabular');
+}
 
 }

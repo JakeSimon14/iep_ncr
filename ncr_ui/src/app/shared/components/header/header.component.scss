@@ -45,6 +45,7 @@ $z-index-dropdown: 1000;
       .support-ticket {
         color: $text-color-white;
         cursor: pointer;
+        font-size: small;
       }
     }
 
@@ -86,7 +87,7 @@ $z-index-dropdown: 1000;
     .material-symbols-outlined {
       color: $text-color-white;
       border-radius: $border-radius-full;
-      font-size: $icon-size;
+      font-size: 20px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -195,45 +196,55 @@ $z-index-dropdown: 1000;
 
 
   .menu-item {
-    display: flex;
-    align-items: center;
-    padding: 15px 16px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    margin: 0px 10px 0px 10px;
-    border-top: 1px solid #eee;
-     border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  padding: 15px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin: 0 10px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
 
-    &:hover {
-      background-color: #f5f5f5;
+  &:hover {
+    background-color: #f5f5f5;
+  }
+
+  .material-symbols-outlined {
+    font-size: 20px;
+    margin-right: 12px;
+    color: #333;
+  }
+
+  .menu-text {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .material-symbols-outlined {
-      font-size: 20px;
-      margin-right: 12px;
+    .title {
+      font-size: 14px;
+      font-weight: 400;
       color: #333;
     }
 
     .chevron {
-      margin-left: auto;
-      color: #aaa;
+      font-size: 18px;
+      color: #333;
     }
 
-    .menu-text {
-      display: flex;
-      flex-direction: column;
-
-      .title {
-        font-size: 14px;
-        font-weight: 500;
-      }
-
-      .subtitle {
-        font-size: 12px;
-        color: #888;
-      }
+    .subtitle {
+      font-size: 12px;
+      color: #888;
+      padding-top: 7px;
     }
   }
+}
+
 }
 
   }

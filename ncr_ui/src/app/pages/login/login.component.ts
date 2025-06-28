@@ -26,6 +26,13 @@ loginForm: FormGroup;
     });
   }
 
+  OnInit(): void {
+     localStorage.removeItem('token');
+
+    localStorage.removeItem('GridFiltersData');
+    localStorage.removeItem('GridFilters');
+  }
+
   onSubmit(): void {
     this.submitted = true;
     this.error = '';

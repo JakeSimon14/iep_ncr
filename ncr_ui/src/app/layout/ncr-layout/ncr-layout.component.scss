@@ -32,12 +32,13 @@ $padding-lg: 16px;
     .left-side-menu {
       display: flex;
       flex-direction: column;
+          border-right: 1px solid $gray-border;
     }
 
     .filter-contracts {
       background: $white;
       border-right: 1px solid $gray-border;
-      border-left: 1px solid $gray-border;
+      //border-left: 1px solid $gray-border;
       
       //padding: $padding-sm;
       height: 100%;
@@ -83,7 +84,8 @@ $padding-lg: 16px;
   align-items: center;
   justify-content: center;
 
-  &:hover {
+  &:hover,
+  &.hover {
     background-color: #eee;
   }
 }
@@ -119,6 +121,8 @@ $padding-lg: 16px;
     flex: 1;
     white-space: nowrap;
     color: #333;
+    font-weight: normal;
+    font-size: smaller;
   }
 
   .submenu-arrow {
@@ -152,7 +156,8 @@ $padding-lg: 16px;
       .submenu-item {
         padding: 8px 12px;
         cursor: pointer;
-        font-size: 14px;
+        font-weight: normal;
+    font-size: smaller;
 
         &:hover {
           background-color: #f4f4f4;
@@ -160,12 +165,59 @@ $padding-lg: 16px;
       }
     }
   }
+
+.settings-dropdown-wrapper {
+  position: relative;
+
+  .last-upload-submenu-outer {
+    position: absolute;
+    top: 100%; // Position below the popup
+    left: 0;
+    width: 280px;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 4px 0;
+    z-index: 1002;
+
+    .submenu-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: #333;
+      font-weight: normal;
+    font-size: smaller;
+
+      .upload-title {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .upload-date {
+        flex-shrink: 0;
+        padding-left: 10px;
+        color: #666;
+      }
+
+      &:hover {
+        background-color: #f4f4f4;
+      }
+    }
+  }
+}
+
+
+
       
 .advanced-search-btn {
   background-color: $green-primary;
   color: $white;
-  font-weight: 600;
-  font-size: $font-size-sm;
+  font-weight: normal;
+  font-size: small;
   border: none;
   border-radius: $border-radius-md;
   padding: 8px $padding-lg;
@@ -197,14 +249,15 @@ $padding-lg: 16px;
 
 // Styles the Advanced Search Panel
 .advanced-search-panel {
-  padding: 1rem;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-top: 1rem;
+    padding: 7px;
+    background: #f9f9f9;
+    /* border: 1px solid #ddd; */
+    border-radius: 6px;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  font-size: small;
+  font-weight: normal;
 
   .advanced-search-header {
     display: flex;
@@ -213,10 +266,10 @@ $padding-lg: 16px;
 
     .clear-filter {
       cursor: pointer;
-      color: #14765b; // or use $green-primary if defined
+      color: #14765b;
       text-decoration: underline;
-      font-size: 0.875rem;
-      font-weight: 500;
+      font-size: smaller;
+      font-weight: normal;
 
       &:hover {
         text-decoration: none;
@@ -233,6 +286,8 @@ $padding-lg: 16px;
       font-weight: 600;
       font-size: 0.875rem;
       color: #333;
+          font-size: small;
+    font-weight: bold;
     }
 
     // Applies to both DropdownList and MultiSelect
@@ -249,7 +304,8 @@ $padding-lg: 16px;
         background: transparent !important;
         padding: 0.25rem 0;
         box-shadow: none !important;
-        font-size: 14px;
+        font-size: smaller;
+        font-weight: normal;
         color: #1a1a1a;
       }
 
@@ -269,7 +325,10 @@ $padding-lg: 16px;
       ::ng-deep .k-input,
       ::ng-deep .k-input-inner {
         color: #1a1a1a !important;
-        font-weight: 500;
+
+    font-size: smaller;
+    font-weight: lighter;
+
       }
     }
   }
@@ -280,6 +339,8 @@ $padding-lg: 16px;
       .results-count {
         padding-top: $padding-md;
         color: $text-muted;
+        font-weight: normal;
+        font-size: smaller;
       }
 
       .filter-header {
@@ -378,7 +439,7 @@ $padding-lg: 16px;
 
           .tree-text {
             flex: 1;
-            font-size: $font-size-sm;
+            font-size: smaller;
             color: $text-dark;
             white-space: nowrap;
             overflow: hidden;
@@ -487,4 +548,10 @@ $padding-lg: 16px;
       transform: rotate(45deg);
     }
   }
+}
+
+.no-data-message{
+      font-size: small;
+    color: gray;
+    padding: 10px;
 }

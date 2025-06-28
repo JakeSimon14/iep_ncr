@@ -43,6 +43,7 @@
   width: auto;
   padding: 0;
   margin: 0;
+  cursor: pointer;
 
   img {
     height: 100%;
@@ -81,6 +82,7 @@
     width: 80px;
     font-size: 10px;
     border-radius: 5px;
+    cursor: pointer;
     }
      .ytd-division-bar {
   width: 1.5px;
@@ -352,7 +354,8 @@
   align-items: center;
   justify-content: center;
 
-  &:hover {
+    &:hover,
+  &.hover {
     background-color: #eee;
   }
 }
@@ -388,6 +391,8 @@
     flex: 1;
     white-space: nowrap;
     color: #333;
+    font-weight: normal;
+    font-size: smaller;
   }
 
   .submenu-arrow {
@@ -421,7 +426,8 @@
       .submenu-item {
         padding: 8px 12px;
         cursor: pointer;
-        font-size: 14px;
+        font-weight: normal;
+    font-size: smaller;
 
         &:hover {
           background-color: #f4f4f4;
@@ -694,3 +700,8 @@
   outline: none !important;
   box-shadow: none !important;
 }
+
+
+
+
+

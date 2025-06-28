@@ -44,18 +44,23 @@ help
 
 
   <li class="menu-item">
-    <span class="material-symbols-outlined">group</span>
-    <div class="menu-text">
+  <span class="material-symbols-outlined">group</span>
+  <div class="menu-text">
+    <div class="title-row">
       <div class="title">Change Dashboard</div>
-      <div class="subtitle">Abinav, Evgeni, Francesco</div>
+      <span class="material-symbols-outlined chevron">chevron_right</span>
     </div>
-    <span class="material-symbols-outlined chevron">chevron_right</span>
-  </li>
+    <div class="subtitle">User1, User2, User3</div>
+  </div>
+</li>
+
 
 
   <li class="menu-item" (click)="logout($event)">
     <span class="material-symbols-outlined">power_settings_new</span>
-    <span class="menu-text title">Log out</span>
+    <div class="menu-text">
+      <div class="title">Log out</div>
+    </div>
   </li>
 </ul>
 

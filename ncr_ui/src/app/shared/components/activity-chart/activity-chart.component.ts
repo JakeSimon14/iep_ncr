@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ChartModule } from '@progress/kendo-angular-charts';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChartModule,SeriesClickEvent } from '@progress/kendo-angular-charts';
 
 @Component({
   selector: 'app-activity-chart',
@@ -11,10 +11,11 @@ import { ChartModule } from '@progress/kendo-angular-charts';
 })
 export class ActivityChartComponent implements OnChanges {
   @Input() data: any[] = [];
+  @Output() barClick = new EventEmitter<any[]>();
   
   groupedChartData: { month: string; count: number }[] = [];
-  categories: string[] = [];  // ✅ for x-axis
-  values: number[] = [];      // ✅ for y-axis
+  categories: string[] = [];  // for x-axis
+  values: number[] = [];      // for y-axis
 
   // ngOnInit(): void {
   //   this.groupedChartData = this.getMonthlyCounts(this.data);
@@ -52,4 +53,18 @@ export class ActivityChartComponent implements OnChanges {
         return aDate.getTime() - bDate.getTime();
       });
   }
+
+onSeriesClick(e: any): void {
+  const clickedCategory = e.category; // e.g. "2024-June"
+  const filtered = this.data.filter(d => {
+    const date = new Date(d.createdDate);
+    const key = `${date.getFullYear()}-${date.toLocaleString('en-US', { month: 'long' })}`;
+    return key === clickedCategory;
+  });
+
+  console.log('Bar clicked for category:', clickedCategory); // Check this works
+  debugger;
+  this.barClick.emit(filtered);
+}
+
 }

@@ -7,11 +7,12 @@
 
     <div class="toolbar-section">
       <form [formGroup]="searchForm" class="search-form">
-        <kendo-textbox formControlName="search" placeholder="Search..." icon="search"></kendo-textbox>
+        <kendo-textbox formControlName="search" placeholder="Search in all column" icon="search"></kendo-textbox>
       </form>
-      <button type="button" (click)="exportToExcel(grid)">
-        <span class="material-symbols-outlined">arrow_circle_down</span>
-      </button>
+     <button type="button" (click)="excelExport.save()">
+  <span class="material-symbols-outlined">arrow_circle_down</span>
+</button>
+
       <button type="button" (click)="toggleExpandView()">
         <span class="material-symbols-outlined">
           {{ isExpandedView ? 'close_fullscreen' : 'fullscreen_exit' }}
@@ -33,7 +34,10 @@
     [height]="500"
     [filterable]="'menu'"
     kendoGridExcel
+   
   >
+
+   <!-- [columnMenu]="true" need to add above to show filter--> 
   <kendo-grid-column
     *ngFor="let col of columns"
     [field]="col.field"
@@ -41,6 +45,11 @@
     [width]="col.width ?? 150"
     [filterable]="col.filterable !== false"
   >
+    <!-- <ng-template kendoGridColumnMenuTemplate let-service="service" let-column="column">
+      <kendo-grid-columnmenu-filter [service]="service">
+        <span class="material-symbols-outlined custom-filter-icon">more_vert</span>
+      </kendo-grid-columnmenu-filter>
+    </ng-template> -->
     <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
       <!-- <app-multicheck-filter
         [column]="column"
@@ -58,4 +67,19 @@
     </ng-template>
   </kendo-grid-column>
   </kendo-grid>
+
+  <kendo-excelexport
+  #excelExport
+  [data]="filteredData"
+  [fileName]="fileName"
+>
+  <kendo-excelexport-column
+    *ngFor="let col of columns"
+    [field]="col.field"
+    [title]="col.title"
+     [width]="col.width ?? 150"
+  >
+  </kendo-excelexport-column>
+</kendo-excelexport>
+
 

@@ -172,29 +172,25 @@
           </div>
 
           <!-- Activities Grid -->
-           <div class="activities-grid-section">
-            <!-- <ng-container [ngSwitch]="filterActivityForm.get('viewAs')?.value"> -->
-              <ng-container *ngIf="filterActivityForm.get('viewAs')?.value === 'Tabular'; else chartView">
-        <app-activity-grid
-        
-  [data]="gridData"
-  [originalData]="originalGridData"
-  [columns]="gridColumns"
-  [fileName]="'NCR-Activities.xlsx'"
-  [searchableFields]="['ncrNumber', 'partId', 'productDescription','partNo', 'ncrArea','imputationCode','type']"
-></app-activity-grid>
+<div class="activities-grid-section">
+  <ng-container *ngIf="filterActivityForm.get('viewAs')?.value === 'Tabular'; else chartView">
+    <app-activity-grid
+      [data]="chartFilteredGridData.length ? chartFilteredGridData : gridData"
+      [originalData]="originalGridData"
+      [columns]="gridColumns"
+      [fileName]="'NCR-Activities.xlsx'"
+      [searchableFields]="['ncrNumber', 'partId', 'productDescription','partNo', 'ncrArea','imputationCode','type']"
+    ></app-activity-grid>
+  </ng-container>
 
-<app-activity-chart
-  
-    [data]="gridData">
-  </app-activity-chart>
-
-</ng-container>
-
-<ng-template #chartView>
-  <app-activity-chart [data]="chartData"></app-activity-chart>
-</ng-template>
+  <ng-template #chartView>
+    <app-activity-chart
+      [data]="gridData"
+      (barClick)="onChartBarClick($event)">
+    </app-activity-chart>
+  </ng-template>
 </div>
+
         </ng-container>
 
         <ng-container *ngIf="tab.value === 'NCM'">

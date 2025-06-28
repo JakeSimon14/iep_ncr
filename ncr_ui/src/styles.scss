@@ -2,3 +2,24 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0px;
 }
+
+
+
+// === Selected Item Style in DropDown Input ===
+.k-dropdown .k-input {
+  background-color: #e3f2fd !important; // Light blue background
+  color: #1a237e !important;            // Text color
+}
+
+// === Popup List Selected Item ===
+.k-list .k-item.k-selected,
+.k-list .k-item.k-state-selected {
+  background-color: #e3f2fd !important;
+  color: #1a237e !important;
+}
+
+// === Popup List Hover Item ===
+.k-list .k-item:hover {
+  background-color: #bbdefb !important;
+  color: #0d47a1 !important;
+}

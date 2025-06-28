@@ -33,8 +33,7 @@
   *ngIf="showSettingsPopup"
   [anchor]="anchor"
   popupClass="kendo-settings-popup"
-  [anchorAlign]="{ horizontal: 'left', vertical: 'bottom' }"
-  [popupAlign]="{ horizontal: 'right', vertical: 'top' }"
+ 
   [offset]="{ left: -170, top: 2 }"
   [collision]="{ horizontal: 'fit', vertical: 'fit' }"
 >
@@ -81,6 +80,33 @@
   <span class="material-symbols-outlined icon">help</span>
   <span class="text">Instructions to Use</span>
 </div>
+
+<!-- Last Uploaded Info -->
+<div
+  class="popup-item"
+  (mouseenter)="lastUploadOpen = true"
+  (mouseleave)="lastUploadOpen = false"
+>
+  <div class="submenu-header">
+    <span class="material-symbols-outlined icon">info</span>
+    <span class="text">Last Uploaded Info</span>
+    <span *ngIf="lastUploadedItems.length" class="material-symbols-outlined submenu-arrow">expand_more</span>
+  </div>
+</div>
+
+<div
+  class="last-upload-submenu-outer"
+  *ngIf="lastUploadOpen && lastUploadedItems.length"
+  (mouseenter)="lastUploadOpen = true"
+  (mouseleave)="lastUploadOpen = false"
+>
+  <div class="submenu-item" *ngFor="let item of lastUploadedItems">
+    <div class="upload-title">{{ item.name }}</div>
+    <div class="upload-date">: {{ item.date }}</div>
+  </div>
+</div>
+
+
 
 
 </kendo-popup>
@@ -135,6 +161,7 @@
         formControlName="deliveryYear"
         [data]="deliveryYears"
         [defaultItem]="'Select Year'"
+        [valuePrimitive]="true"
       ></kendo-dropdownlist>
     </div>
 
@@ -144,6 +171,7 @@
         formControlName="racYear"
         [data]="racYears"
         [defaultItem]="'Select Year'"
+        [valuePrimitive]="true"
       ></kendo-dropdownlist>
     </div>
 
@@ -153,6 +181,7 @@
         formControlName="projectStatus"
         [data]="projectStatuses"
         [placeholder]="'Select Status'"
+        [valuePrimitive]="true"
       ></kendo-multiselect>
     </div>
 
@@ -162,6 +191,7 @@
         formControlName="driver"
         [data]="drivers"
         [placeholder]="'Select Driver'"
+        [valuePrimitive]="true"
       ></kendo-multiselect>
     </div>
 

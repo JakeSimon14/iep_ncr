@@ -1,0 +1,30 @@
+<kendo-chart>
+  <kendo-chart-title text="NCR Activities"></kendo-chart-title>
+
+  <kendo-chart-category-axis>
+    <kendo-chart-category-axis-item [categories]="categories" [title]="{ text: 'Month' }">
+    </kendo-chart-category-axis-item>
+  </kendo-chart-category-axis>
+
+  <kendo-chart-value-axis>
+    <kendo-chart-value-axis-item [title]="{ text: 'NCR Count' }">
+    </kendo-chart-value-axis-item>
+  </kendo-chart-value-axis>
+
+  <kendo-chart-series>
+    <kendo-chart-series-item type="column" [data]="values" name="NCR Count">
+    </kendo-chart-series-item>
+  </kendo-chart-series>
+</kendo-chart>
+
+
+
+
+
+
+<!-- <kendo-chart style="height:250px">
+      <kendo-chart-series>
+        <kendo-chart-series-item [data]="[1, 4, 5, 2, 1, 8]">
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart> -->

@@ -69,6 +69,97 @@ $padding-lg: 16px;
         border-bottom: 1px solid $gray-border;
         height: 65px;
       }
+
+      .activity-setting {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 20px;
+  padding: 4px;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #eee;
+  }
+}
+
+.kendo-settings-popup {
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 4px 0;
+  width: 170px;
+  z-index: 1000;
+}
+
+.popup-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover {
+    background-color: #f4f4f4;
+  }
+
+  .icon {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #444;
+  }
+
+  .text {
+    flex: 1;
+    white-space: nowrap;
+    color: #333;
+  }
+
+  .submenu-arrow {
+    font-size: 18px;
+    color: #888;
+  }
+
+  .submenu-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+
+.has-submenu {
+    position: relative;
+
+    .submenu {
+      position: absolute;
+      top: 0;
+      right: -172px; 
+      background: white;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      padding: 4px 0;
+      width: 170px;
+      z-index: 1001;
+
+      .submenu-item {
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:hover {
+          background-color: #f4f4f4;
+        }
+      }
+    }
+  }
       
 .advanced-search-btn {
   background-color: $green-primary;

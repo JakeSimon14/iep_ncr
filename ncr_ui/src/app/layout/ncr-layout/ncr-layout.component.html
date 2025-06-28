@@ -13,6 +13,81 @@
  <div class="filter-contracts" *ngIf="showFilterContracts && isFilterContractsExpanded">
     <div class="filter-header">
     <h3 >Filter Contracts</h3>
+
+
+                <div class="settings-dropdown-wrapper">
+  <!-- Three-dot button -->
+  <button
+    #anchor
+    class="activity-setting"
+    (click)="toggleSettingsPopup()"
+    (mouseenter)="hovering = true"
+    (mouseleave)="hovering = false"
+    [ngClass]="{ 'hover': hovering || showSettingsPopup }"
+  >
+    <span class="material-symbols-outlined">more_horiz</span>
+  </button>
+
+  <!-- Popup with submenu -->
+  <kendo-popup
+  *ngIf="showSettingsPopup"
+  [anchor]="anchor"
+  popupClass="kendo-settings-popup"
+  [anchorAlign]="{ horizontal: 'left', vertical: 'bottom' }"
+  [popupAlign]="{ horizontal: 'right', vertical: 'top' }"
+  [offset]="{ left: -170, top: 2 }"
+  [collision]="{ horizontal: 'fit', vertical: 'fit' }"
+>
+  <!-- Save Filter -->
+  <div class="popup-item" (click)="onSaveFilter()">
+    <span class="material-symbols-outlined icon">save</span>
+    <span class="text">Save Filter</span>
+  </div>
+
+  <!-- Load Filter with submenu -->
+  <div
+    class="popup-item has-submenu"
+    (mouseenter)="submenuOpen = true"
+    (mouseleave)="submenuOpen = false"
+  >
+    <div class="submenu-header">
+    <span class="material-symbols-outlined icon">filter_list</span>
+    <span class="text">Load Filter</span>
+    <span *ngIf="savedContractTreeFilters.length"  class="material-symbols-outlined submenu-arrow">chevron_right</span>
+  </div>
+
+    <!-- Submenu on left side -->
+
+    <div class="submenu" *ngIf="submenuOpen && savedContractTreeFilters.length">
+    <div
+      class="submenu-item"
+      *ngFor="let filter of savedContractTreeFilters"
+      (click)="onLoadFilter(filter)"
+    >
+      {{ filter }}
+    </div>
+  </div>
+    </div>
+
+  <!-- Instructions -->
+<div
+  class="popup-item"
+  kendoTooltip
+  [title]="tooltipText"
+  position="right"
+  tooltipClass="custom-tooltip"
+  (click)="onInstructions()"
+>
+  <span class="material-symbols-outlined icon">help</span>
+  <span class="text">Instructions to Use</span>
+</div>
+
+
+</kendo-popup>
+
+
+</div>
+
     <span
   class="material-symbols-outlined toggle-icon"
   (click)="toggleFilterContractsExpand()"
@@ -107,7 +182,7 @@
       <input
         #checkbox
         type="checkbox"
-        [checked]="isCurrentProjectsSelected"
+        [(ngModel)]="isCurrentProjectsSelected"
         (change)="toggleSelectAll($event)"
       />
       Current Projects

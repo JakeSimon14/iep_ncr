@@ -1,20 +1,25 @@
-import {  Component, EventEmitter, Output } from '@angular/core';
+import {  ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { HeaderComponent } from "../../shared/components/header/header.component";
 import { SidebarMenuComponent } from "../../shared/components/sidebar-menu/sidebar-menu.component";
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContractTree } from '../../model/contract-tree.model';
 import { Observable, of } from 'rxjs';
 import { ContractTreeService } from '../../service/contract-tree.service';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { SelectedContractService } from '../../service/selected-contract.service';
+import { PopupModule } from '@progress/kendo-angular-popup';
+import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'app-ncr-layout',
   standalone: true,
-  imports: [CommonModule,HeaderComponent, SidebarMenuComponent,CommonModule,RouterModule,TreeViewModule,ReactiveFormsModule,DropDownsModule],
+  imports: [CommonModule,FormsModule,HeaderComponent, SidebarMenuComponent,CommonModule,RouterModule,TreeViewModule,ReactiveFormsModule,DropDownsModule,
+    PopupModule,
+    TooltipModule
+  ],
   templateUrl: './ncr-layout.component.html',
   styleUrl: './ncr-layout.component.scss'
 })
@@ -54,7 +59,7 @@ selectedJobs = new Set<string>();
     private router : Router,
     //private selectionService: BreadcrumbSelectionService,
     private selectedContractService: SelectedContractService,
-    //private filterSelectionService: FilterSelectionService
+    private cdr: ChangeDetectorRef
   ) 
   {
     this.filterForm = this.fb.group({
@@ -90,13 +95,18 @@ selectedJobs = new Set<string>();
     //this.searchControl.valueChanges.subscribe(() => this.applyFilters());
 
      this.searchControl.valueChanges.subscribe(value => {
+      this.clearSelections();
          this.applySearch(value || '');
      });
 
 this.advancedSearchForm.valueChanges.subscribe(() => {
+  this.clearSelections();
   this.applySearch(this.searchControl.value || '');
 });
     
+ const saved = localStorage.getItem('ContractTreeFilters');
+  this.savedContractTreeFilters = saved ? JSON.parse(saved) : [];
+
   }
 
   ngAfterViewInit(): void {
@@ -105,7 +115,7 @@ this.advancedSearchForm.valueChanges.subscribe(() => {
 
 
   handleExpandEvent(isChildExpanded: boolean) {
-    debugger;
+   
 if(!this.isFilterContractsExpanded)
 {
     this.showFilterContracts = true; // Hide parent div when child expands
@@ -115,12 +125,16 @@ if(!this.isFilterContractsExpanded)
   }
 
   toggleFilterContractsExpand() {
-    debugger;
+   
     this.isFilterContractsExpanded = !this.showFilterContracts;
   }
 
   selectTab(index: number): void {
     this.activeTabIndex = index;
+
+ this.clearSelections();
+//this.cdr.detectChanges();
+  
     this.applyTabFilter();
   }
 
@@ -143,8 +157,8 @@ clearAdvancedFilters(): void {
 applyTabFilter(): void {
 
   this.advancedSearchForm.reset(); 
-  this.clearSelections();
-  debugger;
+  //this.clearSelections();
+ 
   switch (this.activeTabIndex) {
     case 0:
       this.filteredProjects = this.allProjects.filter(
@@ -165,11 +179,13 @@ applyTabFilter(): void {
 }
 
   clearSelections(): void {
-this.checkedKeys = [];
-    this.isCurrentProjectsSelected = false;
- this.selectedJobIds = [];
-    this.selectedJobs.clear();
-    this.isAllSelected = false;
+
+    
+     this.checkedKeys = [];
+  this.selectedJobIds = [];
+  this.selectedJobs.clear();
+  this.isAllSelected = false;
+  this.isCurrentProjectsSelected = false;
     this.emitSelectedContracts();
 }
 
@@ -250,7 +266,7 @@ applySearch(searchTerm: string): void {
 
 toggleSelectAll(event: Event): void {
   const checked = (event.target as HTMLInputElement).checked;
-
+debugger;
   if (checked) {
     const allIds = this.collectAllJobIds(this.filteredProjects);
     this.selectedJobIds = allIds;
@@ -306,6 +322,7 @@ private collectAllJobIds(projects: ContractTree[]): string[] {
 // }
 
 emitSelectedContracts(): void {
+  debugger;
   const selectedParents = this.getSelectedParentContracts();
   const selectedIds = this.getAllSelectedIds();
 
@@ -343,16 +360,63 @@ onCheckedKeysChange(checkedKeys: string[]): void {
   this.selectedJobIds = checkedKeys;
   this.selectedJobs = new Set(checkedKeys);
 
-  const allIds = this.collectAllJobIds(this.filteredProjects);
-  this.isAllSelected = checkedKeys.length > 0 && checkedKeys.length === allIds.length;
+  // Only consider visible projects for "select all" logic
+  const visibleIds = this.collectAllJobIds(this.filteredProjects);
+  this.isAllSelected = checkedKeys.length > 0 && checkedKeys.length === visibleIds.length;
 
-    this.isCurrentProjectsSelected = this.isAllSelected;
+  console.log(this.isAllSelected);
+  console.log("visible : "+ visibleIds);
 
+  // Keep Current Projects synced
+  this.isCurrentProjectsSelected = this.isAllSelected;
+debugger;
   this.emitSelectedContracts();
 }
 
 
 
+//------------------------
+//clear filter
+
+showSettingsPopup = false;
+submenuOpen = false;
+hovering = false;
+
+savedContractTreeFilters: string[] = [];
+
+tooltipText: string = `
+How to Use Filters:\n
+Select filters to narrow down data. Click Save Filter to save.
+Load Filter to apply saved settings.`;
+
+
+toggleSettingsPopup(): void {
+  this.showSettingsPopup = !this.showSettingsPopup;
+}
+
+onSaveFilter(): void {
+  console.log('Save Filter clicked');
+  this.showSettingsPopup = false;
+
+  const newFilter = `Saved Filter ${this.savedContractTreeFilters.length + 1}`;
+  this.savedContractTreeFilters.push(newFilter);
+  localStorage.setItem('ContractTreeFilters', JSON.stringify(this.savedContractTreeFilters));
+}
+
+onLoadFilter(name: string): void {
+  console.log('Load Filter:', name);
+  this.showSettingsPopup = false;
+}
+
+onInstructions(): void {
+  console.log('Instructions clicked');
+  this.showSettingsPopup = false;
+}
+
+
+
+
+//---------------------------------
  
   
 }

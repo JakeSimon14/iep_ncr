@@ -8,16 +8,16 @@ import { QualityActivityService } from '../../service/quality-activity.service';
 import { GridComponent, GridModule,ExcelModule} from '@progress/kendo-angular-grid';
 import { InputsModule } from "@progress/kendo-angular-inputs";
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { MultiCheckboxFilterComponent } from "./multi-checkbox-filter/multi-checkbox-filter.component";
-
-import { filterBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { ActivityGridComponent } from "../../shared/components/activity-grid/activity-grid.component";
+import { ActivityChartComponent } from "../../shared/components/activity-chart/activity-chart.component";
+import { PopupModule } from '@progress/kendo-angular-popup';
+import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, TabStripModule, GridModule, InputsModule, ReactiveFormsModule, DropDownsModule, MultiCheckboxFilterComponent, ExcelModule, ActivityGridComponent],
+  imports: [CommonModule, TabStripModule, GridModule, InputsModule, ReactiveFormsModule, DropDownsModule,PopupModule, ExcelModule, ActivityGridComponent, ActivityChartComponent,TooltipModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -34,6 +34,7 @@ export class DashboardComponent {
   gridData: any[] = [];   
   originalGridData: any[] = []; 
   filteredBaseData: any[] = []; 
+  chartData: any[] = [];
 
     @ViewChild('grid') grid!: GridComponent;
 
@@ -180,10 +181,14 @@ export class DashboardComponent {
 
   // Contract selection update
   this.selectedContractService.selectedContracts$.subscribe(data => {
+    debugger;
     this.selectedContracts = data.parents;
     this.selectedIds = data.ids;
     this.applyCombinedFilters();
   });
+
+  const saved = localStorage.getItem('GridFilters');
+  this.savedGridFilters = saved ? JSON.parse(saved) : [];
 
 
   }
@@ -240,12 +245,18 @@ applyCombinedFilters(): void {
   const searchTerm = this.searchForm.get('search')?.value?.trim().toLowerCase() || '';
   const selectedType = this.filterActivityForm.get('contentType')?.value;
 
+  // 🚫 Exit early if no contract is selected
+  if (!this.selectedIds || this.selectedIds.length === 0) {
+    this.gridData = [];
+    this.chartData = [];
+    this.filteredBaseData = [];
+    return;
+  }
+
   let filtered = [...this.originalGridData];
 
   // Step 1: Contract filter
-  if (this.selectedIds.length > 0) {
-    filtered = filtered.filter(item => this.selectedIds.includes(item.contractId));
-  }
+  filtered = filtered.filter(item => this.selectedIds.includes(item.contractId));
 
   // Step 2: Dropdown 'Type' filter
   if (selectedType) {
@@ -261,10 +272,12 @@ applyCombinedFilters(): void {
     );
   }
 
-  // Save intermediate filtered data
+  // Save filtered data
   this.filteredBaseData = [...filtered];
   this.gridData = [...filtered];
+  this.chartData = [...filtered];
 }
+
 
 
 
@@ -320,5 +333,49 @@ exportToExcel(): void {
  openKaizen(): void {
   window.open('https://www.google.com/', '_blank');
 }
+
+
+//------------------------
+//clear filter
+
+showSettingsPopup = false;
+submenuOpen = false;
+hovering = false;
+
+savedGridFilters: string[] = [];
+
+tooltipText: string = `
+How to Use Filters:\n
+Select filters to narrow down data. Click Save Filter to save.
+Load Filter to apply saved settings.`;
+
+
+toggleSettingsPopup(): void {
+  this.showSettingsPopup = !this.showSettingsPopup;
+}
+
+onSaveFilter(): void {
+  console.log('Save Filter clicked');
+  this.showSettingsPopup = false;
+
+  const newFilter = `Saved Filter ${this.savedGridFilters.length + 1}`;
+  this.savedGridFilters.push(newFilter);
+  localStorage.setItem('GridFilters', JSON.stringify(this.savedGridFilters));
+}
+
+onLoadFilter(name: string): void {
+  console.log('Load Filter:', name);
+  this.showSettingsPopup = false;
+}
+
+onInstructions(): void {
+  console.log('Instructions clicked');
+  this.showSettingsPopup = false;
+}
+
+
+
+
+//---------------------------------
 
 }

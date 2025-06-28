@@ -64,9 +64,84 @@
               <div class="filter-activities-title">Filter Activities</div>
               <div class="filter-activities-actions">
                 <button kendoButton fillMode="flat" themeColor="primary" class="clear-button" (click)="clearFilters()">Clear Filter</button>
+     
+     
+                <div class="settings-dropdown-wrapper">
+  <!-- Three-dot button -->
+  <button
+    #anchor
+    class="activity-setting"
+    (click)="toggleSettingsPopup()"
+    (mouseenter)="hovering = true"
+    (mouseleave)="hovering = false"
+    [ngClass]="{ 'hover': hovering || showSettingsPopup }"
+  >
+    <span class="material-symbols-outlined">more_horiz</span>
+  </button>
+
+  <!-- Popup with submenu -->
+  <kendo-popup
+  *ngIf="showSettingsPopup"
+  [anchor]="anchor"
+  popupClass="kendo-settings-popup"
+  [anchorAlign]="{ horizontal: 'left', vertical: 'bottom' }"
+  [popupAlign]="{ horizontal: 'right', vertical: 'top' }"
+  [offset]="{ left: -170, top: 2 }"
+  [collision]="{ horizontal: 'fit', vertical: 'fit' }"
+>
+  <!-- Save Filter -->
+  <div class="popup-item" (click)="onSaveFilter()">
+    <span class="material-symbols-outlined icon">save</span>
+    <span class="text">Save Filter</span>
+  </div>
+
+  <!-- Load Filter with submenu -->
+  <div
+    class="popup-item has-submenu"
+    (mouseenter)="submenuOpen = true"
+    (mouseleave)="submenuOpen = false"
+  >
+    <div class="submenu-header">
+    <span class="material-symbols-outlined icon">filter_list</span>
+    <span class="text">Load Filter</span>
+    <span *ngIf="savedGridFilters.length"  class="material-symbols-outlined submenu-arrow">chevron_right</span>
+  </div>
+
+    <!-- Submenu on left side -->
+
+    <div class="submenu" *ngIf="submenuOpen && savedGridFilters.length">
+    <div
+      class="submenu-item"
+      *ngFor="let filter of savedGridFilters"
+      (click)="onLoadFilter(filter)"
+    >
+      {{ filter }}
+    </div>
+  </div>
+    </div>
+
+  <!-- Instructions -->
+<div
+  class="popup-item"
+  kendoTooltip
+  [title]="tooltipText"
+  position="left"
+  tooltipClass="custom-tooltip"
+  (click)="onInstructions()"
+>
+  <span class="material-symbols-outlined icon">help</span>
+  <span class="text">Instructions to Use</span>
+</div>
+
+
+</kendo-popup>
+
+
+</div>
+
                 <button class="expand-button" (click)="toggleFilterActivityExpandView()">
                   <span class="material-symbols-outlined">
-                    {{ isFilterActivityExpandedView ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+                    {{ isFilterActivityExpandedView ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
                   </span>
                 </button>
               </div>
@@ -98,13 +173,27 @@
 
           <!-- Activities Grid -->
            <div class="activities-grid-section">
+            <!-- <ng-container [ngSwitch]="filterActivityForm.get('viewAs')?.value"> -->
+              <ng-container *ngIf="filterActivityForm.get('viewAs')?.value === 'Tabular'; else chartView">
         <app-activity-grid
+        
   [data]="gridData"
   [originalData]="originalGridData"
   [columns]="gridColumns"
   [fileName]="'NCR-Activities.xlsx'"
-  [searchableFields]="['ncrNumber', 'partId', 'productDescription', 'type']"
+  [searchableFields]="['ncrNumber', 'partId', 'productDescription','partNo', 'ncrArea','imputationCode','type']"
 ></app-activity-grid>
+
+<app-activity-chart
+  
+    [data]="gridData">
+  </app-activity-chart>
+
+</ng-container>
+
+<ng-template #chartView>
+  <app-activity-chart [data]="chartData"></app-activity-chart>
+</ng-template>
 </div>
         </ng-container>
 

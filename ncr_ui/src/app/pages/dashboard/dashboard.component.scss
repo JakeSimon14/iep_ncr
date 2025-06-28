@@ -96,6 +96,11 @@
   }
 }
 
+::ng-deep .k-tabstrip-top > .k-tabstrip-items-wrapper {
+    border-bottom-width: 1px;
+    margin-bottom: 6px;
+}
+
 /* Apply a default gray bottom border to all tab items */
 ::ng-deep .k-tabstrip-items-wrapper {
   border-bottom: 2px solid #DDE3E1;
@@ -181,7 +186,7 @@
 
 
 .selected-summary {
-  margin-bottom: 10px;
+  margin: 10px 0px;
   max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -296,6 +301,9 @@
   border: 1px solid lightgrey;
   border-radius: 2px;
 
+  ::ng-deep .k-picker-solid {
+    margin-bottom: 10px;
+  }
   .filter-activities-header {
     display: flex;
     justify-content: space-between;
@@ -317,10 +325,113 @@
       gap: 0.75rem;
 
       .clear-button {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: rgb(16 188 145);
+    font-size: 12px;
+    font-weight: 500;
+    color: #10bc91;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    &:hover {
+      color: #0da57f;
+    }
+  }
+
+
+.activity-setting {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 20px;
+  padding: 4px;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #eee;
+  }
+}
+
+.kendo-settings-popup {
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 4px 0;
+  width: 170px;
+  z-index: 1000;
+}
+
+.popup-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover {
+    background-color: #f4f4f4;
+  }
+
+  .icon {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #444;
+  }
+
+  .text {
+    flex: 1;
+    white-space: nowrap;
+    color: #333;
+  }
+
+  .submenu-arrow {
+    font-size: 18px;
+    color: #888;
+  }
+
+  .submenu-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+
+.has-submenu {
+    position: relative;
+
+    .submenu {
+      position: absolute;
+      top: 0;
+      left: -172px; 
+      background: white;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      padding: 4px 0;
+      width: 170px;
+      z-index: 1001;
+
+      .submenu-item {
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:hover {
+          background-color: #f4f4f4;
+        }
       }
+    }
+  }
+
+
+
 
       .expand-button {
         background: none;
@@ -353,6 +464,7 @@
       flex-direction: column;
       flex: 0 0 auto;
       min-width: 125px;
+      font-size: 11px;
     }
   }
 
@@ -576,4 +688,9 @@
   padding-left: 0 !important;
   margin-left: 0 !important;
   text-align: left;
+}
+
+::ng-deep .k-tabstrip .k-item:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
 }

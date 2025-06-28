@@ -9,7 +9,8 @@
     "partNo": "TB-T1",
     "ncrArea": "Mechanical",
     "imputationCode": "101",
-    "type": "Individual"
+    "type": "Individual",
+    "createdDate": "2025-05-14T00:00:00"
   },
   {
     "contractId": "2",
@@ -21,7 +22,8 @@
     "partNo": "RB-T1",
     "ncrArea": "Production",
     "imputationCode": "102",
-    "type": "Project"
+    "type": "Project",
+    "createdDate": "2025-06-01T00:00:00"
   },
   {
     "contractId": "3",
@@ -33,7 +35,8 @@
     "partNo": "TB-T2",
     "ncrArea": "Mechanical",
     "imputationCode": "105",
-    "type": "Project"
+    "type": "Project",
+    "createdDate": "2024-11-20T00:00:00"
   },
   {
     "contractId": "4",
@@ -45,7 +48,8 @@
     "partNo": "CP-T3",
     "ncrArea": "Assembly",
     "imputationCode": "103",
-    "type": "Office"
+    "type": "Office",
+    "createdDate": "2025-02-12T00:00:00"
   },
   {
     "contractId": "5",
@@ -57,7 +61,8 @@
     "partNo": "SH-TC1",
     "ncrArea": "Quality",
     "imputationCode": "104",
-    "type": "Individual"
+    "type": "Individual",
+    "createdDate": "2025-06-15T00:00:00"
   },
   {
     "contractId": "6",
@@ -69,7 +74,8 @@
     "partNo": "PN-T3",
     "ncrArea": "Electrical",
     "imputationCode": "106",
-    "type": "Office"
+    "type": "Office",
+    "createdDate": "2024-08-04T00:00:00"
   },
   {
     "contractId": "7",
@@ -81,6 +87,7 @@
     "partNo": "PS-TC2",
     "ncrArea": "Electronics",
     "imputationCode": "107",
-    "type": "Project"
+    "type": "Project",
+    "createdDate": "2025-04-27T00:00:00"
   }
 ]

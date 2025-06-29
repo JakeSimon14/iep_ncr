@@ -60,7 +60,7 @@
         }
 
         &:last-child .material-symbols-outlined {
-          color: #0070d2;
+          color: black;
         }
       }
     }
@@ -75,5 +75,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer !important;
+  margin-left: 8px;
+  color: #333;
 }
 

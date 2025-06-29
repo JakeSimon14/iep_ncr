@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GridModule,ExcelModule, GridComponent } from '@progress/kendo-angular-grid';
@@ -28,12 +28,16 @@ export class ActivityGridComponent {
   @Input() columns: { field: string; title: string; width?: number; filterable?: boolean }[] = [];
   @Input() fileName = 'NCRTabularData.xlsx';
   @Input() searchableFields: string[] = [];
+  @Input() fromChartClick: boolean = false;
+  @Input() chartFilterLabel: string = ''
 
   @ViewChild('excelExport', { static: false }) excelExport!: ExcelExportComponent;
+  @Output() chartFilterCleared = new EventEmitter<void>();
 
   searchForm: FormGroup;
   filteredData: any[] = [];
   isExpandedView = false;
+  
 
   constructor(private fb: FormBuilder) {
     this.searchForm = this.fb.group({
@@ -85,4 +89,9 @@ export class ActivityGridComponent {
   }
   return Array.from(uniqueValues);
 }
+
+onClearChartFilter(): void {
+  this.chartFilterCleared.emit();
+}
+
 }

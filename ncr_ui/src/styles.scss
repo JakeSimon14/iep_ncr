@@ -3,6 +3,12 @@ body {
   margin: 0px;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
 
 
 // === Selected Item Style in DropDown Input ===
@@ -23,3 +29,4 @@ body {
   background-color: #bbdefb !important;
   color: #0d47a1 !important;
 }
+

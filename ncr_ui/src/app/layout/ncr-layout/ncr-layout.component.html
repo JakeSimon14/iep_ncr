@@ -222,7 +222,7 @@
    <div *ngIf="filteredProjects.length === 0" class="no-data-message">
         No data found!
       </div>
-
+<div class="treeview-scroll-container">
 <kendo-treeview
   [nodes]="filteredProjects"
     [kendoTreeViewCheckable]="{ mode: 'multiple', checkChildren: true }"
@@ -256,7 +256,7 @@
     </div>
   </ng-template>
 </kendo-treeview>
-
+</div>
 </div>
 
     <!--<kendo-textbox placeholder="Search..."></kendo-textbox>

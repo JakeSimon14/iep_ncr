@@ -22,6 +22,8 @@ logout(event: MouseEvent): void {
     localStorage.removeItem('GridFiltersData');
     localStorage.removeItem('GridFilters');
 
+     localStorage.removeItem('ContractTreeFilters');
+
     this.router.navigate(['/login']);
   }
 

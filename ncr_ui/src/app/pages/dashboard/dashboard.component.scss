@@ -199,9 +199,9 @@
   font-weight: bold;
 }
 
-.selected-line {
-  display: inline-block;
-}
+// .selected-line {
+//   //display: inline-block;
+// }
 
 
 .reassign-alert {
@@ -702,6 +702,8 @@
 }
 
 
-
+::ng-deep .k-tabstrip-content, .k-tabstrip > .k-content {
+   overflow: hidden !important;
+}
 
 

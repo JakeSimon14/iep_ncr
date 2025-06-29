@@ -1,12 +1,13 @@
 
   <div class="activities-header">
     <div class="title-section">
-      <h4>Activities</h4>
-      <span class="result-count">Result: {{ filteredData.length }} Activities</span>
+      <h4 *ngIf="!fromChartClick">Activities</h4>
+      <span *ngIf="!fromChartClick" class="result-count">Result: {{ filteredData.length }} Activities</span>
+      <h4 *ngIf="fromChartClick">Tabular View {{ chartFilterLabel }}</h4>
     </div>
 
     <div class="toolbar-section">
-      <form [formGroup]="searchForm" class="search-form">
+      <form [formGroup]="searchForm" class="search-form" *ngIf="!fromChartClick">
         <kendo-textbox formControlName="search" placeholder="Search in all column" icon="search"></kendo-textbox>
       </form>
      <button type="button" (click)="excelExport.save()">
@@ -18,7 +19,11 @@
           {{ isExpandedView ? 'close_fullscreen' : 'fullscreen_exit' }}
         </span>
       </button>
-      <span class="material-symbols-outlined">settings</span>
+      <span title="Settings" class="material-symbols-outlined">settings</span>
+
+       <button *ngIf="fromChartClick" type="button" (click)="onClearChartFilter()" title="Close" class="close-button">
+    <span class="material-symbols-outlined">close</span>
+  </button>
     </div>
   </div>
 

@@ -31,6 +31,8 @@ loginForm: FormGroup;
 
     localStorage.removeItem('GridFiltersData');
     localStorage.removeItem('GridFilters');
+
+    localStorage.removeItem('ContractTreeFilters');
   }
 
   onSubmit(): void {

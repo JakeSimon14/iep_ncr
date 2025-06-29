@@ -33,9 +33,11 @@ export class DashboardComponent {
   selectedIds: string[] = [];
   gridData: any[] = [];   
   originalGridData: any[] = []; 
-  filteredBaseData: any[] = []; 
+  filteredBaseData: any[] = [];
+
   chartData: any[] = [];
   chartFilteredGridData: any[] = [];
+  chartFilterLabel: string = '';
 
     @ViewChild('grid') grid!: GridComponent;
 
@@ -415,11 +417,30 @@ onInstructions(): void {
 
 //---------------------------------
 
+//----------Chart items
+
 onChartBarClick(filtered: any[]): void {
   console.log('Chart bar clicked - dashboard handler triggered:', filtered);
 
   this.chartFilteredGridData = filtered;
   this.filterActivityForm.get('viewAs')?.setValue('Tabular');
+
+  if (filtered.length > 0) {
+    const first = new Date(filtered[0].createdDate);
+    const month = first.toLocaleString('en-US', { month: 'long' });
+    const year = first.getFullYear();
+    this.chartFilterLabel = `${month} ${year}`;
+  } else {
+    this.chartFilterLabel = '';
+  }
 }
+
+clearChartFilter(): void {
+  this.chartFilteredGridData = [];
+  this.chartFilterLabel = '';
+  this.filterActivityForm.get('viewAs')?.setValue('Chart');
+}
+
+//-----------------------------
 
 }

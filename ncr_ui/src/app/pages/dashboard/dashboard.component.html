@@ -180,6 +180,9 @@
       [columns]="gridColumns"
       [fileName]="'NCR-Activities.xlsx'"
       [searchableFields]="['ncrNumber', 'partId', 'productDescription','partNo', 'ncrArea','imputationCode','type']"
+      [fromChartClick]="chartFilteredGridData.length > 0"
+      [chartFilterLabel]="chartFilterLabel"
+  (chartFilterCleared)="clearChartFilter()"
     ></app-activity-grid>
   </ng-container>
 

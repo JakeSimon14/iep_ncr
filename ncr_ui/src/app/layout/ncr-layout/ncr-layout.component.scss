@@ -25,29 +25,31 @@ $padding-lg: 16px;
   height: 96vh;
 
   .main-columns {
-    display: flex;
-    flex: 1;
-    min-height: 0;
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
 
     .left-side-menu {
-      display: flex;
+       display: flex;
       flex-direction: column;
-          border-right: 1px solid $gray-border;
+      height: 100%;
+      border-right: 1px solid $gray-border;
+      border-bottom: 1px solid $gray-border;
     }
 
     .filter-contracts {
-      background: $white;
+        background: $white;
       border-right: 1px solid $gray-border;
-      //border-left: 1px solid $gray-border;
-      
-      //padding: $padding-sm;
+      border-bottom: 1px solid $gray-border; // ✅ ensure visible bottom border
       height: 100%;
       display: flex;
       flex-direction: column;
       width: 250px;
       transition: width 0.3s ease;
 
-      &.collapsed {
+        &.collapsed {
         width: 40px;
         padding: 1rem 0.5rem;
         align-items: center;
@@ -66,9 +68,18 @@ $padding-lg: 16px;
         }
       }
 
-      .filter-header{
+      .filter-header {
         border-bottom: 1px solid $gray-border;
         height: 65px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 8px;
+
+        .toggle-icon {
+          cursor: pointer;
+          font-size: 24px;
+        }
       }
 
       .activity-setting {
@@ -555,3 +566,14 @@ $padding-lg: 16px;
     color: gray;
     padding: 10px;
 }
+
+::ng-deep .k-tabstrip-content, .k-tabstrip > .k-content {
+   overflow: hidden !important;
+}
+
+.treeview-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  max-height: calc(100vh - 350px); // adjust based on actual available space
+}
+

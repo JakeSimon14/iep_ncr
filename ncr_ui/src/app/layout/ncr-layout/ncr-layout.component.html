@@ -38,9 +38,11 @@
   [collision]="{ horizontal: 'fit', vertical: 'fit' }"
 >
 
-  <div class="popup-item" (click)="excelExport.save()">
-    <span class="material-symbols-outlined icon">save</span>
-    <span class="text">Export Contracts</span>
+  <div class="popup-item" (click)="excelExport.save()" >
+    <!-- <span class="material-symbols-outlined icon">save</span>-->
+
+     <img src="assets/images/export-contract.png" class="export-contract" alt="Excel Export" />
+         <span class="text">Export Contracts</span>
   </div>
 
   <!-- Save Filter -->
@@ -190,6 +192,7 @@
         [data]="projectStatuses"
         [placeholder]="'Select Status'"
         [valuePrimitive]="true"
+         [popupSettings]="{ popupClass: 'custom-kendo-popup' }"
       ></kendo-multiselect>
     </div>
 
@@ -200,6 +203,8 @@
         [data]="drivers"
         [placeholder]="'Select Driver'"
         [valuePrimitive]="true"
+        [tagMapper]="commaTagMapper"
+         [popupSettings]="{ popupClass: 'custom-kendo-popup' }"
       ></kendo-multiselect>
     </div>
 

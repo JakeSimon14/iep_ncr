@@ -598,3 +598,20 @@ $padding-lg: 16px;
   background-color: #048367 !important;
   color: white !important;
 }
+
+ .export-contract {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
+  width: auto;
+  padding: 0;
+   margin-right: 10px;
+  cursor: pointer;
+
+  img {
+    height: 100%;
+    width: auto;
+    display: block;
+  }
+}

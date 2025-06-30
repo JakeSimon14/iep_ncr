@@ -176,6 +176,7 @@ export class DashboardComponent {
   this.qualityService.getActivityData().subscribe({
     next: (data) => {
       this.originalGridData = data;
+      debugger;
       //this.applyCombinedFilters(); // Initial filter
     },
     error: (err) => {

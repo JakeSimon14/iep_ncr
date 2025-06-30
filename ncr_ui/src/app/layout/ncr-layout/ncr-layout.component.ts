@@ -137,6 +137,12 @@ this.filterVisibilityService.filterContractsVisible$.subscribe(visible => {
     //this.fetchFilterItems();
   }
 
+commaTagMapper = (tags: any[]) => {
+  return tags.length
+    ? [{ text: tags.join(', '), data: tags }]
+    : [];
+};
+
 
   handleExpandEvent(isChildExpanded: boolean) {
    

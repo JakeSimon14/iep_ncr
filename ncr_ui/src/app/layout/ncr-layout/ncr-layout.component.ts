@@ -1,4 +1,4 @@
-import {  ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import {  ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { HeaderComponent } from "../../shared/components/header/header.component";
 import { SidebarMenuComponent } from "../../shared/components/sidebar-menu/sidebar-menu.component";
 import { Router, RouterModule } from '@angular/router';
@@ -12,19 +12,26 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { SelectedContractService } from '../../service/selected-contract.service';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
+import { FilterVisibilityService } from '../../service/filter-visibility.service';
+import { ExcelExportComponent } from '@progress/kendo-angular-excel-export';
+import { ExcelModule } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-ncr-layout',
   standalone: true,
   imports: [CommonModule,FormsModule,HeaderComponent, SidebarMenuComponent,CommonModule,RouterModule,TreeViewModule,ReactiveFormsModule,DropDownsModule,
     PopupModule,
-    TooltipModule
+    TooltipModule,
+    ExcelExportComponent,
+    ExcelModule
   ],
   templateUrl: './ncr-layout.component.html',
   styleUrl: './ncr-layout.component.scss'
 })
 export class NcrLayoutComponent {
 
+   @ViewChild('excelExport', { static: false }) excelExport!: ExcelExportComponent;
+   
   showFilterContracts = true;
 
   isFilterContractsExpanded = true;
@@ -52,6 +59,15 @@ export class NcrLayoutComponent {
 selectedJobIds: string[] = [];
 selectedJobs = new Set<string>();
 
+ columns = [
+  { field: 'contractname', title: 'Contract Name', width: 120 },
+  { field: 'jobnumber', title: 'Job Number' },
+  { field: 'deliveryYear', title: 'Delivery Year' },
+  { field: 'racYear', title: 'RAC Year', width: 100 },
+  { field: 'projectStatus', title: 'Status', width: 140 },
+  { field: 'driver', title: 'Driver', width: 100 }
+];
+
   constructor(
     
     private contractService: ContractTreeService ,
@@ -59,6 +75,7 @@ selectedJobs = new Set<string>();
     private router : Router,
     //private selectionService: BreadcrumbSelectionService,
     private selectedContractService: SelectedContractService,
+    private filterVisibilityService: FilterVisibilityService,
     private cdr: ChangeDetectorRef
   ) 
   {
@@ -69,7 +86,7 @@ selectedJobs = new Set<string>();
     this.advancedSearchForm = this.fb.group({
     deliveryYear: [null],
     racYear: [null],
-    projectStatus: [[]],  // Changed to array
+    projectStatus: [[]],  
     driver: [[]] 
   });
   }
@@ -108,6 +125,12 @@ this.advancedSearchForm.valueChanges.subscribe(() => {
   //this.savedContractTreeFilters = saved ? JSON.parse(saved) : [];
 const saved = JSON.parse(localStorage.getItem('ContractTreeFilters') || '[]');
 this.savedContractTreeFilters = saved.map((f: any) => f.name);
+
+this.filterVisibilityService.filterContractsVisible$.subscribe(visible => {
+  this.isFilterContractsExpanded = visible;
+  this.showFilterContracts = visible;
+});
+
   }
 
   ngAfterViewInit(): void {
@@ -267,7 +290,7 @@ applySearch(searchTerm: string): void {
 
 toggleSelectAll(event: Event): void {
   const checked = (event.target as HTMLInputElement).checked;
-debugger;
+
   if (checked) {
     const allIds = this.collectAllJobIds(this.filteredProjects);
     this.selectedJobIds = allIds;
@@ -323,7 +346,7 @@ private collectAllJobIds(projects: ContractTree[]): string[] {
 // }
 
 emitSelectedContracts(): void {
-  debugger;
+
   const selectedParents = this.getSelectedParentContracts();
   const selectedIds = this.getAllSelectedIds();
 
@@ -370,7 +393,7 @@ onCheckedKeysChange(checkedKeys: string[]): void {
 
   // Keep Current Projects synced
   this.isCurrentProjectsSelected = this.isAllSelected;
-debugger;
+
   this.emitSelectedContracts();
 }
 
@@ -416,8 +439,7 @@ onSaveFilter(): void {
 
   const savedFilter = {
     name: `Saved Filter ${this.savedContractTreeFilters.length + 1}`,
-    //tabIndex: this.activeTabIndex,
-    search: this.searchControl.value,
+    //search: this.searchControl.value,
     form: this.advancedSearchForm.value,
     //selectedJobIds: [...this.selectedJobIds]
   };
@@ -436,11 +458,10 @@ onLoadFilter(name: string): void {
    const savedFilters = JSON.parse(localStorage.getItem('ContractTreeFilters') || '[]');
   const selected = savedFilters.find((f: any) => f.name === name);
 
-  debugger;
+
   if (!selected) return;
 
-  //this.activeTabIndex = selected.tabIndex;
-  this.searchControl.setValue(selected.search || '');
+  //this.searchControl.setValue(selected.search || '');
   // this.advancedSearchForm.patchValue(selected.form || {});
 setTimeout(() => {
   this.advancedSearchForm.patchValue({

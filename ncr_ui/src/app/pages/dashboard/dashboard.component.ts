@@ -12,6 +12,7 @@ import { ActivityGridComponent } from "../../shared/components/activity-grid/act
 import { ActivityChartComponent } from "../../shared/components/activity-chart/activity-chart.component";
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
+import { FilterVisibilityService } from '../../service/filter-visibility.service';
 
 
 @Component({
@@ -100,8 +101,8 @@ export class DashboardComponent {
   constructor(
     private fb: FormBuilder,
     private selectedContractService: SelectedContractService,
-    private qualityService: QualityActivityService
-    //private gridMockService: MockDashboardService
+    private qualityService: QualityActivityService,
+    private filterVisibilityService: FilterVisibilityService
   ) {
     this.searchForm = this.fb.group({
       search: ['']
@@ -184,7 +185,7 @@ export class DashboardComponent {
 
   // Contract selection update
   this.selectedContractService.selectedContracts$.subscribe(data => {
-    debugger;
+  
     this.selectedContracts = data.parents;
     this.selectedIds = data.ids;
     this.applyCombinedFilters();
@@ -193,7 +194,15 @@ export class DashboardComponent {
   const saved = localStorage.getItem('GridFilters');
   this.savedGridFilters = saved ? JSON.parse(saved) : [];
 
-
+ this.filterVisibilityService.filterActivityVisible$.subscribe(visible => {
+  debugger;
+      if (visible) {
+      // Reset to collapsed even if visibility is true
+      this.isFilterActivityExpandedView = false;
+    }
+    else
+    this.isFilterActivityExpandedView = true;
+    });
   }
 
   toggleExpandView(): void {
@@ -202,9 +211,22 @@ export class DashboardComponent {
     this.selectedContractService.toggleFilterPanelVisibility.next(!this.isExpandedView);
   }
 
-  toggleFilterActivityExpandView(): void {
-    this.isFilterActivityExpandedView = !this.isFilterActivityExpandedView;
-  }
+ toggleFilterActivityExpandView(): void {
+  //this.isFilterActivityExpandedView = !this.isFilterActivityExpandedView;
+debugger;
+  this.filterVisibilityService.filterActivityVisible$.subscribe((visible) => {
+    debugger;
+    if (visible) {
+   
+      this.isFilterActivityExpandedView = false;
+    }
+    else
+    this.isFilterActivityExpandedView = true;
+  });
+
+  this.filterVisibilityService.setFilterActivityVisible(this.isFilterActivityExpandedView);
+}
+
 
   clearFilters(): void {
 
@@ -248,7 +270,6 @@ applySearch(searchTerm: string): void {
 
 applyCombinedFilters(): void {
 
-  debugger;
   const searchTerm = this.searchForm.get('search')?.value?.trim().toLowerCase() || '';
   const selectedType = this.filterActivityForm.get('contentType')?.value;
 
@@ -391,7 +412,7 @@ onLoadFilter(name: string): void {
 
   const savedFilters = JSON.parse(localStorage.getItem('GridFiltersData') || '[]');
   const match = savedFilters.find((f: any) => f.name === name);
-debugger;
+
   if (match) {
     this.filterActivityForm.patchValue(match.formValues || {});
     //this.searchForm.patchValue({ search: match.searchTerm || '' });

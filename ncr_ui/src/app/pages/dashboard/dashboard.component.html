@@ -39,7 +39,7 @@
             [breadcrumbs]="selectedBreadcrumb">
           </app-breadcrumb> -->
 
-      <div *ngIf="selectedContracts.length > 0" class="selected-summary" [title]="getSelectedContractsTooltip()">
+      <div *ngIf="selectedContracts.length > 0 && !isFilterActivityExpandedView" class="selected-summary" [title]="getSelectedContractsTooltip()">
   <span class="selected-line">
     {{ getSelectedContractsInline() }}...
   </span>
@@ -47,7 +47,7 @@
 
 
 
-          <div class="reassign-alert" *ngIf="hasReassignRequests && !isExpandedView">
+          <div class="reassign-alert" *ngIf="hasReassignRequests && !isFilterActivityExpandedView">
             <div class="alert-text">
               <span class="material-symbols-outlined">notification_important</span>
               You have received <strong>3 primary resource re-assignment requests</strong>
@@ -155,7 +155,8 @@
       <kendo-dropdownlist
         *ngSwitchCase="'dropdown'"
         [formControlName]="control.name"
-        [data]="control.data">
+        [data]="control.data"
+         [popupSettings]="{ popupClass: 'custom-kendo-popup' }">
       </kendo-dropdownlist>
 
       <kendo-multiselect

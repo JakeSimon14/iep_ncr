@@ -5,6 +5,7 @@ import { GridModule,ExcelModule, GridComponent } from '@progress/kendo-angular-g
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { MultiCheckboxFilterComponent } from "../../../pages/dashboard/multi-checkbox-filter/multi-checkbox-filter.component";
 import { ExcelExportComponent } from '@progress/kendo-angular-excel-export';
+import { FilterVisibilityService } from '../../../service/filter-visibility.service';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class ActivityGridComponent {
   isExpandedView = false;
   
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private filterVisibilityService: FilterVisibilityService) {
     this.searchForm = this.fb.group({
       search: ['']
     });
@@ -56,9 +57,20 @@ export class ActivityGridComponent {
     this.filteredData = [...this.data];
   }
 
-  toggleExpandView(): void {
-    this.isExpandedView = !this.isExpandedView;
+ toggleExpandView(): void {
+  this.isExpandedView = !this.isExpandedView;
+
+  if (this.isExpandedView) {
+    //collapse side panels
+    this.filterVisibilityService.collapseFilters();
+     this.filterVisibilityService.setFilterActivityVisible(false);
+  } else {
+    //show side panels again
+    this.filterVisibilityService.expandFilters();
+     this.filterVisibilityService.setFilterActivityVisible(true);
   }
+}
+
 
   exportToExcel(grid: GridComponent): void {
     if (grid) {

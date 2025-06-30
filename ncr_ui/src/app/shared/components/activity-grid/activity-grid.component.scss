@@ -85,3 +85,11 @@
   color: #333;
 }
 
+::ng-deep .k-button-flat-primary {
+    color: #147D64;
+}
+
+::ng-deep .k-grid-header .k-grid-filter.k-active, .k-grid-header .k-header-column-menu.k-active, .k-grid-header .k-grid-header-menu.k-active, .k-grid-header .k-hierarchy-cell .k-icon.k-active {
+    color: var(--kendo-color-on-primary, #ffffff);
+    background-color: green !important;
+}

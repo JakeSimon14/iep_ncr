@@ -116,7 +116,7 @@
   color: #6C6C6C;
 }
  
-/* ✅ Style selected tab only */
+/* Style selected tab only */
 ::ng-deep .k-tabstrip-items-wrapper .k-item.k-active,
 ::ng-deep .k-tabstrip-items-wrapper .k-item.k-selected {
   color: black !important;
@@ -233,7 +233,7 @@
       color: rgb(192, 3, 3);
       font-weight: bold;
       margin-left: 0.5rem;
-      
+          text-decoration: none;
     }
   }
 
@@ -378,7 +378,7 @@
   font-size: 14px;
 
   &:hover {
-    background-color: #f4f4f4;
+    background-color: #b0eed1; 
   }
 
   .icon {
@@ -430,7 +430,7 @@
     font-size: smaller;
 
         &:hover {
-          background-color: #f4f4f4;
+          background-color:#b0eed1; //light hover green
         }
       }
     }
@@ -658,13 +658,13 @@
     background: conic-gradient(#02a783 calc(var(--percentage) * 1%), #e0e0e0 0);
  
     position: relative;
-    padding: 2px; // keep or adjust if needed
+    padding: 2px; 
  
     &::before {
       content: '';
       position: absolute;
-      width: 31px;    // made it larger (was 28px)
-      height: 31px;   // made it larger (was 28px)
+      width: 31px;  
+      height: 31px;  
       border-radius: 50%;
       background-color: #ecf0f1;
       z-index: 1;
@@ -707,3 +707,25 @@
 }
 
 
+.custom-dropdown
+{
+ background-color: white;
+ font-size: 12px;
+ //border: 1px solid rgb(209, 205, 205);
+}
+
+::ng-deep .custom-kendo-popup .k-list-item
+{
+   font-size: 12px;
+}
+ 
+::ng-deep .custom-kendo-popup .k-list-item:hover {
+  background-color: #b0eed1 !important;
+  color: black !important;
+  //border: 1px solid lightgray !important;
+}
+ 
+::ng-deep .custom-kendo-popup .k-selected {
+  background-color: #048367 !important;
+  color: white !important;
+}

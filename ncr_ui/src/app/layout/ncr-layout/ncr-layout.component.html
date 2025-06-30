@@ -37,6 +37,12 @@
   [offset]="{ left: -170, top: 2 }"
   [collision]="{ horizontal: 'fit', vertical: 'fit' }"
 >
+
+  <div class="popup-item" (click)="excelExport.save()">
+    <span class="material-symbols-outlined icon">save</span>
+    <span class="text">Export Contracts</span>
+  </div>
+
   <!-- Save Filter -->
   <div class="popup-item" (click)="onSaveFilter()">
     <span class="material-symbols-outlined icon">save</span>
@@ -162,6 +168,7 @@
         [data]="deliveryYears"
         [defaultItem]="'Select Year'"
         [valuePrimitive]="true"
+         [popupSettings]="{ popupClass: 'custom-kendo-popup' }"
       ></kendo-dropdownlist>
     </div>
 
@@ -172,6 +179,7 @@
         [data]="racYears"
         [defaultItem]="'Select Year'"
         [valuePrimitive]="true"
+         [popupSettings]="{ popupClass: 'custom-kendo-popup' }"
       ></kendo-dropdownlist>
     </div>
 
@@ -256,6 +264,20 @@
     </div>
   </ng-template>
 </kendo-treeview>
+
+  <kendo-excelexport
+  #excelExport
+  [data]="filteredProjects"
+  [fileName]="'ContractsData.xlsx'"
+>
+  <kendo-excelexport-column
+    *ngFor="let col of columns"
+    [field]="col.field"
+    [title]="col.title"
+     [width]="col.width ?? 150"
+  >
+  </kendo-excelexport-column>
+  </kendo-excelexport>
 </div>
 </div>
 

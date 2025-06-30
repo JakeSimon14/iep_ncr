@@ -5,12 +5,6 @@ import { KENDO_INPUTS } from "@progress/kendo-angular-inputs";
 import { KENDO_LABEL } from "@progress/kendo-angular-label";
 import { distinct,filterBy, FilterDescriptor} from "@progress/kendo-data-query";
 
-/**
- * NOTE: Interface declaration here is for demo compilation purposes only!
- * In the usual case include it as an import from the data query package:
- *
- * import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
- */
 interface CompositeFilterDescriptor {
   logic: "or" | "and";
   filters: Array<any>;
@@ -48,7 +42,7 @@ public valueAccessor = (dataItem: unknown): unknown =>
 ngAfterViewInit(): void {
   this.currentData = this.data ?? [];
 
-  // Get initial values from currentFilter
+
   const filters = (this.currentFilter?.filters ?? []) as FilterDescriptor[];
 
   this.value = filters.map((f) => f.value);
@@ -109,7 +103,7 @@ public onSelectionChange(item: unknown, li: HTMLLIElement): void {
       ul.scrollTop + ul.offsetHeight < li.offsetTop + li.offsetHeight;
     const above = li.offsetTop < ul.scrollTop;
 
-    // Scroll to focused checkbox
+    
     if (above) {
       ul.scrollTop = li.offsetTop;
     }

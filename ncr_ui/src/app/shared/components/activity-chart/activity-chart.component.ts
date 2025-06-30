@@ -62,7 +62,7 @@ onSeriesClick(e: any): void {
     return key === clickedCategory;
   });
 
-  console.log('Bar clicked for category:', clickedCategory); // Check this works
+  console.log('Bar clicked for category:', clickedCategory); 
   debugger;
   this.barClick.emit(filtered);
 }

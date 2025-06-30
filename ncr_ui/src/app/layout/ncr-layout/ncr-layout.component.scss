@@ -42,7 +42,7 @@ $padding-lg: 16px;
     .filter-contracts {
         background: $white;
       border-right: 1px solid $gray-border;
-      border-bottom: 1px solid $gray-border; // ✅ ensure visible bottom border
+      border-bottom: 1px solid $gray-border;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -119,7 +119,7 @@ $padding-lg: 16px;
   font-size: 14px;
 
   &:hover {
-    background-color: #f4f4f4;
+    background-color: #b0eed1; 
   }
 
   .icon {
@@ -171,7 +171,7 @@ $padding-lg: 16px;
     font-size: smaller;
 
         &:hover {
-          background-color: #f4f4f4;
+          background-color: #b0eed1; 
         }
       }
     }
@@ -182,7 +182,7 @@ $padding-lg: 16px;
 
   .last-upload-submenu-outer {
     position: absolute;
-    top: 100%; // Position below the popup
+    top: 100%; 
     left: 0;
     width: 280px;
     background: white;
@@ -258,7 +258,7 @@ $padding-lg: 16px;
   }
 }
 
-// Styles the Advanced Search Panel
+
 .advanced-search-panel {
     padding: 7px;
     background: #f9f9f9;
@@ -301,7 +301,6 @@ $padding-lg: 16px;
     font-weight: bold;
     }
 
-    // Applies to both DropdownList and MultiSelect
     kendo-dropdownlist,
     kendo-multiselect {
       width: 100%;
@@ -326,13 +325,13 @@ $padding-lg: 16px;
       }
 
       ::ng-deep .k-input::after {
-        content: ' -'; // adds hyphen after selected value
+        content: ' -';
         color: #666;
         font-weight: bold;
         padding-left: 0.25rem;
       }
 
-      // Adjust placeholder and text color
+     
       ::ng-deep .k-input,
       ::ng-deep .k-input-inner {
         color: #1a1a1a !important;
@@ -521,7 +520,7 @@ $padding-lg: 16px;
 
 .tab-content ::ng-deep .k-rounded-md {
   border-radius: 0px !important;
-  border: 2px solid gray;
+  border: 2px solid #147D64;
 }
 
 .current-projects {
@@ -577,3 +576,25 @@ $padding-lg: 16px;
   max-height: calc(100vh - 350px); // adjust based on actual available space
 }
 
+.custom-dropdown
+{
+ background-color: white;
+ font-size: 12px;
+ //border: 1px solid rgb(209, 205, 205);
+}
+
+::ng-deep .custom-kendo-popup .k-list-item
+{
+   font-size: 12px;
+}
+ 
+::ng-deep .custom-kendo-popup .k-list-item:hover {
+  background-color: #b0eed1 !important;
+  color: black !important;
+  //border: 1px solid lightgray !important;
+}
+ 
+::ng-deep .custom-kendo-popup .k-selected {
+  background-color: #048367 !important;
+  color: white !important;
+}

@@ -514,13 +514,13 @@ $padding-lg: 16px;
 
 :host ::ng-deep .k-checkbox:checked,
 :host ::ng-deep .k-checkbox.k-checked {
-  border-color: $green-primary;
+  border-color: $green-primary !important;
   background-color: $green-primary;
 }
 
 .tab-content ::ng-deep .k-rounded-md {
   border-radius: 0px !important;
-  border: 2px solid #147D64;
+  border: 2px solid gray;
 }
 
 .current-projects {
@@ -543,7 +543,8 @@ $padding-lg: 16px;
     cursor: pointer;
 
     &:checked {
-      background-color: #147D64;;
+      background-color: #147D64;
+       border-color: $green-primary !important;
     }
 
     &:checked::after {
@@ -615,3 +616,4 @@ $padding-lg: 16px;
     display: block;
   }
 }
+

@@ -169,7 +169,26 @@ if(!this.isFilterContractsExpanded)
   }
 
   toggleFavourite(item: ContractTree): void {
-    item.isFavourite = !item.isFavourite;
+    //item.isFavourite = !item.isFavourite;
+
+ const updateInTree = (nodes: ContractTree[]): boolean => {
+    for (const node of nodes) {
+      if (node.id === item.id) {
+        node.isFavourite = !node.isFavourite;
+        return true;
+      }
+
+      if (node.children?.length && updateInTree(node.children)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // ✅ Update the main source of truth
+  updateInTree(this.allProjects);
+   updateInTree(this.filteredProjects);
+
   }
 
   onMenuChange(route: string): void {

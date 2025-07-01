@@ -22,7 +22,7 @@ $padding-lg: 16px;
 .page-container {
   display: flex;
   flex-direction: column;
-  height: 96vh;
+  height: 100vh;
 
   .main-columns {
   display: flex;
@@ -574,7 +574,7 @@ $padding-lg: 16px;
 .treeview-scroll-container {
   flex: 1;
   overflow-y: auto;
-  max-height: calc(100vh - 350px); // adjust based on actual available space
+  max-height: calc(100vh - 300px); // adjust based on actual available space
 }
 
 .custom-dropdown

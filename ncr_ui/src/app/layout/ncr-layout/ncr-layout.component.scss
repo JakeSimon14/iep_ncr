@@ -617,3 +617,8 @@ $padding-lg: 16px;
   }
 }
 
+::ng-deep .k-tabstrip-content:focus, .k-tabstrip-content.k-focus, .k-tabstrip > .k-content:focus, .k-tabstrip > .k-content.k-focus {
+    outline-width: 1px;
+    outline-style: none;
+    outline-offset: -1px;
+}

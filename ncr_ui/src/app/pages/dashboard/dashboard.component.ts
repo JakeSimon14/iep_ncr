@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { TabStripModule  } from '@progress/kendo-angular-layout';
 import { SelectedContractService } from '../../service/selected-contract.service';
 import { ContractTree } from '../../model/contract-tree.model';
@@ -13,12 +13,12 @@ import { ActivityChartComponent } from "../../shared/components/activity-chart/a
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { FilterVisibilityService } from '../../service/filter-visibility.service';
-
+import { DialogModule } from '@progress/kendo-angular-dialog';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, TabStripModule, GridModule, InputsModule, ReactiveFormsModule, DropDownsModule,PopupModule, ExcelModule, ActivityGridComponent, ActivityChartComponent,TooltipModule],
+  imports: [CommonModule, TabStripModule, GridModule, InputsModule, ReactiveFormsModule, DropDownsModule,PopupModule, ExcelModule, ActivityGridComponent, ActivityChartComponent,TooltipModule,DialogModule,FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -35,6 +35,10 @@ export class DashboardComponent {
   gridData: any[] = [];   
   originalGridData: any[] = []; 
   filteredBaseData: any[] = [];
+
+showGridFilterDialog = false;
+newGridFilterName: string = '';
+
 
   chartData: any[] = [];
   chartFilteredGridData: any[] = [];
@@ -381,31 +385,64 @@ toggleSettingsPopup(): void {
   this.showSettingsPopup = !this.showSettingsPopup;
 }
 
+// onSaveFilter(): void {
+//   console.log('Save Filter clicked');
+//   this.showSettingsPopup = false;
+
+//   //const newFilter = `Saved Filter ${this.savedGridFilters.length + 1}`;
+//   //this.savedGridFilters.push(newFilter);
+
+//   const newFilterName = `Saved Filter ${this.savedGridFilters.length + 1}`;
+//   this.savedGridFilters.push(newFilterName);
+
+//   // Prepare complete filter object
+//   const savedFilterData = {
+//     name: newFilterName,
+//     formValues: this.filterActivityForm.value,
+//     //searchTerm: this.searchForm.get('search')?.value || '',
+//     //contractIds: this.selectedIds
+//   };
+
+//   // Get existing saved filter data
+//   const existingFilter = JSON.parse(localStorage.getItem('GridFilterData') || '[]');
+//   existingFilter.push(savedFilterData);
+//   localStorage.setItem('GridFiltersData', JSON.stringify(existingFilter));
+
+//   localStorage.setItem('GridFilters', JSON.stringify(this.savedGridFilters));
+// }
+
 onSaveFilter(): void {
-  console.log('Save Filter clicked');
-  this.showSettingsPopup = false;
+    console.log('Save Filter clicked');
+    //this.showSettingsPopup = false;
+    this.newGridFilterName = '';
+    this.showGridFilterDialog = true;
+  }
 
-  //const newFilter = `Saved Filter ${this.savedGridFilters.length + 1}`;
-  //this.savedGridFilters.push(newFilter);
+  onCancelGridFilterSave(): void {
+    this.showGridFilterDialog = false;
+    this.newGridFilterName = '';
+  }
 
-  const newFilterName = `Saved Filter ${this.savedGridFilters.length + 1}`;
-  this.savedGridFilters.push(newFilterName);
+  onConfirmGridFilterSave(): void {
+    const newFilterName = this.newGridFilterName;
 
-  // Prepare complete filter object
-  const savedFilterData = {
-    name: newFilterName,
-    formValues: this.filterActivityForm.value,
-    //searchTerm: this.searchForm.get('search')?.value || '',
-    //contractIds: this.selectedIds
-  };
+    this.savedGridFilters.push(newFilterName);
 
-  // Get existing saved filter data
-  const existingFilter = JSON.parse(localStorage.getItem('GridFilterData') || '[]');
-  existingFilter.push(savedFilterData);
-  localStorage.setItem('GridFiltersData', JSON.stringify(existingFilter));
+    const savedFilterData = {
+      name: newFilterName,
+      formValues: this.filterActivityForm.value
+    };
 
-  localStorage.setItem('GridFilters', JSON.stringify(this.savedGridFilters));
-}
+    const existingFilter = JSON.parse(localStorage.getItem('GridFiltersData') || '[]');
+    existingFilter.push(savedFilterData);
+    localStorage.setItem('GridFiltersData', JSON.stringify(existingFilter));
+    localStorage.setItem('GridFilters', JSON.stringify(this.savedGridFilters));
+
+    this.showGridFilterDialog = false;
+    this.newGridFilterName = '';
+  }
+
+
 
 onLoadFilter(name: string): void {
   console.log('Load Filter:', name);

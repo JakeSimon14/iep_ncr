@@ -50,6 +50,22 @@
     <span class="material-symbols-outlined icon">save</span>
     <span class="text">Save Filter</span>
   </div>
+<kendo-dialog *ngIf="showSaveFilterDialog" (close)="onCancelSaveFilter()">
+  <kendo-dialog-titlebar>
+    Save Filter
+  </kendo-dialog-titlebar>
+
+  <div class="dialog-body">
+    <label for="filterNameInput">Filter Name:</label>
+    <input [(ngModel)]="newFilterName" class="k-textbox" placeholder="Enter filter name" />
+  </div>
+
+  <kendo-dialog-actions>
+    <button kendoButton (click)="onCancelSaveFilter()">Cancel</button>
+    <button kendoButton (click)="onConfirmSaveFilter()" [disabled]="!newFilterName">Save</button>
+  </kendo-dialog-actions>
+</kendo-dialog>
+
 
   <!-- Load Filter with submenu -->
   <div

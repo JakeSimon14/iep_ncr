@@ -95,6 +95,28 @@
     <span class="text">Save Filter</span>
   </div>
 
+<kendo-dialog *ngIf="showGridFilterDialog" (close)="onCancelGridFilterSave()" class="save-grid-filter-dialog">
+  <kendo-dialog-titlebar>
+    Save Filter
+  </kendo-dialog-titlebar>
+
+  <div class="dialog-body">
+    <label for="gridFilterInput">Filter Name:</label>
+    <input
+      id="gridFilterInput"
+      [(ngModel)]="newGridFilterName"
+      class="k-textbox filter-name-input"
+      placeholder="Enter filter name"
+    />
+  </div>
+
+  <kendo-dialog-actions>
+    <button kendoButton (click)="onCancelGridFilterSave()">Cancel</button>
+    <button kendoButton (click)="onConfirmGridFilterSave()" [disabled]="!newGridFilterName">Save</button>
+  </kendo-dialog-actions>
+</kendo-dialog>
+
+
   <!-- Load Filter with submenu -->
   <div
     class="popup-item has-submenu"

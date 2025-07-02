@@ -15,6 +15,7 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { FilterVisibilityService } from '../../service/filter-visibility.service';
 import { ExcelExportComponent } from '@progress/kendo-angular-excel-export';
 import { ExcelModule } from '@progress/kendo-angular-grid';
+import { DialogModule } from '@progress/kendo-angular-dialog';
 
 @Component({
   selector: 'app-ncr-layout',
@@ -23,7 +24,8 @@ import { ExcelModule } from '@progress/kendo-angular-grid';
     PopupModule,
     TooltipModule,
     ExcelExportComponent,
-    ExcelModule
+    ExcelModule,
+    DialogModule
   ],
   templateUrl: './ncr-layout.component.html',
   styleUrl: './ncr-layout.component.scss'
@@ -45,6 +47,10 @@ export class NcrLayoutComponent {
   showAdvancedSearch = false;
   noDataFound = false;
   isAllSelected = false;
+
+  showSaveFilterDialog = false;
+newFilterName: string = '';
+
  
   searchControl = new FormControl('');
   filterForm: FormGroup;
@@ -461,19 +467,42 @@ toggleSettingsPopup(): void {
   this.showSettingsPopup = !this.showSettingsPopup;
 }
 
+// onSaveFilter(): void {
+//   console.log('Save Filter clicked');
+//   this.showSettingsPopup = false;
+
+//   // const newFilter = `Saved Filter ${this.savedContractTreeFilters.length + 1}`;
+//   // this.savedContractTreeFilters.push(newFilter);
+//   // localStorage.setItem('ContractTreeFilters', JSON.stringify(this.savedContractTreeFilters));
+
+//   const savedFilter = {
+//     name: `Saved Filter ${this.savedContractTreeFilters.length + 1}`,
+//     //search: this.searchControl.value,
+//     form: this.advancedSearchForm.value,
+//     //selectedJobIds: [...this.selectedJobIds]
+//   };
+
+//   const existingFilters = JSON.parse(localStorage.getItem('ContractTreeFilters') || '[]');
+//   existingFilters.push(savedFilter);
+//   localStorage.setItem('ContractTreeFilters', JSON.stringify(existingFilters));
+
+//   this.savedContractTreeFilters.push(savedFilter.name);
+// }
+
 onSaveFilter(): void {
-  console.log('Save Filter clicked');
-  this.showSettingsPopup = false;
+  this.newFilterName = '';
+  this.showSaveFilterDialog = true;
+}
 
-  // const newFilter = `Saved Filter ${this.savedContractTreeFilters.length + 1}`;
-  // this.savedContractTreeFilters.push(newFilter);
-  // localStorage.setItem('ContractTreeFilters', JSON.stringify(this.savedContractTreeFilters));
+onCancelSaveFilter(): void {
+  this.showSaveFilterDialog = false;
+  this.newFilterName = '';
+}
 
+onConfirmSaveFilter(): void {
   const savedFilter = {
-    name: `Saved Filter ${this.savedContractTreeFilters.length + 1}`,
-    //search: this.searchControl.value,
-    form: this.advancedSearchForm.value,
-    //selectedJobIds: [...this.selectedJobIds]
+    name: this.newFilterName,
+    form: this.advancedSearchForm.value
   };
 
   const existingFilters = JSON.parse(localStorage.getItem('ContractTreeFilters') || '[]');
@@ -481,7 +510,11 @@ onSaveFilter(): void {
   localStorage.setItem('ContractTreeFilters', JSON.stringify(existingFilters));
 
   this.savedContractTreeFilters.push(savedFilter.name);
+
+  this.showSaveFilterDialog = false;
+  this.newFilterName = '';
 }
+
 
 onLoadFilter(name: string): void {
   console.log('Load Filter:', name);

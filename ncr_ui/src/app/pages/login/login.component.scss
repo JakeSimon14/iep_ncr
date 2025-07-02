@@ -23,8 +23,8 @@ $required-color: red;
     margin-bottom: 20px;
 
     img {
-      width: $logo-size;
-      height: auto;
+          width: 180px;
+    height: 40px;
     }
   }
 
@@ -38,6 +38,8 @@ $required-color: red;
 
     label {
       display: block;
+      font-size: 12px;
+      padding-bottom: 5px;
 
       .required {
         color: $required-color;
@@ -51,19 +53,45 @@ $required-color: red;
     //}
   }
 
-  .remember-me {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+ .remember-me {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 
-    input[type="checkbox"] {
-      margin-right: 10px;
-    }
+  input[type="checkbox"] {
+    appearance: none;
+    width: 17px;
+    height: 17px;
+    border: 2px solid #ccc;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
 
-    label {
-      font-size: $label-font-size;
+    &:checked {
+      background-color: #206238; // Green background
+      border-color: #206238;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 1px;
+        width: 4px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
     }
   }
+
+  label {
+    font-size: 13px;
+    color: grey;
+    padding-top: 5px;
+  }
+}
+
 
   button {
     width: 100%;
@@ -84,6 +112,12 @@ $required-color: red;
   .error {
   color: red;
   font-size: 12px;
+  margin-top: 4px;
+}
+
+  .error-common {
+  color: red;
+  font-size: 14px;
   margin-top: 4px;
 }
 }

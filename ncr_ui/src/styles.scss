@@ -10,6 +10,18 @@ html, body {
   overflow: hidden;
 }
 
+// ::ng-deep .k-grid-header .k-grid-filter.k-active, .k-grid-header .k-header-column-menu.k-active, .k-grid-header .k-grid-header-menu.k-active, .k-grid-header .k-hierarchy-cell .k-icon.k-active {
+// color: green;
+// }
+
+::ng-deep .k-grid-header .k-grid-filter.k-active, .k-grid-header .k-header-column-menu.k-active, .k-grid-header .k-grid-header-menu.k-active, .k-grid-header .k-hierarchy-cell .k-icon.k-active {
+    color: var(--kendo-color-on-primary, #ffffff);
+    background-color: green;
+}
+
+::ng-deep .k-grid-header .k-grid-header-menu.k-active{
+  background-color: green !important;
+} 
 
 
 

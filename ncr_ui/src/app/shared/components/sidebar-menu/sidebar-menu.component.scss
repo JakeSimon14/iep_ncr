@@ -7,15 +7,18 @@
   li {
     display: flex;
     align-items: center;
-    padding: 10px 5px;
-    color: grey;
+        padding: 5px 6px 8px 2px;
+    margin: 10px 5px 5px 5px;
+    color: #645f5f;
     cursor: pointer;
     transition: background-color 0.2s;
     border-left: 4px solid transparent;
     cursor: pointer !important;
 
     &:hover {
-      background-color: #f0f0f0;
+    background-color: #E6F4F1;  
+      border-radius: 500px;
+       color: #147D64;  
     }
 
     &.active {
@@ -35,7 +38,12 @@
 
   .filter-icon{
        border-bottom: 1px solid #ccc;
-    height: 45px;
+           height: 39px;
+    margin: 0px;
+    padding: 8px;
   }
 
+  .material-symbols-outlined {
+    font-size: 18px;
+  }
 }

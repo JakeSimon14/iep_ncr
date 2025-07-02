@@ -8,7 +8,9 @@
 
     <div class="toolbar-section">
       <form [formGroup]="searchForm" class="search-form" *ngIf="!fromChartClick">
+       
         <kendo-textbox formControlName="search" placeholder="Search in all column" icon="search"></kendo-textbox>
+         <span class="search-icon material-symbols-outlined">search</span>
       </form>
      <button type="button" (click)="excelExport.save()" class="export-icon">
   <!-- <span class="material-symbols-outlined">arrow_circle_down</span> -->
@@ -42,38 +44,40 @@
     [height]="500"
     [filterable]="'menu'"
     kendoGridExcel
+    [columnMenu]="true"
    
   >
 
    <!-- [columnMenu]="true" need to add above to show filter--> 
   <kendo-grid-column
-    *ngFor="let col of columns"
-    [field]="col.field"
-    [title]="col.title"
-    [width]="col.width ?? 150"
-    [filterable]="col.filterable !== false"
-  >
-    <!-- <ng-template kendoGridColumnMenuTemplate let-service="service" let-column="column">
-      <kendo-grid-columnmenu-filter [service]="service">
-        <span class="material-symbols-outlined custom-filter-icon">more_vert</span>
-      </kendo-grid-columnmenu-filter>
-    </ng-template> -->
-    <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
-      <!-- <app-multicheck-filter
-        [column]="column"
-        [filter]="filter"
-        [data]="originalGridData"
-        (valueChange)="onMultiCheckFilterChange($event)">
-      </app-multicheck-filter> -->
+  *ngFor="let col of columns"
+  [field]="col.field"
+  [title]="col.title"
+  [width]="col.width ?? 150"
+  [filterable]="col.filterable !== false"
+>
+  <ng-template kendoGridColumnMenuTemplate let-service="service" let-column="column">
+    <kendo-grid-columnmenu-filter [service]="service">
+      <span class="material-symbols-outlined custom-filter-icon">more_vert</span>
+    </kendo-grid-columnmenu-filter>
+  </ng-template>
 
-      <multicheck-filter
-          [isPrimitive]="true"
-          [field]="column.field"
-          [filterService]="filterService"
-          [currentFilter]="filter"
-          [data]="distinctPrimitive(column.field)"></multicheck-filter>
-    </ng-template>
-  </kendo-grid-column>
+  <ng-template
+    kendoGridFilterMenuTemplate
+    let-filter
+    let-column="column"
+    let-filterService="filterService"
+  >
+    <multicheck-filter
+      [isPrimitive]="true"
+      [field]="column.field"
+      [filterService]="filterService"
+      [currentFilter]="filter"
+      [data]="distinctPrimitive(column.field)"
+    ></multicheck-filter>
+  </ng-template>
+</kendo-grid-column>
+
   </kendo-grid>
 
   <kendo-excelexport

@@ -46,7 +46,7 @@ $padding-lg: 16px;
       height: 100%;
       display: flex;
       flex-direction: column;
-      width: 250px;
+      width: 290px;
       transition: width 0.3s ease;
 
         &.collapsed {
@@ -85,13 +85,13 @@ $padding-lg: 16px;
       .activity-setting {
   background: none;
   border: none;
-  color: #888;
+  color: #645f5f;
   font-size: 20px;
-  padding: 4px;
+      padding: 5px;
   border-radius: 50%;
   cursor: pointer;
   line-height: 1;
-  display: flex;
+  //display: flex;
   align-items: center;
   justify-content: center;
 
@@ -138,7 +138,7 @@ $padding-lg: 16px;
 
   .submenu-arrow {
     font-size: 18px;
-    color: #888;
+    color: #645f5f;
   }
 
   .submenu-header {
@@ -179,12 +179,14 @@ $padding-lg: 16px;
 
 .settings-dropdown-wrapper {
   position: relative;
+  padding-top: 5px;
+
 
   .last-upload-submenu-outer {
     position: absolute;
     top: 100%; 
     left: 0;
-    width: 280px;
+    width: 285px;
     background: white;
     border: 1px solid #ccc;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -234,7 +236,7 @@ $padding-lg: 16px;
   padding: 8px $padding-lg;
   margin-top: $padding-md;
   width: 100%;
-  max-width: 260px;
+  max-width: 280px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -357,13 +359,15 @@ $padding-lg: 16px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-weight: 600;
-        font-size: $font-size-md;
+        font-weight: 500;
+        font-size: 15px;
         padding-left: 8px;
+            height: 55px;
 
         .toggle-icon {
           cursor: pointer;
-          font-size: 24px;
+          font-size: 20px;
+          padding-right: 6px;
         }
       }
 
@@ -377,42 +381,46 @@ $padding-lg: 16px;
           border-radius: $border-radius-lg;
         }
 
-        .tab-buttons {
-          display: flex;
-          margin-bottom: $padding-lg;
+      .tab-buttons {
+  display: flex;
+  margin-bottom: $padding-lg;
 
-          .tab {
-            padding: 10px 13px;
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
-            font-size: xx-small;
-            border-radius: $border-radius-sm;
-            transition: background-color 0.2s;
+  .tab {
+    padding: 11px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 11px; // ← Increased from 10px
+    border-radius: $border-radius-sm;
+    transition: background-color 0.2s, color 0.2s, font-weight 0.2s;
+    color: $text-dark;
+    margin: 4px;
 
-            &:hover {
-              background-color: $gray-hover;
-            }
+    &:hover {
+      background-color: $gray-hover;
+    }
 
-            &.active {
-              background-color: $white;
-              font-weight: bold;
-              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-              pointer-events: none;
-              margin: $padding-sm;
-            }
-          }
-        }
+    &.active {
+      background-color: $white;
+      font-weight: bold;
+      color: $text-dark;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      pointer-events: none;
+    }
+  }
+}
+
 
         .search-container {
           margin-top: 1rem;
 
           input {
-            padding: $padding-sm 0;
+             padding: 6px 0px;
             width: 100%;
             max-width: 300px;
             border: 1px solid $gray-border;
             border-radius: 40px;
+            text-indent: 10px;
           }
         }
 
@@ -571,11 +579,26 @@ $padding-lg: 16px;
    overflow: hidden !important;
 }
 
+//.treeview-scroll-container {
+  // flex: 1;
+  // overflow-y: auto;
+  // max-height: calc(100vh - 330px); // adjust based on actual available space
+
+//}
+
 .treeview-scroll-container {
-  flex: 1;
   overflow-y: auto;
-  max-height: calc(100vh - 300px); // adjust based on actual available space
+  //transition: max-height 0.3s ease;
+flex: 1;
+  &.with-advanced-search {
+    max-height: calc(100vh - 470px); // expanded height
+  }
+
+  &.without-advanced-search {
+    max-height: calc(100vh - 330px); // default
+  }
 }
+
 
 .custom-dropdown
 {
@@ -621,4 +644,166 @@ $padding-lg: 16px;
     outline-width: 1px;
     outline-style: none;
     outline-offset: -1px;
+}
+
+.treeview-scroll-container {
+  scrollbar-width: thin;                      // Firefox
+  scrollbar-color: #f0ebeb #f5f5f5;           // Firefox
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f5f5f5;                      // very light background
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #f0ebeb;                // light grey scroll thumb
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #f5f0f0;
+  }
+}
+
+
+
+.styled-filter-row {
+  margin-bottom: 12px;
+}
+
+.styled-filter-label {
+    font-weight: 500;
+   // margin-bottom: -8px;
+    display: block;
+    color: #625f5f;
+        margin-top: 5px;
+}
+
+.styled-filter-control {
+  border-bottom: 1px solid #ccc;
+  padding: 4px 0;
+}
+
+.unstyled-kendo-dropdown {
+  width: 100%;
+  background: transparent !important;
+  border: none !important;
+
+  .k-dropdown-wrap {
+    border: none !important;
+    box-shadow: none !important;
+    padding-left: 0 !important;
+    background: transparent !important;
+  }
+
+  .k-input {
+    padding: 0 !important;
+    font-size: 14px;
+  }
+
+  .k-icon {
+    color: #555;
+  }
+}
+
+.custom-value {
+  color: #625f5f;
+}
+
+.unstyled-kendo-dropdown {
+  width: 100%;
+  background: transparent !important;
+  border: none !important;
+
+  .k-dropdown-wrap {
+    border: none !important;
+    box-shadow: none !important;
+    padding-left: 0 !important;
+    background: transparent !important;
+  }
+
+  .k-input {
+    padding: 0 !important;
+    font-size: 14px;
+  }
+
+  .k-icon {
+    color: #555;
+  }
+
+ 
+  .k-dropdown-wrap.k-focus,
+  .k-dropdown-wrap:focus,
+  .k-state-focused,
+  &:focus-within {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  // Prevent browser-native focus border
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.custom-value {
+  font-size: smaller;
+}
+
+
+// Reuse the same base style
+.unstyled-kendo-dropdown.k-multiselect {
+  width: 100%;
+  background: transparent !important;
+  border: none !important;
+
+  .k-multiselect-wrap {
+    border: none !important;
+    box-shadow: none !important;
+    padding-left: 0 !important;
+    background: transparent !important;
+    min-height: unset !important;
+  }
+
+  .k-chip,
+  .k-chip-list,
+  .k-chip-content {
+    background: transparent !important;
+    border: none !important;
+    font-size: 14px;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #625f5f;
+  }
+
+  .k-input {
+    padding: 0 !important;
+    font-size: 14px;
+    color: #625f5f;
+  }
+
+  .k-icon {
+    color: #555;
+  }
+
+  .k-multiselect-wrap.k-focus,
+  .k-multiselect-wrap:focus,
+  .k-state-focused,
+  &:focus-within {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }

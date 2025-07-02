@@ -176,7 +176,7 @@ export class DashboardComponent {
   this.qualityService.getActivityData().subscribe({
     next: (data) => {
       this.originalGridData = data;
-      debugger;
+    
       //this.applyCombinedFilters(); // Initial filter
     },
     error: (err) => {
@@ -196,7 +196,7 @@ export class DashboardComponent {
   this.savedGridFilters = saved ? JSON.parse(saved) : [];
 
  this.filterVisibilityService.filterActivityVisible$.subscribe(visible => {
-  debugger;
+ 
       if (visible) {
       // Reset to collapsed even if visibility is true
       this.isFilterActivityExpandedView = false;
@@ -214,9 +214,8 @@ export class DashboardComponent {
 
  toggleFilterActivityExpandView(): void {
   //this.isFilterActivityExpandedView = !this.isFilterActivityExpandedView;
-debugger;
   this.filterVisibilityService.filterActivityVisible$.subscribe((visible) => {
-    debugger;
+  
     if (visible) {
    
       this.isFilterActivityExpandedView = false;

@@ -14,7 +14,7 @@
     <div class="filter-header">
     <h3 >Filter Contracts</h3>
 
-
+<div class="settings-toggle-wrapper">
                 <div class="settings-dropdown-wrapper">
   <!-- Three-dot button -->
   <button
@@ -119,15 +119,15 @@
 
 </kendo-popup>
 
-
-</div>
-
     <span
   class="material-symbols-outlined toggle-icon"
   (click)="toggleFilterContractsExpand()"
 >
    arrow_back
 </span>
+</div>
+</div>
+
   </div>
   
   <div class="tab-main-container">
@@ -162,31 +162,44 @@
     <a class="clear-filter" (click)="clearAdvancedFilters()">Clear Filter</a>
   </div>
 
-  <div class="filter-fields">
-    <div class="filter-group">
-      <label class="filter-label">Delivery Year</label>
-      <kendo-dropdownlist
-        formControlName="deliveryYear"
-        [data]="deliveryYears"
-        [defaultItem]="'Select Year'"
-        [valuePrimitive]="true"
-         [popupSettings]="{ popupClass: 'custom-kendo-popup' }"
-      ></kendo-dropdownlist>
-    </div>
+<div class="styled-filter-row">
+  <!-- Delivery Year -->
+  <label class="styled-filter-label">Delivery Year</label>
+  <div class="styled-filter-control">
+    <kendo-dropdownlist
+      formControlName="deliveryYear"
+      [data]="deliveryYears"
+      [defaultItem]="'Select Year'"
+      [valuePrimitive]="true"
+      [popupSettings]="{ appendTo: 'component', popupClass: 'custom-kendo-popup' }"
+      class="unstyled-kendo-dropdown"
+    >
+      <ng-template kendoDropDownListValueTemplate let-dataItem>
+        <span class="custom-value">{{ dataItem || 'Select Year' }}</span>
+      </ng-template>
+    </kendo-dropdownlist>
+  </div>
 
-    <div class="filter-group">
-      <label class="filter-label">RAC Year</label>
-      <kendo-dropdownlist
-        formControlName="racYear"
-        [data]="racYears"
-        [defaultItem]="'Select Year'"
-        [valuePrimitive]="true"
-         [popupSettings]="{ popupClass: 'custom-kendo-popup' }"
-      ></kendo-dropdownlist>
-    </div>
+  <!-- RAC Year -->
+  <label class="styled-filter-label">RAC Year</label>
+  <div class="styled-filter-control">
+    <kendo-dropdownlist
+      formControlName="racYear"
+      [data]="deliveryYears"
+      [defaultItem]="'Select Year'"
+      [valuePrimitive]="true"
+      [popupSettings]="{ appendTo: 'component', popupClass: 'custom-kendo-popup' }"
+      class="unstyled-kendo-dropdown"
+    >
+      <ng-template kendoDropDownListValueTemplate let-dataItem>
+        <span class="custom-value">{{ dataItem || 'Select Year' }}</span>
+      </ng-template>
+    </kendo-dropdownlist>
+  </div>
 
-    <div class="filter-group">
-      <label class="filter-label">Project Status</label>
+  <!-- Project Status -->
+   <div class="filter-group">
+      <label class="styled-filter-label">Project Status</label>
       <kendo-multiselect
         formControlName="projectStatus"
         [data]="projectStatuses"
@@ -197,7 +210,7 @@
     </div>
 
     <div class="filter-group">
-      <label class="filter-label">Driver</label>
+      <label class="styled-filter-label">Driver</label>
       <kendo-multiselect
         formControlName="driver"
         [data]="drivers"
@@ -208,9 +221,12 @@
       ></kendo-multiselect>
     </div>
 
-    <!-- Additional filters if needed -->
-  </div>
 </div>
+
+
+
+</div>
+
 
 
 
@@ -235,7 +251,10 @@
    <div *ngIf="filteredProjects.length === 0" class="no-data-message">
         No data found!
       </div>
-<div class="treeview-scroll-container">
+<div class="treeview-scroll-container" [ngClass]="{ 
+        'with-advanced-search': showAdvancedSearch, 
+        'without-advanced-search': !showAdvancedSearch 
+     }">
 <kendo-treeview
   [nodes]="filteredProjects"
     [kendoTreeViewCheckable]="{ mode: 'multiple', checkChildren: true }"
@@ -254,9 +273,9 @@
     <div class="tree-item">
       <div class="tree-text">
         {{ dataItem.contractname }}
-        <ng-container *ngIf="dataItem.jobnumber">
+        <!-- <ng-container *ngIf="dataItem.jobnumber">
           ({{ dataItem.jobnumber }})
-        </ng-container>
+        </ng-container> -->
       </div>
       <span
     *ngIf="!hasParent(dataItem)"

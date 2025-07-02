@@ -7,7 +7,7 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
  
 <div class="form-field">
-      <label for="ssoid">SSO ID <span class="required">*</span></label>
+      <label for="ssoid" class="login-label">SSO ID <span class="required">*</span></label>
       <kendo-textbox
         id="ssoid"
         formControlName="ssoid"
@@ -21,13 +21,15 @@
     <br />
 
     <div class="form-field">
-      <label for="password">Password <span class="required">*</span></label>
-      <kendo-textbox
-        id="password"
+      <label for="password"  class="login-label">Password <span class="required">*</span></label>
+     <kendo-textbox
+        id="ssoid"
+        type="password"
         formControlName="password"
         placeholder="Enter password"
         [style.width.px]="300"
       ></kendo-textbox>
+
      <div class="error" *ngIf="submitted && loginForm.get('password')?.hasError('required')">
   Password is required
 </div>
@@ -35,11 +37,11 @@
     <br />
   <div class="form-field remember-me">
       <input type="checkbox" id="rememberMe" formControlName="rememberMe" />
-      <label for="rememberMe">Remember Me</label>
+      <label for="rememberMe" class="remember-text">Remember Me</label>
     </div>
 
  
-    <div class="error" *ngIf="error">
+    <div class="error-common" *ngIf="error">
       <small>{{ error }}</small>
     </div>
 

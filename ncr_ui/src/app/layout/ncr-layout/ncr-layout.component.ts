@@ -39,7 +39,7 @@ export class NcrLayoutComponent {
   tabs = ['My Contracts', 'All Contracts', 'Favourites'];
    deliveryYears = ['2023', '2024', '2025'];
   racYears = ['2023', '2024', '2025'];
-  projectStatuses = ['Active', 'Completed', 'On Hold'];
+ projectStatuses = ['Active', 'Completed', 'On Hold'];
   drivers = ['Driver A', 'Driver B', 'Driver C'];
   isCurrentProjectsSelected = false;
   showAdvancedSearch = false;
@@ -67,6 +67,10 @@ selectedJobs = new Set<string>();
   { field: 'projectStatus', title: 'Status', width: 140 },
   { field: 'driver', title: 'Driver', width: 100 }
 ];
+
+tagMapper = (tags: any[]) => {
+  return tags.length ? [{ text: tags.join(', '), data: tags }] : [];
+};
 
   constructor(
     
@@ -185,10 +189,13 @@ if(!this.isFilterContractsExpanded)
     return false;
   };
 
-  // ✅ Update the main source of truth
+  
   updateInTree(this.allProjects);
    updateInTree(this.filteredProjects);
 
+     if (this.activeTabIndex === 2) {
+    this.applyTabFilter();
+  }
   }
 
   onMenuChange(route: string): void {

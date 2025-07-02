@@ -1,4 +1,4 @@
-$header-height: 50px;
+$header-height: 60px;
 $header-bg-color: #0b3520;
 $header-border-color: #ddd;
 $toolbar-padding-x: 16px;
@@ -50,7 +50,7 @@ $z-index-dropdown: 1000;
     }
 
     .logo-image {
-      height: 32px;
+      height: 45px;
       width: auto;
     }
 
@@ -96,6 +96,7 @@ $z-index-dropdown: 1000;
 
     .profile-wrapper {
       position: relative;
+          padding-right: 18px;
 
       .profile-image {
         height: 32px;
@@ -106,15 +107,15 @@ $z-index-dropdown: 1000;
       }
 
       .profile-badge {
-        position: absolute;
-        top: -4px;
-        right: -6px;
-        background-color: $accent-color;
-        color: $text-color-white;
-        font-size: $badge-font-size;
-        padding: 2px 6px;
-        border-radius: 12px;
-        font-weight: 600;
+          position: absolute;
+    top: 6px;
+    right: 2px;
+    background-color: #0F766E;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 2px 3px;
+    border-radius: 12px;
+    font-weight: 600;
       }
     }
   }

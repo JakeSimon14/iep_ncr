@@ -123,23 +123,9 @@
 }
  
  
-/* Add green bottom border only for selected/active tab */
-::ng-deep .k-tabstrip-items-wrapper .k-item.k-active::after,
-::ng-deep .k-tabstrip-items-wrapper .k-item.k-selected::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0px; /* aligns with wrapper's border */
-  height: 2px;
-  width: 100%;
-  background-color: #02A783;
-}
 
-::ng-deep .k-tabstrip-items *, .k-tabstrip-items *::before, .k-tabstrip-items *::after {
-    box-sizing: border-box;
-    font-size: 15px;
-    font-weight: 400;
-}
+
+
 
 .kendo-tab-buttons {
   display: flex;
@@ -736,42 +722,42 @@
  color: #048367 !important;
 }
 
-// ::ng-deep .k-tabstrip-items {
-//   display: flex;
-//   flex-wrap: wrap;                 // Allow wrapping if tabs overflow
-//   justify-content: flex-start; // Distribute space evenly
-//   gap: 8px;                        // Add gap between tabs (adjust as needed)
-//   //padding: 0 10px;                 // Optional: horizontal padding
-// }
 
-// ::ng-deep .k-tabstrip-items .k-item {
-//   gap:10px;
-//   //flex: 1 1 auto;                 // Allow tabs to grow equally
-//   // text-align: left;
-//   // font-size: 13px;                // Adjust for better readability
-//   // white-space: nowrap;
-//   // //padding: 8px 12px;
-//   // border-radius: 6px;
-//   // transition: background 0.2s;
-//    padding-left: 0px;
-// }
+//----ncr tab to move left and border styling
 
-// ::ng-deep .k-tabstrip-items .k-item.k-state-active {
-//   font-weight: bold;
-//   border-bottom: 2px solid #147D64;  // green border like in screenshot
-//   background-color: #ffffff;
-// }
+::ng-deep .k-tabstrip-items-wrapper .k-item .k-item-text {
+  position: relative; /* Required for ::after to position correctly */
+  display: inline-block;
+}
 
-// ::ng-deep .k-tabstrip-items .k-item:hover {
-//   background-color: #f0f0f0;
-// }
+::ng-deep .k-tabstrip-items-wrapper .k-item.k-active .k-item-text::after,
+::ng-deep .k-tabstrip-items-wrapper .k-item.k-selected .k-item-text::after,
+::ng-deep .k-tabstrip-items-wrapper .k-item.k-active::after, 
+::ng-deep .k-tabstrip-items-wrapper .k-item.k-selected::after{
+  content: '';
+  position: absolute;
+  bottom: -2px; /* adjust if needed */
+  left: 0;
+  height: 2px;
+  width: 100%; /* now it applies only to text width */
+  background-color: #02A783;
+}
 
-//ncr tab to move left
+
+::ng-deep .k-tabstrip-items *, .k-tabstrip-items *::before, .k-tabstrip-items *::after {
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+
 ::ng-deep .k-tabstrip-top > .k-tabstrip-items-wrapper .k-item .k-link {
     justify-content: center;
     padding-left: 0px;
+    padding-right: 0px;
 }
 
 ::ng-deep .k-tabstrip-items{
-  gap:12px !important;
+  gap:18px !important;
 }
+//-----------------------

@@ -37,10 +37,23 @@
   }
 
   .filter-icon{
-       border-bottom: 1px solid #ccc;
-           height: 39px;
+      border-bottom: 1px solid #ccc;
+    height: 42px;
     margin: 0px;
-    padding: 8px;
+    padding-left: 6px;
+
+    li{
+      background-color: #E6F4F1;
+    border-radius: 663px;
+    height: 18px;
+    color: #147D64;
+
+     &:hover {
+    background-color: #E6F4F1;  
+      border-radius: 500px;
+       color: #147D64;  
+    }
+    }
   }
 
   .material-symbols-outlined {

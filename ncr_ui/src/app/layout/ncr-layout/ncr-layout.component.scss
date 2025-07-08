@@ -817,3 +817,106 @@ flex: 1;
 }
 
 
+//---------------Filter popup
+
+::ng-deep .custom-dialog {
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+
+  .k-window-titlebar {
+    background-color: #005f3c; // deep green
+       color: white;
+    font-weight: 500;
+    padding: 17px 6px;
+    display: flex
+;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none;
+    /* border-radius: 9px; */
+    border-top-left-radius: 12px;
+    border-top-right-radius: 9px;
+  }
+
+  .close-btn {
+    color: white;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .dialog-body {
+    padding: 20px 16px 8px 16px;
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .name-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  }
+
+  .dialog-actions {
+      padding: 16px 10px 16px 100px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    .k-button {
+      min-width: 100px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    .cancel-button {
+      background-color: #f8f9fa;
+      color: #333;
+      border: 1px solid #dcdcdc;
+       width: 50px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+
+     &:hover{
+background-color: lightgray;
+color: #333;
+    }
+    }
+
+    .confirm-button {
+         background-color: #005f3c;
+    color: white;
+    border: none;
+    width: 50px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover{
+background-color: #147D64;
+color: white;
+    }
+    }
+
+    .confirm-button.k-state-disabled {
+      opacity: 0.6;
+    }
+  }
+
+::ng-deep .custom-dialog .k-window {
+  width: 300px;         // increase width
+  height: auto;         // auto height
+  //max-height: 200px;    // optional: to limit max height
+  border-radius: 12px;
+}
+
+//------------------

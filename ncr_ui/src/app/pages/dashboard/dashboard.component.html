@@ -95,27 +95,24 @@
     <span class="text">Save Filter</span>
   </div>
 
-<kendo-dialog *ngIf="showGridFilterDialog" (close)="onCancelGridFilterSave()" class="save-grid-filter-dialog">
-  <kendo-dialog-titlebar>
-    Save Filter
+<kendo-dialog *ngIf="showGridFilterDialog" class="custom-dialog" (close)="onCancelGridFilterSave()">
+  <kendo-dialog-titlebar class="custom-dialog-titlebar">
+    <span>Save Filter</span>
+    <button kendoButton icon="close" fillMode="flat" class="close-btn" (click)="onCancelGridFilterSave()"></button>
   </kendo-dialog-titlebar>
 
   <div class="dialog-body">
-    <label for="gridFilterInput">Filter Name:</label>
-    <input
-      id="gridFilterInput"
-      [(ngModel)]="newGridFilterName"
-      class="k-textbox filter-name-input"
-      placeholder="Enter filter name"
-    />
+    <label for="filterNameInput">Name</label>
+    <input id="filterNameInput" [(ngModel)]="newGridFilterName" class="k-textbox name-input" />
   </div>
 
-  <kendo-dialog-actions>
-    <button kendoButton (click)="onCancelGridFilterSave()">Cancel</button>
-    <button kendoButton (click)="onConfirmGridFilterSave()" [disabled]="!newGridFilterName">Save</button>
+  <kendo-dialog-actions class="dialog-actions">
+    <button kendoButton class="cancel-button" (click)="onCancelGridFilterSave()">Cancel</button>
+    <button kendoButton class="confirm-button" (click)="onConfirmGridFilterSave()" [disabled]="!newGridFilterName">
+      Confirm
+    </button>
   </kendo-dialog-actions>
 </kendo-dialog>
-
 
   <!-- Load Filter with submenu -->
   <div

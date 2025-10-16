@@ -14,11 +14,15 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { FilterVisibilityService } from '../../service/filter-visibility.service';
 import { DialogModule } from '@progress/kendo-angular-dialog';
+import { TabularDataPopupComponent } from "../../shared/components/tabular-data-popup/tabular-data-popup.component";
+import { OTR_TAB_BUTTONS, OtrTabButton } from '../../shared/constants/otr-tab-buttons.contant';
+import { OfficeTreePopupComponent } from "../../shared/components/office-tree-popup/office-tree-popup.component";
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, TabStripModule, GridModule, InputsModule, ReactiveFormsModule, DropDownsModule,PopupModule, ExcelModule, ActivityGridComponent, ActivityChartComponent,TooltipModule,DialogModule,FormsModule],
+  imports: [CommonModule, TabStripModule, GridModule, InputsModule, ReactiveFormsModule, DropDownsModule, PopupModule, ExcelModule, ActivityGridComponent, ActivityChartComponent, TooltipModule, DialogModule, FormsModule, TabularDataPopupComponent, OfficeTreePopupComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -46,19 +50,19 @@ newGridFilterName: string = '';
 
     @ViewChild('grid') grid!: GridComponent;
 
-  tabButtons = [
-    { label: 'NCR', value: 'NCR',selectedTab:true },
-    { label: 'NCM', value: 'NCM',selectedTab:false },
-    { label: 'ECN', value: 'ECN',selectedTab:false },
-    { label: 'ECR', value: 'ECR',selectedTab:false },
-    { label: 'COQ', value: 'COQ',selectedTab:false },
-    { label: 'CCM', value: 'CCM',selectedTab:false },
-    { label: 'OTRDR', value: 'OTRDR',selectedTab:false },
-    { label: 'FMEA', value: 'FMEA',selectedTab:false },
-    { label: 'RCA-NCA-CAPA', value: 'RCA-NCA-CAPA',selectedTab:false },
-    { label: 'Product Quality', value: 'Product Quality',selectedTab:false },
-    { label: 'Product Safety', value: 'Product Safety',selectedTab:false }
-  ];
+  // tabButtons = [
+  //   { label: 'NCR', value: 'NCR',selectedTab:true },
+  //   { label: 'NCM', value: 'NCM',selectedTab:false },
+  //   { label: 'ECN', value: 'ECN',selectedTab:false },
+  //   { label: 'ECR', value: 'ECR',selectedTab:false },
+  //   { label: 'COQ', value: 'COQ',selectedTab:false },
+  //   { label: 'CCM', value: 'CCM',selectedTab:false },
+  //   { label: 'OTRDR', value: 'OTRDR',selectedTab:false },
+  //   { label: 'FMEA', value: 'FMEA',selectedTab:false },
+  //   { label: 'RCA-NCA-CAPA', value: 'RCA-NCA-CAPA',selectedTab:false },
+  //   { label: 'Product Quality', value: 'Product Quality',selectedTab:false },
+  //   { label: 'Product Safety', value: 'Product Safety',selectedTab:false }
+  // ];
 
   gridColumns = [
   { field: 'ncrNumber', title: 'NCR Number', width: 120 },
@@ -70,28 +74,69 @@ newGridFilterName: string = '';
   { field: 'type', title: 'Type', width: 100 }
 ];
 
-
+  tabButtons: OtrTabButton[] = [...OTR_TAB_BUTTONS]; // Clone if you need local state
   activeTabValue = this.tabButtons.find(t => t.selectedTab)?.value ?? this.tabButtons[0].value;
+  //activeTabValue = this.tabButtons.find(t => t.selectedTab)?.value ?? this.tabButtons[0].value;
 
   //viewAsOptions = ['Tabular', 'Chart'];
   //typeOptions = ['Individual', 'Project', 'Office'];
 
-  filterControls = [
-    {
-      name: 'viewAs',
-      label: 'View As',
-      type: 'dropdown',
-      placeholder: 'Select View',
-      data: ['Tabular', 'Chart']
-    },
-    {
-      name: 'contentType',
-      label: 'Type',
-      type: 'dropdown',
-      placeholder: 'Select Type',
-      data: ['Individual', 'Project', 'Office']
-    }
-  ];
+  // filterControls = [
+  //   {
+  //     name: 'viewAs',
+  //     label: 'View As',
+  //     type: 'dropdown',
+  //     placeholder: 'Select View',
+  //     data: ['Tabular', 'Chart']
+  //   },
+  //   {
+  //     name: 'contentType',
+  //     label: 'Type',
+  //     type: 'dropdown',
+  //     placeholder: 'Select Type',
+  //     data: ['Individual', 'Project', 'Office']
+  //   }
+  // ];
+
+
+  //--------------Do vs Buy
+
+  doVsBuyData: any[] = [];
+  showDoVsBuyPopup = false;
+
+doVsBuyColumns = [
+  { field: 'RECORD_ID', title: 'RECORD_ID' },
+  { field: 'USER_SSO', title: 'USER_SSO' },
+  { field: 'PROJECT_ID', title: 'PROJECT_ID' },
+  { field: 'ACTIVITY_ID', title: 'ACTIVITY_ID' },
+  { field: 'ROLE_ID', title: 'ROLE_ID' },
+  { field: 'PRODUCT', title: 'PRODUCT' },
+  { field: 'ACTIVITY_DESCRIPTION', title: 'ACTIVITY_DESCRIPTION' },
+  { field: 'CONTRACT', title: 'CONTRACT' }
+];
+
+//------------------Do vs Buy End--------
+
+filterConfigMap: { [key: string]: any[] } = {
+  'NCR': [
+    { name: 'viewAs', label: 'View As', type: 'dropdown', data: ['Tabular', 'Chart'],defaultValue: 'Tabular' },
+    { name: 'contentType', label: 'Type', type: 'dropdown', data: ['Individual', 'Project', 'Office'], defaultValue: 'Individual' },
+  ],
+  'ECN': [
+    { name: 'viewAs', label: 'View As', type: 'dropdown', data: ['ECN', 'ECR'], defaultValue: 'ECN' },
+    { name: 'contentType', label: 'Type', type: 'dropdown', data: ['Individual', 'Project', 'Office'], defaultValue: 'Individual' },
+    { name: 'open', label: 'Open', type: 'button', data: 'Open' },
+    { name: 'withoutAsBuiltStatus', type: 'multiselect', data: [{ text: 'With As Built', count: 250 }, {text: 'Without As Built', count: 150 }]},
+    { name: 'close', label: 'Close', type: 'button', data: 'Close' },
+     { name: 'withoutNonAsBuiltStatus', type: 'multiselect', data: [{ text: 'With As Built', count: 250 }, {text: 'Without As Built', count: 150 }]}
+  ]
+  // Add for other tabs as needed
+};
+
+showOfficePopup = false;
+
+selectedOffices: string[] = [];
+
 
   
   //gridData: GridDataItem[] = [];
@@ -123,49 +168,6 @@ newGridFilterName: string = '';
       console.log('Search changed:', search.search);
     });
 
-    const group: any = {};
-  this.filterControls.forEach(control => {
-    if (control.name === 'viewAs') {
-      group[control.name] = ['Tabular'];
-    } else if (control.name === 'contentType') {
-      group[control.name] = ['Individual'];
-    } else {
-   
-    group[control.name] = ['']; // default to empty string
-    }
-  });
-
-  this.filterActivityForm = this.fb.group(group);
-
-// this.filterActivityForm.valueChanges.subscribe(values => {
-//   if (this.selectedIds.length > 0) {
-//     this.filterGridByTypeAndContracts();
-//   }
-// });
-
-//     this.searchForm.get('search')!.valueChanges.subscribe((term: string) => {
-//       this.applySearch(term);
-//     });
-
-//     this.qualityService.getActivityData().subscribe({
-//       next: (data) => {
-//         this.originalGridData = data;
-//         //this.gridData = [...this.originalGridData];
-//       },
-//       error: (err) => {
-//         console.error('Failed to fetch activity data', err);
-//       }
-//     });
-
-//  this.selectedContractService.selectedContracts$.subscribe(data => {
-//   this.selectedContracts = data.parents;
-//   this.selectedIds = data.ids;
-  //this.filterGridBySelectedIds();
-
-  //this.filterGridByTypeAndContracts();
-  
-//});
-
 // Search input
   this.searchForm.get('search')!.valueChanges.subscribe(() => {
     this.applyCombinedFilters();
@@ -188,6 +190,8 @@ newGridFilterName: string = '';
     }
   });
 
+  this.updateFilterActivityForm();
+
   // Contract selection update
   this.selectedContractService.selectedContracts$.subscribe(data => {
   
@@ -209,6 +213,53 @@ newGridFilterName: string = '';
     this.isFilterActivityExpandedView = true;
     });
   }
+
+  onKendoTabSelect(event: any): void {
+
+    debugger;
+  const selectedTab = this.tabButtons[event.index];
+
+  if (selectedTab) {
+    this.activeTabValue = selectedTab.value;
+
+    // Update tab buttons selection state
+    this.tabButtons.forEach(tab => tab.selectedTab = false);
+    selectedTab.selectedTab = true;
+
+    // Rebuild the form based on new tab's filterConfig
+    this.updateFilterActivityForm();
+  }
+}
+
+updateFilterActivityForm(): void {
+
+  const group: any = {};
+  this.activeFilterConfig.forEach(control => {
+    group[control.name] = [control.defaultValue ?? ''];
+  });
+
+  
+ console.log('Setting default form values:', group);
+
+  this.filterActivityForm = this.fb.group(group);
+
+  this.filterActivityForm.valueChanges.subscribe(() => {
+    this.applyCombinedFilters();
+  });
+
+    //to shpw office popup on offcie selection
+  this.filterActivityForm.get('contentType')?.valueChanges.subscribe((value) => {
+    debugger;
+    this.showOfficePopup = value === 'Office';
+  });
+
+}
+
+
+
+get activeFilterConfig(): any[] {
+  return this.filterConfigMap[this.activeTabValue] || [];
+}
 
   toggleExpandView(): void {
     this.isExpandedView = !this.isExpandedView;
@@ -423,24 +474,35 @@ onSaveFilter(): void {
     this.newGridFilterName = '';
   }
 
-  onConfirmGridFilterSave(): void {
-    const newFilterName = this.newGridFilterName;
+ onConfirmGridFilterSave(): void {
+  const newFilterName = this.newGridFilterName.trim();
 
-    this.savedGridFilters.push(newFilterName);
-
-    const savedFilterData = {
-      name: newFilterName,
-      formValues: this.filterActivityForm.value
-    };
-
-    const existingFilter = JSON.parse(localStorage.getItem('GridFiltersData') || '[]');
-    existingFilter.push(savedFilterData);
-    localStorage.setItem('GridFiltersData', JSON.stringify(existingFilter));
-    localStorage.setItem('GridFilters', JSON.stringify(this.savedGridFilters));
-
-    this.showGridFilterDialog = false;
-    this.newGridFilterName = '';
+  if (!newFilterName) {
+    return;
   }
+
+  if (this.savedGridFilters.includes(newFilterName)) {
+  alert('A filter with this name already exists.');
+  return;
+}
+
+  this.savedGridFilters.push(newFilterName);
+
+  const savedFilterData = {
+    name: newFilterName,
+    tab: this.activeTabValue, // save current tab info
+    formValues: this.filterActivityForm.value
+  };
+
+  const existingFilter = JSON.parse(localStorage.getItem('GridFiltersData') || '[]');
+  existingFilter.push(savedFilterData);
+
+  localStorage.setItem('GridFiltersData', JSON.stringify(existingFilter));
+  localStorage.setItem('GridFilters', JSON.stringify(this.savedGridFilters));
+
+  this.showGridFilterDialog = false;
+  this.newGridFilterName = '';
+}
 
 
 
@@ -451,19 +513,24 @@ onLoadFilter(name: string): void {
   const match = savedFilters.find((f: any) => f.name === name);
 
   if (match) {
-    this.filterActivityForm.patchValue(match.formValues || {});
-    //this.searchForm.patchValue({ search: match.searchTerm || '' });
+    // Switch to saved tab if different
+    if (match.tab && match.tab !== this.activeTabValue) {
+      const newIndex = this.tabButtons.findIndex(tab => tab.value === match.tab);
+      if (newIndex !== -1) {
+        this.onKendoTabSelect({ index: newIndex }); // Triggers filter form update
+      }
+    }
 
-    // if (Array.isArray(match.contractIds)) {
-    //   this.selectedIds = match.contractIds;
-    //   this.applyCombinedFilters();
-    // }
-
-    this.applyCombinedFilters();
+    setTimeout(() => {
+      this.filterActivityForm.patchValue(match.formValues || {});
+      this.applyCombinedFilters();
+    }, 0);
   }
 
   this.showSettingsPopup = false;
 }
+
+
 
 onInstructions(): void {
   console.log('Instructions clicked');
@@ -500,5 +567,17 @@ clearChartFilter(): void {
 }
 
 //-----------------------------
+
+//----Do vs Buy
+openDoVsBuy(): void {
+  this.doVsBuyData = this.gridData; // or any filtered data
+  this.showDoVsBuyPopup = true;
+}
+
+closeDoVsBuy(): void {
+  this.showDoVsBuyPopup = false;
+}
+
+//-------------
 
 }

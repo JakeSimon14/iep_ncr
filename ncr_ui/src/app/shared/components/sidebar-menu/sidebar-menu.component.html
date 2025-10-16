@@ -1,8 +1,10 @@
 <div class="sidebar">
 <ul class="sidebar-menu">
+  <div class="main-filter-contract">
     <li class="filter-icon" (click)="toggleFilterContractsExpand()">
         <span class="material-symbols-outlined">device_hub</span>
     </li>
+    </div>
   <li class="general-icon"
     *ngFor="let item of menuItems"
     [class.active]="item.id === selectedId"

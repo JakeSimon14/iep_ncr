@@ -1,0 +1,182 @@
+[
+  {
+    "RECORD_ID": "(100) 200-3000",
+    "USER_SSO": "Jake Simon",
+    "PROJECT_ID": "(100) 200-3000",
+    "ACTIVITY_ID": "ACT 001",
+    "ROLE_ID": "SSE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 1",
+    "CONTRACT": "02-10-2025"
+  },
+  {
+    "RECORD_ID": "(101) 201-3001",
+    "USER_SSO": "Arun George",
+    "PROJECT_ID": "(101) 201-3001",
+    "ACTIVITY_ID": "ACT 002",
+    "ROLE_ID": "SSE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 2",
+    "CONTRACT": "05-17-2025"
+  },
+    {
+    "RECORD_ID": "(102) 202-3002",
+    "USER_SSO": "George Euvgin",
+    "PROJECT_ID": "(102) 202-3002",
+    "ACTIVITY_ID": "ACT 003",
+    "ROLE_ID": "SE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 3",
+    "CONTRACT": "01-05-2025"
+  },
+    {
+    "RECORD_ID": "(103) 203-3003",
+    "USER_SSO": "Rijo Joy",
+    "PROJECT_ID": "(103) 203-3003",
+    "ACTIVITY_ID": "ACT 004",
+    "ROLE_ID": "SE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 4",
+    "CONTRACT": "02-22-2025"
+  },
+    {
+    "RECORD_ID": "(104) 204-3004",
+    "USER_SSO": "Jake Simon",
+    "PROJECT_ID": "(104) 204-3004",
+    "ACTIVITY_ID": "ACT 005",
+    "ROLE_ID": "SSE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 5",
+    "CONTRACT": "02-10-2025"
+  },
+    {
+    "RECORD_ID": "(105) 205-3005",
+    "USER_SSO": "Jose Cherian",
+    "PROJECT_ID": "(105) 205-3005",
+    "ACTIVITY_ID": "ACT 006",
+    "ROLE_ID": "SE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 6",
+    "CONTRACT": "10-10-2025"
+  },
+    {
+    "RECORD_ID": "(106) 206-3006",
+    "USER_SSO": "Alan Alex",
+    "PROJECT_ID": "(106) 206-3006",
+    "ACTIVITY_ID": "ACT 007",
+    "ROLE_ID": "SSE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 7",
+    "CONTRACT": "11-11-2025"
+  },
+    {
+    "RECORD_ID": "(107) 207-3007",
+    "USER_SSO": "Subin Sunny",
+    "PROJECT_ID": "(107) 207-3007",
+    "ACTIVITY_ID": "ACT 008",
+    "ROLE_ID": "SSE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 8",
+    "CONTRACT": "02-12-2025"
+  },
+    {
+    "RECORD_ID": "(108) 208-3008",
+    "USER_SSO": "George Jacob",
+    "PROJECT_ID": "(108) 208-3008",
+    "ACTIVITY_ID": "ACT 009",
+    "ROLE_ID": "SE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 9",
+    "CONTRACT": "06-03-2025"
+  },
+    {
+    "RECORD_ID": "(109) 209-3009",
+    "USER_SSO": "Rigin Tomy",
+    "PROJECT_ID": "(109) 209-3009",
+    "ACTIVITY_ID": "ACT 010",
+    "ROLE_ID": "SSE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 10",
+    "CONTRACT": "02-10-2025"
+  },
+    {
+    "RECORD_ID": "(110) 210-3010",
+    "USER_SSO": "Jibin George",
+    "PROJECT_ID": "(110) 210-3010",
+    "ACTIVITY_ID": "ACT 11",
+    "ROLE_ID": "SE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 11",
+    "CONTRACT": "05-25-2025"
+  },
+    {
+    "RECORD_ID": "(111) 211-3011",
+    "USER_SSO": "Abin Jose",
+    "PROJECT_ID": "(111) 211-3011",
+    "ACTIVITY_ID": "ACT 12",
+    "ROLE_ID": "SSE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 12",
+    "CONTRACT": "02-10-2025"
+  },
+    {
+    "RECORD_ID": "(112) 212-3012",
+    "USER_SSO": "Renjith M",
+    "PROJECT_ID": "(112) 212-3012",
+    "ACTIVITY_ID": "ACT 013",
+    "ROLE_ID": "SSE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 13",
+    "CONTRACT": "02-28-2025"
+  },
+    {
+    "RECORD_ID": "(113) 213-3013",
+    "USER_SSO": "Sijil John",
+    "PROJECT_ID": "(113) 213-3013",
+    "ACTIVITY_ID": "ACT 014",
+    "ROLE_ID": "SSE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 14",
+    "CONTRACT": "08-10-2025"
+  },
+    {
+    "RECORD_ID": "(114) 214-3014",
+    "USER_SSO": "Anuraj P",
+    "PROJECT_ID": "(114) 214-3014",
+    "ACTIVITY_ID": "ACT 015",
+    "ROLE_ID": "SE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 15",
+    "CONTRACT": "12-20-2025"
+  },
+    {
+    "RECORD_ID": "(115) 215-3015",
+    "USER_SSO": "Salam A P",
+    "PROJECT_ID": "(115) 215-3015",
+    "ACTIVITY_ID": "ACT 016",
+    "ROLE_ID": "SE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 16",
+    "CONTRACT": "02-10-2025"
+  },
+    {
+    "RECORD_ID": "(116) 216-3016",
+    "USER_SSO": "Rageesh P",
+    "PROJECT_ID": "(116) 216-3016",
+    "ACTIVITY_ID": "ACT 017",
+    "ROLE_ID": "SSE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 17",
+    "CONTRACT": "04-24-2025"
+  },
+    {
+    "RECORD_ID": "(117) 217-3017",
+    "USER_SSO": "Varun Raj",
+    "PROJECT_ID": "(117) 217-3017",
+    "ACTIVITY_ID": "ACT 017",
+    "ROLE_ID": "SE",
+    "PRODUCT": "CC",
+    "ACTIVITY_DESCRIPTION": "Desc 17",
+    "CONTRACT": "11-21-2025"
+  }
+]

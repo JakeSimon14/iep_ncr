@@ -37,7 +37,11 @@
     [kendoGridBinding]="filteredData"
     [selectable]="{ mode: 'multiple', drag: true }"
     [pageSize]="10"
-    [pageable]="true"
+     [pageable]="{
+    buttonCount: 5,
+    info: false,       
+    previousNext: true
+  }"
     [sortable]="true"
     [reorderable]="true"
     [resizable]="true"

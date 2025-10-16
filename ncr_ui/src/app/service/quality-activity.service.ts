@@ -14,4 +14,8 @@ export class QualityActivityService {
    getActivityData(): Observable<any> {
      return this.http.get<any>('http://localhost:5000/api/activityData');
    }
+
+   getECNActivityData(): Observable<any> {
+     return this.http.get<any>('http://localhost:5000/api/ecnactivityData');
+   }
 }

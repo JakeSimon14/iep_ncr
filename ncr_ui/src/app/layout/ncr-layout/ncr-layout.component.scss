@@ -37,6 +37,8 @@ $padding-lg: 16px;
       height: 100%;
       border-right: 1px solid $gray-border;
       border-bottom: 1px solid $gray-border;
+       width: 46px;             
+
     }
 
     .filter-contracts {
@@ -46,7 +48,7 @@ $padding-lg: 16px;
       height: 100%;
       display: flex;
       flex-direction: column;
-      width: 290px;
+      width: 295px;
       transition: width 0.3s ease;
 
         &.collapsed {
@@ -374,16 +376,20 @@ $padding-lg: 16px;
       .tab-main-container {
         border-radius: $border-radius-lg;
         max-width: 600px;
-        margin: $padding-sm;
+        // margin: $padding-sm;
+    margin: 12px 8px 7px 8px;
 
         .tab-container {
           background-color: $gray-light;
           border-radius: $border-radius-lg;
+          //margin: 6px 4px 0px 4px;
         }
 
       .tab-buttons {
   display: flex;
   margin-bottom: $padding-lg;
+  // margin-left: 3px;
+  // margin-right: 3px;
 
   .tab {
     padding: 11px;
@@ -412,7 +418,8 @@ $padding-lg: 16px;
 
 
         .search-container {
-          margin-top: 1rem;
+          //margin-top: 1rem;
+margin-top: -5px;
 
           input {
              padding: 6px 0px;
@@ -828,15 +835,15 @@ flex: 1;
     background-color: #005f3c; // deep green
        color: white;
     font-weight: 500;
-    padding: 17px 6px;
+        padding: 12px 15px 12px 17px;
     display: flex
 ;
     justify-content: space-between;
     align-items: center;
     border-bottom: none;
     /* border-radius: 9px; */
-    border-top-left-radius: 12px;
-    border-top-right-radius: 9px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
   }
 
   .close-btn {
@@ -848,7 +855,7 @@ flex: 1;
   }
 
   .dialog-body {
-    padding: 20px 16px 8px 16px;
+    padding: 0px 20px 0px 6px;
 
     label {
       font-weight: 500;
@@ -866,10 +873,10 @@ flex: 1;
   }
 
   .dialog-actions {
-      padding: 16px 10px 16px 100px;
+         padding: 12px 17px 16px 100px;
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
+    gap: 16px;
 
     .k-button {
       min-width: 100px;
@@ -916,7 +923,10 @@ color: white;
   width: 300px;         // increase width
   height: auto;         // auto height
   //max-height: 200px;    // optional: to limit max height
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
+::ng-deep .k-popup .k-actions, .k-popup .k-form-buttons, .k-popup .k-edit-buttons, .k-popup .k-action-buttons, .k-popup .k-columnmenu-actions {
+     margin-top: 4px;
+}
 //------------------

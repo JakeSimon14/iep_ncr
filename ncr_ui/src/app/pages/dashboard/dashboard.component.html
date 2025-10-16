@@ -21,13 +21,22 @@
             <span class="value">{{ percentage }}%</span>
           </div>
         </div>
-        <button kendoButton look="outline" class="do-vs-buy-btn">Do vs Buy</button>
+        <button kendoButton look="outline" class="do-vs-buy-btn" (click)="openDoVsBuy()">Do vs Buy</button>
       </div>
       
     </div>
   </div>
+
+  <app-tabular-data-popup
+  [visible]="showDoVsBuyPopup"
+  [popupTitle]="'Do vs Buy Deliverable Data Sheet'"
+  [data]="doVsBuyData"
+  [columns]="doVsBuyColumns"
+  (close)="closeDoVsBuy()"
+></app-tabular-data-popup>
+
   <div class="tab-details">
-<kendo-tabstrip>
+<kendo-tabstrip (tabSelect)="onKendoTabSelect($event)">
   <kendo-tabstrip-tab *ngFor="let tab of tabButtons; let i = index" [title]="tab.label" [selected]="tab.value === activeTabValue" class="tab-main-content">
     <ng-template kendoTabContent class="tab-content">
       
@@ -39,7 +48,7 @@
             [breadcrumbs]="selectedBreadcrumb">
           </app-breadcrumb> -->
 
-      <div *ngIf="selectedContracts.length > 0 && !isFilterActivityExpandedView" class="selected-summary" [title]="getSelectedContractsTooltip()">
+      <div *ngIf="selectedContracts.length > 0" class="selected-summary" [title]="getSelectedContractsTooltip()">
   <span class="selected-line">
     {{ getSelectedContractsInline() }}...
   </span>
@@ -47,7 +56,7 @@
 
 
 
-          <div class="reassign-alert" *ngIf="hasReassignRequests && !isFilterActivityExpandedView">
+          <div class="reassign-alert" *ngIf="hasReassignRequests">
             <div class="alert-text">
               <span class="material-symbols-outlined">notification_important</span>
               You have received <strong>3 primary resource re-assignment requests</strong>
@@ -167,25 +176,52 @@
             </div>
 
             <!-- Filter Form -->
-          <form [formGroup]="filterActivityForm" class="filter-controls-row" *ngIf="!isFilterActivityExpandedView">
-  <div class="filter-control" *ngFor="let control of filterControls">
-    <label>{{ control.label }}</label>
-    <ng-container [ngSwitch]="control.type">
-      <kendo-dropdownlist
-        *ngSwitchCase="'dropdown'"
-        [formControlName]="control.name"
-        [data]="control.data"
-         [popupSettings]="{ popupClass: 'custom-kendo-popup' }">
-      </kendo-dropdownlist>
+ <div class="filteractivity-form" *ngIf="!isFilterActivityExpandedView">
+  <form [formGroup]="filterActivityForm" class="filter-controls-row">
+    <div class="filter-control" 
+         *ngFor="let control of activeFilterConfig" 
+         [ngClass]="{ 'no-label': control.type === 'button' || control.type === 'multiselect' }">
 
-      <kendo-multiselect
-        *ngSwitchCase="'multiselect'"
-        [formControlName]="control.name"
-        [data]="control.data">
-      </kendo-multiselect>
-    </ng-container>
-  </div>
-</form>
+      <!-- Only show label for dropdown -->
+     <label *ngIf="control.type !== 'button'">{{ control.label }}</label>
+
+
+      <ng-container [ngSwitch]="control.type">
+
+        <!-- Dropdown -->
+        <kendo-dropdownlist
+          *ngSwitchCase="'dropdown'"
+          [formControlName]="control.name"
+          [data]="control.data"
+          [popupSettings]="{ popupClass: 'custom-kendo-popup' }">
+        </kendo-dropdownlist>
+
+        <!-- MultiSelect (no label) -->
+        <kendo-multiselect
+          *ngSwitchCase="'multiselect'"
+          [formControlName]="control.name"
+          [data]="control.data"
+          [valuePrimitive]="true"
+          [placeholder]="control.placeholder || 'Select'">
+        </kendo-multiselect>
+
+        <!-- Button (no label) -->
+       <button
+  *ngSwitchCase="'button'"
+  type="button"
+  class="status-chip"
+  (click)="control.onClick && control.onClick()">
+  <span class="chip-label">{{ control.data }}</span>
+  <!-- <span class="chip-count">{{ control.count }}</span> -->
+</button>
+
+        <span *ngSwitchDefault>Unsupported control: {{ control.type }}</span>
+
+      </ng-container>
+    </div>
+  </form>
+</div>
+
 
 
   
@@ -221,8 +257,228 @@
         </ng-container>
 
         <ng-container *ngIf="tab.value === 'ECN'">
-          <h3>ECN Content ...</h3>
+           <div *ngIf="selectedContracts.length > 0" class="selected-summary" [title]="getSelectedContractsTooltip()">
+  <span class="selected-line">
+    {{ getSelectedContractsInline() }}...
+  </span>
+</div>
+
+
+
+          <div class="reassign-alert" *ngIf="hasReassignRequests">
+            <div class="alert-text">
+              <span class="material-symbols-outlined">notification_important</span>
+              You have received <strong>3 primary resource re-assignment requests</strong>
+              <a href="#">View requests</a>
+            </div>
+            <button class="close-btn" (click)="hasReassignRequests = false">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <div class="filter-activities-section">
+            <!-- Filter Header -->
+            <div class="filter-activities-header">
+              <div class="filter-activities-title">Filter Activities</div>
+              <div class="filter-activities-actions">
+                <button kendoButton fillMode="flat" themeColor="primary" class="clear-button" (click)="clearFilters()">Clear Filter</button>
+     
+     
+                <div class="settings-dropdown-wrapper">
+  <!-- Three-dot button -->
+  <button
+    #anchor
+    class="activity-setting"
+    (click)="toggleSettingsPopup()"
+    (mouseenter)="hovering = true"
+    (mouseleave)="hovering = false"
+    [ngClass]="{ 'hover': hovering || showSettingsPopup }"
+  >
+    <span class="material-symbols-outlined">more_horiz</span>
+  </button>
+
+  <!-- Popup with submenu -->
+  <kendo-popup
+  *ngIf="showSettingsPopup"
+  [anchor]="anchor"
+  popupClass="kendo-settings-popup"
+  [anchorAlign]="{ horizontal: 'left', vertical: 'bottom' }"
+  [popupAlign]="{ horizontal: 'right', vertical: 'top' }"
+  [offset]="{ left: -170, top: 2 }"
+  [collision]="{ horizontal: 'fit', vertical: 'fit' }"
+>
+  <!-- Save Filter -->
+  <div class="popup-item" (click)="onSaveFilter()">
+    <span class="material-symbols-outlined icon">save</span>
+    <span class="text">Save Filter</span>
+  </div>
+
+<kendo-dialog *ngIf="showGridFilterDialog" class="custom-dialog" (close)="onCancelGridFilterSave()">
+  <kendo-dialog-titlebar class="custom-dialog-titlebar">
+    <span>Save Filter</span>
+    <button kendoButton icon="close" fillMode="flat" class="close-btn" (click)="onCancelGridFilterSave()"></button>
+  </kendo-dialog-titlebar>
+
+  <div class="dialog-body">
+    <label for="filterNameInput">Name</label>
+    <input id="filterNameInput" [(ngModel)]="newGridFilterName" class="k-textbox name-input" />
+  </div>
+
+  <kendo-dialog-actions class="dialog-actions">
+    <button kendoButton class="cancel-button" (click)="onCancelGridFilterSave()">Cancel</button>
+    <button kendoButton class="confirm-button" (click)="onConfirmGridFilterSave()" [disabled]="!newGridFilterName">
+      Confirm
+    </button>
+  </kendo-dialog-actions>
+</kendo-dialog>
+
+  <!-- Load Filter with submenu -->
+  <div
+    class="popup-item has-submenu"
+    (mouseenter)="submenuOpen = true"
+    (mouseleave)="submenuOpen = false"
+  >
+    <div class="submenu-header">
+    <span class="material-symbols-outlined icon">filter_list</span>
+    <span class="text">Load Filter</span>
+    <span *ngIf="savedGridFilters.length"  class="material-symbols-outlined submenu-arrow">chevron_right</span>
+  </div>
+
+    <!-- Submenu on left side -->
+
+    <div class="submenu" *ngIf="submenuOpen && savedGridFilters.length">
+    <div
+      class="submenu-item"
+      *ngFor="let filter of savedGridFilters"
+      (click)="onLoadFilter(filter)"
+    >
+      {{ filter }}
+    </div>
+  </div>
+    </div>
+
+  <!-- Instructions -->
+<div
+  class="popup-item"
+  kendoTooltip
+  [title]="tooltipText"
+  position="left"
+  tooltipClass="custom-tooltip"
+  (click)="onInstructions()"
+>
+  <span class="material-symbols-outlined icon">help</span>
+  <span class="text">Instructions to Use</span>
+</div>
+
+
+</kendo-popup>
+
+
+</div>
+
+                <button class="expand-button" (click)="toggleFilterActivityExpandView()">
+                  <span class="material-symbols-outlined">
+                    {{ isFilterActivityExpandedView ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter Form -->
+  <div class="filteractivity-form" *ngIf="!isFilterActivityExpandedView">
+  <form [formGroup]="filterActivityForm" class="filter-controls-row">
+    <div class="filter-control" 
+         *ngFor="let control of activeFilterConfig" 
+         [ngClass]="{ 'no-label': control.type === 'button' || control.type === 'multiselect' }">
+
+      <!-- Only show label for dropdown -->
+     <label *ngIf="control.type !== 'button'">{{ control.label }}</label>
+
+
+      <ng-container [ngSwitch]="control.type">
+
+        <!-- Dropdown -->
+        <kendo-dropdownlist
+          *ngSwitchCase="'dropdown'"
+          [formControlName]="control.name"
+          [data]="control.data"
+          [popupSettings]="{ popupClass: 'custom-kendo-popup' }">
+        </kendo-dropdownlist>
+
+        <!-- Button (no label) -->
+       <button
+  *ngSwitchCase="'button'"
+  type="button"
+  class="status-chip"
+  (click)="control.onClick && control.onClick()">
+  <span class="chip-label">{{ control.data }}</span>
+  <span class="chip-count">100</span>
+</button>
+
+<kendo-multiselect
+  *ngSwitchCase="'multiselect'"
+  [formControlName]="control.name"
+  [data]="control.data"
+  [textField]="'text'"
+  [valueField]="'text'"
+  [valuePrimitive]="true"
+  [popupSettings]="{ popupClass: 'custom-kendo-popup' }"
+>
+ <ng-template kendoMultiSelectItemTemplate let-dataItem>
+    <div
+      class="custom-multiselect-item"
+      [class.selected]="filterActivityForm.get(control.name)?.value?.includes(dataItem.text)"
+    >
+      <input
+        type="checkbox"
+        [checked]="filterActivityForm.get(control.name)?.value?.includes(dataItem.text)"
+        readonly
+      />
+      <span class="item-text">{{ dataItem.text }}</span>
+      <span class="item-count">({{ dataItem.count }})</span>
+    </div>
+  </ng-template>
+</kendo-multiselect>
+
+
+
+        <span *ngSwitchDefault>Unsupported control: {{ control.type }}</span>
+
+      </ng-container>
+    </div>
+  </form>
+</div>
+
+
+
+  
+          </div>
+
+          <!-- Activities Grid -->
+<div class="activities-grid-section">
+  <ng-container *ngIf="filterActivityForm.get('viewAs')?.value === 'ECN'; else chartView">
+    <app-activity-grid
+      [data]="chartFilteredGridData.length ? chartFilteredGridData : gridData"
+      [originalData]="originalGridData"
+      [columns]="gridColumns"
+      [fileName]="'NCR-Activities.xlsx'"
+      [searchableFields]="['ncrNumber', 'partId', 'productDescription','partNo', 'ncrArea','imputationCode','type']"
+      [fromChartClick]="chartFilteredGridData.length > 0"
+      [chartFilterLabel]="chartFilterLabel"
+  (chartFilterCleared)="clearChartFilter()"
+    ></app-activity-grid>
+  </ng-container>
+
+  <ng-template #chartView>
+    <app-activity-chart
+      [data]="gridData"
+      (barClick)="onChartBarClick($event)">
+    </app-activity-chart>
+  </ng-template>
+</div>
+
         </ng-container>
+
         <ng-container *ngIf="tab.value === 'ECR'">
           <h3>ECR Content ...</h3>
         </ng-container>
@@ -254,3 +510,10 @@
  </div>
 
 </div>
+
+
+
+<app-office-tree-popup
+  *ngIf="showOfficePopup"
+  (closePopup)="showOfficePopup = false">
+</app-office-tree-popup>

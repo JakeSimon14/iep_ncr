@@ -1,0 +1,88 @@
+<kendo-dialog *ngIf="visible" (close)="onClose()" [minWidth]="1000" [maxWidth]="1200" [maxHeight]="600">
+ <kendo-dialog-titlebar class="custom-titlebar">
+  <div class="titlebar-row">
+    <div class="title-left">
+      <strong>{{ popupTitle }}</strong>
+    </div>
+
+   <div class="title-center">
+  <form [formGroup]="searchForm">
+    <div class="search-wrapper">
+      <kendo-textbox
+        formControlName="search"
+        class="search-input"
+        placeholder="Search in all column">
+      </kendo-textbox>
+      <span class="search-icon material-symbols-outlined">search</span>
+    </div>
+  </form>
+</div>
+
+
+    <div class="title-right">
+      <button class="icon-button" title="Info"><span class="material-symbols-outlined">
+info
+</span></button>
+<button class="icon-button" title="Contacts"><span class="material-symbols-outlined">
+assignment_ind
+</span></button>
+      <button class="icon-button" title="Settings"><span class="material-symbols-outlined">
+settings
+</span></button>
+    <button type="button" (click)="excelExport.save()" class="icon-button export-icon">
+  <!-- <span class="material-symbols-outlined">arrow_circle_down</span> -->
+
+      <img src="assets/images/excel.png" alt="Excel Export" />
+ 
+</button>
+      <!-- <button class="icon-button" (click)="onClose()" title="Close"></button> -->
+    </div>
+  </div>
+</kendo-dialog-titlebar>
+
+
+  <div class="popup-grid-container">
+   <kendo-grid
+  [data]="gridView"
+  [height]="450"
+  [pageSize]="pageSize"
+  [skip]="skip"
+  [sortable]="true"
+  [sort]="sort"
+  (sortChange)="onSortChange($event)"
+  [pageable]="{
+    buttonCount: 5,
+    info: false,
+    previousNext: true
+  }"
+  (pageChange)="onPageChange($event)"
+  [reorderable]="true"
+  [resizable]="true"
+  [scrollable]="'scrollable'"
+>
+  <kendo-grid-column
+    *ngFor="let col of columns"
+    [field]="col.field"
+    [title]="col.title"
+    [width]="col.width || 120">
+  </kendo-grid-column>
+</kendo-grid>
+
+  </div>
+</kendo-dialog>
+
+
+  <kendo-excelexport
+  #excelExport
+  *ngIf="gridView?.data"
+  [data]="gridView.data"
+  [fileName]="fileName"
+>
+  <kendo-excelexport-column
+    *ngFor="let col of columns"
+    [field]="col.field"
+    [title]="col.title"
+     [width]="col.width ?? 150"
+  >
+  </kendo-excelexport-column>
+</kendo-excelexport>

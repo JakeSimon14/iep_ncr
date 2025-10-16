@@ -1,0 +1,134 @@
+[
+        { 
+			"id": "1",
+			"officename": "CREE",
+			"isFavourite": true,
+			"children": [
+				{ 
+					"id": "50",
+					"officename": "CCRQS",
+					"isFavourite": true ,
+					"children": [
+						{ 
+							"id": "100", 
+							"officename": "GTE", 
+							"isFavourite": true ,
+							"children": []
+						},
+						{ 
+							"id": "101",
+							"officename": "TECH", 
+							"isFavourite": true ,
+							"children": []
+						},
+						{ 
+							"id": "102", 
+							"officename": "KKL", 
+							"isFavourite": true ,
+							"children": []
+						}
+					]
+				},
+				{ 
+					"id": "51",
+					"officename": "BRGOCALC", 
+					"isFavourite": true,
+					"children": [] 
+				},
+				{ 
+					"id": "52",
+					"officename": "CCDISE",
+					"isFavourite": true ,
+					"children": []
+				},
+				{
+					"id": "53", 
+					"officename": "SYS-SU", 
+					"isFavourite": true ,
+					"children": [
+					    { 
+							"id": "103", 
+							"officename": "FUN", 
+							"isFavourite": true ,
+							"children": []
+						},
+						{ 
+							"id": "104",
+							"officename": "SOFT", 
+							"isFavourite": true ,
+							"children": []
+						}
+					]
+				}
+			]
+		},	
+        {
+			"id": "2", 
+			"officename": "CTS-ENG", 
+			"isFavourite": false ,
+			"children": [
+				{
+					"id": "54",
+					"officename": "ITG",
+					"isFavourite": false ,
+					"children": []
+				}
+			]
+		},
+        {
+			"id": "3",
+			"officename": "EICE", 
+			"isFavourite": true ,
+			"children": [
+				{
+					"id": "55",
+					"officename": "TORQ",
+					"isFavourite": true ,
+					"children": []
+				}
+			]
+		},	
+        {
+			"id": "4", 
+			"officename": "CNG", 
+			"isFavourite": false ,
+			"children": []
+		},
+        {
+			"id": "5",
+			"officename": "PET", 
+			"isFavourite": true ,
+			"children": [
+				{
+					"id": "56",
+					"officename": "ITT",
+					"isFavourite": true ,
+					"children": []
+				}
+			]
+		},	
+        {
+			"id": "6", 
+			"officename": "DES", 
+			"isFavourite": false ,
+			"children": []
+		},
+        {
+			"id": "7",
+			"officename": "EEE", 
+			"isFavourite": true ,
+			"children": []
+		},	
+        {
+			"id": "8", 
+			"officename": "JPG", 
+			"isFavourite": false ,
+			"children": []
+		},
+        {
+			"id": "9",
+			"officename": "BMH", 
+			"isFavourite": true ,
+			"children": []
+		}
+      ]

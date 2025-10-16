@@ -1,0 +1,70 @@
+<kendo-dialog (close)="closeDialog()" [width]="380" [minHeight]="500" class="office-popup">
+  <kendo-dialog-titlebar>
+    <div class="dialog-header">
+      Select Office
+      <span class="k-icon k-i-close" (click)="closeDialog()"></span>
+    </div>
+  </kendo-dialog-titlebar>
+
+  <div class="tab-buttons">
+    <!-- <button class="tab-btn active">Favorite Offices</button>
+    <button class="tab-btn">All Offices</button> -->
+     @for (tab of tabs;track tab; let i = $index) {
+        <button
+          class="tab"
+          [class.active]="i === activeOfficeTabIndex"
+          (click)="selectTab(i)"
+        >
+          {{ tab }}
+        </button>
+      }
+  </div>
+
+  <div class="search-container-office">
+    <input type="text" kendoTextBox placeholder="Search office" [formControl]="searchControl" />
+    <span class="material-symbols-outlined search-icon-office">search</span>
+  </div>
+
+  <!-- Selected Chips -->
+  <div class="selected-chips">
+    <div class="chip" *ngFor="let chip of selectedChips; let i = index">
+      {{ chip }}
+      <span class="material-symbols-outlined chip-remove" (click)="removeChip(i)">close</span>
+    </div>
+  </div>
+
+  <label class="active-office-label">
+    <input type="checkbox" class/>
+    Active Office
+  </label>
+
+  <div class="tree-container">
+  <kendo-treeview
+    [nodes]="filteredOfficeTreeData"
+    kendoTreeViewExpandable
+     [kendoTreeViewCheckable]="{ mode: 'multiple', checkChildren: true }"
+    [children]="children"
+    [hasChildren]="hasChildren"
+    [(checkedKeys)]="checkedKeys"
+    (checkedKeysChange)="onCheckedKeysChange($event)"
+    textField="officename"
+      [hasChildren]="hasChildren"
+    [checkBy]="'id'"
+    [expandBy]="'id'"
+    [loadOnDemand]="false"
+    
+  >
+    <ng-template kendoTreeViewNodeTemplate let-dataItem>
+      <span class="tree-node-content">
+        {{ dataItem.officename }}
+        <span *ngIf="dataItem.isFavourite" class="star">&#9733;</span>
+      </span>
+    </ng-template>
+  </kendo-treeview>
+  </div>
+
+
+  <div class="popup-footer">
+    <button class="k-button k-primary" (click)="submitSelection()">Submit</button>
+  </div>
+</kendo-dialog>

@@ -24,7 +24,22 @@
         "racYear": "2024",
         "projectStatus": "Active",
         "driver": "Driver A",
+        "children": [
+      {
+        "id": "1000",
+        "contractname": "T 1000",
+        "jobnumber": "Job TC1000",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": false,
+        "assignedToUser": true,
+        "deliveryYear": "2024",
+        "racYear": "2024",
+        "projectStatus": "Active",
+        "driver": "Driver A",
         "children": []
+      }
+    ]
       }
     ]
   },
@@ -40,7 +55,22 @@
     "racYear": "2024",
     "projectStatus": "Active",
     "driver": "Driver A",
-    "children": []
+     "children": [
+      {
+        "id": "1001",
+        "contractname": "T 1001",
+        "jobnumber": "Job TC1001",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": false,
+        "assignedToUser": false,
+        "deliveryYear": "2024",
+        "racYear": "2024",
+        "projectStatus": "Active",
+        "driver": "Driver A",
+        "children": []
+      }
+    ]
   },
   {
     "id": "4",
@@ -54,7 +84,22 @@
     "racYear": "2025",
     "projectStatus": "Active",
     "driver": "Driver B",
-    "children": []
+     "children": [
+      {
+        "id": "1002",
+        "contractname": "T 1002",
+        "jobnumber": "Job TC1002",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": false,
+        "assignedToUser": false,
+        "deliveryYear": "2024",
+        "racYear": "2025",
+        "projectStatus": "Active",
+        "driver": "Driver B",
+        "children": []
+      }
+    ]
   },
   {
     "id": "5",
@@ -68,7 +113,22 @@
     "racYear": "2025",
     "projectStatus": "Completed",
     "driver": "Driver A",
-    "children": []
+     "children": [
+      {
+        "id": "1003",
+        "contractname": "T 1003",
+        "jobnumber": "Job TC1003",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": false,
+        "assignedToUser": true,
+        "deliveryYear": "2023",
+        "racYear": "2025",
+        "projectStatus": "Completed",
+        "driver": "Driver A",
+        "children": []
+      }
+    ]
   },
   {
     "id": "6",
@@ -82,7 +142,22 @@
     "racYear": "2024",
     "projectStatus": "Completed",
     "driver": "Driver B",
-    "children": []
+     "children": [
+      {
+        "id": "1004",
+        "contractname": "T 1004",
+        "jobnumber": "Job TC1004",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": false,
+        "assignedToUser": true,
+        "deliveryYear": "2025",
+        "racYear": "2024",
+        "projectStatus": "Completed",
+        "driver": "Driver B",
+        "children": []
+      }
+    ]
   },
   {
     "id": "7",
@@ -96,7 +171,22 @@
     "racYear": "2025",
     "projectStatus": "On Hold",
     "driver": "Driver B",
-    "children": []
+     "children": [
+      {
+        "id": "1005",
+        "contractname": "T 1005",
+        "jobnumber": "Job TC1005",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": false,
+        "assignedToUser": true,
+        "deliveryYear": "2025",
+        "racYear": "2025",
+        "projectStatus": "On Hold",
+        "driver": "Driver B",
+        "children": []
+      }
+    ]
   },
   {
     "id": "8",
@@ -110,7 +200,22 @@
     "racYear": "2024",
     "projectStatus": "On Hold",
     "driver": "Driver C",
-    "children": []
+     "children": [
+      {
+        "id": "1006",
+        "contractname": "T 1006",
+        "jobnumber": "Job TC1006",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": true,
+        "assignedToUser": true,
+        "deliveryYear": "2025",
+        "racYear": "2024",
+        "projectStatus": "On Hold",
+        "driver": "Driver C",
+        "children": []
+      }
+    ]
   },
   {
     "id": "9",
@@ -138,7 +243,37 @@
     "racYear": "2024",
     "projectStatus": "Completed",
     "driver": "Driver C",
-    "children": []
+     "children": [
+      {
+        "id": "1007",
+        "contractname": "T 1007",
+        "jobnumber": "Job TC1007",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": false,
+        "assignedToUser": false,
+        "deliveryYear": "2025",
+        "racYear": "2024",
+        "projectStatus": "Completed",
+        "driver": "Driver C",
+         "children": [
+      {
+        "id": "1008",
+        "contractname": "T 1008",
+        "jobnumber": "Job TC1008",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": false,
+        "assignedToUser": false,
+        "deliveryYear": "2025",
+        "racYear": "2024",
+        "projectStatus": "Completed",
+        "driver": "Driver C",
+        "children": []
+      }
+    ]
+      }
+    ]
   },
   {
     "id": "11",
@@ -166,7 +301,22 @@
     "racYear": "2023",
     "projectStatus": "On Hold",
     "driver": "Driver C",
-    "children": []
+     "children": [
+      {
+        "id": "1009",
+        "contractname": "T 1009",
+        "jobnumber": "Job TC1009",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": true,
+        "assignedToUser": false,
+        "deliveryYear": "2023",
+        "racYear": "2023",
+        "projectStatus": "On Hold",
+        "driver": "Driver C",
+        "children": []
+      }
+    ]
   },
   {
     "id": "13",
@@ -194,7 +344,22 @@
     "racYear": "2023",
     "projectStatus": "Active",
     "driver": "Driver A",
-    "children": []
+    "children": [
+      {
+        "id": "1010",
+        "contractname": "T 1010",
+        "jobnumber": "Job TC1010",
+        "isSelected": false,
+        "isCollapsed": false,
+        "isFavourite": false,
+        "assignedToUser": false,
+        "deliveryYear": "2024",
+        "racYear": "2023",
+        "projectStatus": "Active",
+        "driver": "Driver A",
+        "children": []
+      }
+    ]
   },
   {
     "id": "15",
